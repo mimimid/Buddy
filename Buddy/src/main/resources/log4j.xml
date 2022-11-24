@@ -15,6 +15,10 @@
 		<level value="debug" />
 	</logger>
 	
+	<logger name="a.b.c">
+		<level value="info" />
+	</logger>
+
 		<!-- 마이바티스 로그 -->
 	<logger name="jdbc.connection">
 		<level value="WARN" />
