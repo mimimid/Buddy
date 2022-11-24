@@ -33,9 +33,6 @@
 		<beans:property name="order" value="0" />
 	</beans:bean>
 	
-	<!-- DownloadView 스프링 빈 등록 -->
-	<beans:bean id="down" class="web.view.DownloadView" />
-	
 	<!-- MultipartResolver 설정 -->
 	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<beans:property name="maxInMemorySize" value="1048576" />

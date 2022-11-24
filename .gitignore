@@ -105,4 +105,11 @@ target/*
 
 /target 
 
+# JDT-specific (Eclipse Java Development Tools)
+.classpath
+
+### Eclipse Patch ###
+# Eclipse Core
+.project
+
 # End of https://www.toptal.com/developers/gitignore/api/eclipse,java
