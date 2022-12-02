@@ -56,8 +56,8 @@ a {
 </form>
 
 <div style="text-align: center;">
-	<a href="./idSerch">아이디 찾기</a> |
-	<a href="./pwSerch">비밀번호 찾기</a> |
+	<a href="./idFind">아이디 찾기</a> |
+	<a href="./pwFind">비밀번호 찾기</a> |
 	<a href="./join">회원가입</a>
 </div> 
 

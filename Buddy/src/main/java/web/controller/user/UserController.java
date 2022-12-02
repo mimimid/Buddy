@@ -85,9 +85,11 @@ public class UserController {
 	@PostMapping("/join")
 	public String joinProc(AniUser user, MultipartFile img) {
 //		logger.debug("{} ",user);
-//		logger.debug("{} ", img);
+		logger.debug("{} ", img);
 		
-		boolean result = userService.join(user, img);
+		boolean result = userService.join(user);
+		
+		userService.insertImg(user,img);
 		
 		if(result) {
 			return "redirect:/";
@@ -96,6 +98,41 @@ public class UserController {
 			return "redirect/user/join";
 		}
 		
+	}
+	
+	@GetMapping("/idFind")
+	public void idFind() {
+		
+	}
+	
+	@PostMapping("idFindProc")
+	public void idFindProc(AniUser user, Model model) {
+//		logger.debug("찾을 회원정보 : {}", user);
+		
+		String id = userService.findId(user);
+		
+//		logger.debug("찾은 회원 아이디 :{}", id );
+		if(id != null ) {
+			model.addAttribute("id", id);
+		}else {
+			model.addAttribute("id", null);
+		}
+	}
+	
+	@GetMapping("/pwFind")
+	public void pwFind() {
+		
+	}
+	
+	@PostMapping("/pwFindProc")
+	public void pwFindProc(AniUser user, Model model) {
+		String pw = userService.findPw(user);
+		
+		if(pw != null ) {
+			model.addAttribute("pw", pw);
+		}else {
+			model.addAttribute("pw", null);
+		}
 	}
 
 }

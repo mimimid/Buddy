@@ -108,9 +108,10 @@ $(document).ready(function() {
 <hr>
 
 <form action="./join" method="post" enctype="multipart/form-data" >
-	<fieldset id = "joinform">
-	<div class="form-group">
-		<input type="file" name="img" id="img" class="from-conrtol">
+	<div id = "joinform" >
+	<div class="form-group" style="text-align: center;">
+		<label for="img" style="color: blue;" >프로필 사진 추가</label>
+		<input type="file" name="img" id="img" class="from-conrtol" style="display: none;">
 	</div>
 	<div class="form-group">
 		<label for="userid">아이디</label>
@@ -139,8 +140,8 @@ $(document).ready(function() {
 		<input type="text" name="phone" id="phone" placeholder="전화번호를 입력하세요." class="form-control">
 	</div>
 	<div class="form-group">
-		<label for="eamil">이메일</label>
-		<input type="text" name="eamil" id="email" placeholder="닉네임을 입력하세요." class="form-control">
+		<label for="email">이메일</label>
+		<input type="text" name="email" id="email" placeholder="닉네임을 입력하세요." class="form-control">
 	</div>
 	<div class="form-group">
 		<label for="gender">성별</label>
@@ -162,11 +163,13 @@ $(document).ready(function() {
 		<input type="date" name="birth" id="birth" class="form-control">
 	</div>
 	<button class="btn">회원가입</button>
-	</fieldset>
+	<a href="/"><button type="button" class="btn">취소</button></a>
+	</div>
 </form>
 
 
 
 </div><!-- .container end -->
+
 
 <c:import url="../layout/footer.jsp" />

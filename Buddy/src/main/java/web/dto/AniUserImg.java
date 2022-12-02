@@ -2,59 +2,59 @@ package web.dto;
 
 public class AniUserImg {
 	
-	private int profileno;
-	private String profileorigin;
-	private String profilestored;
-	private int profilesize;
+	private int imgno;
+	private String imgorigin;
+	private String imgstored;
+	private int imgsize;
 	private int userno;
 	
 	public AniUserImg() {}
 
-	public AniUserImg(int profileno, String profileorigin, String profilestored, int profilesize, int userno) {
+	public AniUserImg(int imgno, String imgorigin, String imgstored, int imgsize, int userno) {
 		super();
-		this.profileno = profileno;
-		this.profileorigin = profileorigin;
-		this.profilestored = profilestored;
-		this.profilesize = profilesize;
+		this.imgno = imgno;
+		this.imgorigin = imgorigin;
+		this.imgstored = imgstored;
+		this.imgsize = imgsize;
 		this.userno = userno;
 	}
 
 	@Override
 	public String toString() {
-		return "AniUserImg [profileno=" + profileno + ", profileorigin=" + profileorigin + ", profilestored="
-				+ profilestored + ", profilesize=" + profilesize + ", userno=" + userno + "]";
+		return "AniUserImg [imgno=" + imgno + ", imgorigin=" + imgorigin + ", imgstored=" + imgstored + ", imgsize="
+				+ imgsize + ", userno=" + userno + "]";
 	}
 
-	public int getProfileno() {
-		return profileno;
+	public int getImgno() {
+		return imgno;
 	}
 
-	public void setProfileno(int profileno) {
-		this.profileno = profileno;
+	public void setImgno(int imgno) {
+		this.imgno = imgno;
 	}
 
-	public String getProfileorigin() {
-		return profileorigin;
+	public String getImgorigin() {
+		return imgorigin;
 	}
 
-	public void setProfileorigin(String profileorigin) {
-		this.profileorigin = profileorigin;
+	public void setImgorigin(String imgorigin) {
+		this.imgorigin = imgorigin;
 	}
 
-	public String getProfilestored() {
-		return profilestored;
+	public String getImgstored() {
+		return imgstored;
 	}
 
-	public void setProfilestored(String profilestored) {
-		this.profilestored = profilestored;
+	public void setImgstored(String imgstored) {
+		this.imgstored = imgstored;
 	}
 
-	public int getProfilesize() {
-		return profilesize;
+	public int getImgsize() {
+		return imgsize;
 	}
 
-	public void setProfilesize(int profilesize) {
-		this.profilesize = profilesize;
+	public void setImgsize(int imgsize) {
+		this.imgsize = imgsize;
 	}
 
 	public int getUserno() {
@@ -64,6 +64,7 @@ public class AniUserImg {
 	public void setUserno(int userno) {
 		this.userno = userno;
 	}
+
 	
 	
 	

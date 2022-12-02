@@ -3,12 +3,11 @@
     
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-
 <c:choose>
-	<c:when test="${chresult }">
-		<p style="color: red;">아이디가 존재합니다</p>
+	<c:when test="${empty pw }">
+		<p style="color: red;">입력정보와 일치하는 비밀번호가 존재하지 않습니다</p>
 	</c:when>
 	<c:otherwise>
-		<p style="color: blue;">아이디가 없습니다.</p>
+		<p style="color: blue;">비밀번호는 "${pw }" 입니다.</p>
 	</c:otherwise>
-</c:choose> 
+</c:choose>

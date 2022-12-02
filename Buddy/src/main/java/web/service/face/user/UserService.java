@@ -32,7 +32,29 @@ public interface UserService {
 	 * @param img 회원가입 이미지
 	 * @return
 	 */
-	public boolean join(AniUser user, MultipartFile img);
+	public boolean join(AniUser user);
+
+	/**
+	 * 프로필 이미지 처리
+	 * @param img
+	 */
+	public void insertImg(AniUser user, MultipartFile img);
+
+	/**
+	 * 아이디 찾기
+	 * @param user
+	 * @return
+	 */
+	public String findId(AniUser user);
+
+	/**
+	 * 비밀번호 찾기
+	 * @param user
+	 * @return
+	 */
+	public String findPw(AniUser user);
+
+	
 
 	
 

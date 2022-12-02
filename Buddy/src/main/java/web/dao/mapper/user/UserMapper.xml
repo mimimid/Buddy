@@ -21,5 +21,31 @@
 		select count(*) from ani_user
 		where userid = #{userid}
 	</select>
+	
+	<insert id="insertUser" parameterType="AniUser">
+		<selectKey order="BEFORE" resultType="int" keyProperty="userno">
+			select ani_user_seq.nextval from dual
+		</selectKey>
+		insert into ani_user (userno, userid, userpw, username, usernick, postno, address, detailaddress, gender, phone, email, birth)
+		values (#{userno}, #{userid}, #{userpw}, #{username}, #{usernick}, #{postno}, #{address}, #{detailaddress}, #{gender}, #{phone}, #{email}, #{birth})
+	</insert>
+	
+	<insert id="insertImg" parameterType="AniUserImg">
+		<selectKey order="BEFORE" resultType="int" keyProperty="imgno">
+			select ani_user_img_seq.nextval from dual
+		</selectKey>
+		insert into ani_user_img (imgno, imgorigin, imgstored, imgsize, userno)
+		values (#{imgno}, #{imgorigin}, #{imgstored}, #{imgsize}, #{userno})
+	</insert>
+	
+	<select id="selectIdByNamePhone" resultType="String" parameterType="AniUser">
+		select userid from ani_user
+		where username = #{username} and phone = #{phone}
+	</select>
+	
+	<select id="selectPwByIdNamePhone" resultType="String" parameterType="AniUser">
+		select userpw from ani_user
+		where userid = #{userid} and username = #{username} and phone = #{phone}
+	</select>
 
 </mapper>
