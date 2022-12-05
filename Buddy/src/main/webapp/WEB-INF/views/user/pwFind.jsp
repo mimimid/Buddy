@@ -6,7 +6,7 @@
 <c:import url="../layout/header.jsp" />
 
 
-<!--  -->
+<!-- 비밀번호 찾기 ajax요청 -->
 <script type="text/javascript">
 $(document).ready(function(){
 	$("#btnFind").click(function(){
@@ -41,9 +41,15 @@ $(document).ready(function(){
 
 </script>
 
+<script type="text/javascript">
+$(document).ready(function() {
+	$("#userid").focus()
+})
+</script>
+
 <style type="text/css">
 #findForm {
-	width: 450px;
+	width: 350px;
 	
 	margin: 0 auto;
 
@@ -52,29 +58,26 @@ $(document).ready(function(){
 </style>
 
 <div class="container">
-<h1 style="text-align: center;">비밀번호 찾기</h1>
+<h1 style="text-align: center;">PW Find</h1>
 <hr>
 
-<form action="./idFind" method="post">
+<form action="./idFind" method="post" class="form-horizontal">
 	<div id="findForm">
 		<div class="form-group">
-			<label for="userid">아이디</label>
-			<input type="text" name="userid" id="userid" class="form-control">
+			<input type="text" name="userid" id="userid" class="form-control" placeholder="아이디를 입력하세요.">
 		</div>
 		<div class="form-group">
-			<label for="username">이름</label>
-			<input type="text" name="username" id="username" class="form-control">
+			<input type="text" name="username" id="username" class="form-control" placeholder="이름을 입력하세요.">
 		</div>
 		<div class="form-group">
-			<label for="phone">전화번호</label>
-			<input type="text" name="phone" id="phone" class="form-control">
+			<input type="text" name="phone" id="phone" class="form-control" placeholder="전화번호를 입력하세요.">
 		</div>
 		
 		<div id="result"></div>
-
-<button type="button" class="btn" id="btnFind">비밀번호 찾기</button>
-<a href="./login"><button type="button" class="btn">로그인으로</button></a>
-
+<div style="text-align: center;">
+<button type="button" class="btn btn-primary" id="btnFind">비밀번호 찾기</button>
+<a href="./login"><button type="button" class="btn btn-success">로그인으로</button></a>
+</div>
 </div>
 </form>
 

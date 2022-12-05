@@ -87,6 +87,85 @@ $(document).ready(function() {
 })
 </script>
 
+
+<script type="text/javascript">
+	$(function(){
+		$("#pwchSuccess").hide();
+		$("#pwchFaild").hide();
+		
+		$("#userpwch").keyup(function(){
+			var pw = $("#userpw").val();
+			var pwch = $("#userpwch").val();
+			
+			console.log(pw);
+			console.log(pwch);
+			
+			if(pw != "" || pwch != ""){
+				if(pw == pwch){
+					$("#pwchSuccess").show();
+					$("#pwchFaild").hide();
+				} else{
+					$("#pwchSuccess").hide();
+					$("#pwchFaild").show();
+					
+				}
+			}
+		})
+	})
+</script>
+
+
+
+
+<!-- 프로필 이미지 미리보기 -->
+<script type="text/javascript">
+$(document).ready(function() {
+	
+	$("#img").change(function( e ) {
+
+		
+		var files = e.target.files;
+		
+		// 이미지만 처리할 수 있도록 적용
+		if( !files[0].type.includes( "image" ) ) {
+			
+			// 선택한 파일 해제하기
+			e.target.value = null;
+			
+			// 이벤트 처리 중단시키기
+			return false;
+			
+		}
+		
+		//---------------------------------------------------
+		
+		// FileReader 객체 생성
+		var reader = new FileReader();
+		
+		// FileReader가 파일의 내용을 전부 읽어들여
+		// 메모리에 로드 되었을 때 발생하는 이벤트 처리
+		reader.onload = function( ev ) {
+			
+			// 이미지를 새롭게 선택할 때마다 #preview의 이전 이미지를 지우고
+			// 한 장만 유지되도록 한다
+			$("#preview").html(
+					$("<img>").attr({
+						"src": ev.target.result
+						, "width": 150
+						, "height": 150
+					})
+			)
+		}
+
+		// 선택된 파일을 DataURL 형식으로 읽어들이기
+		reader.readAsDataURL( files[0] );
+			
+	})
+
+})
+</script>
+
+
 <style type="text/css">
 #joinform {
 	width: 450px;
@@ -99,7 +178,24 @@ $(document).ready(function() {
 	
 /* 	background: whitesmoke; */
 }
+
+#userid{
+	display: inline-block;
+	width: 350px;
+}
+
+#postno{
+	display: inline-block;
+	width: 300px;
+}
+#idCheck, #btnDaumPost{
+	display: inline-block;
+	float: right;
+}
+
+
 </style>
+
 
 
 <div class="container">
@@ -110,26 +206,30 @@ $(document).ready(function() {
 <form action="./join" method="post" enctype="multipart/form-data" >
 	<div id = "joinform" >
 	<div class="form-group" style="text-align: center;">
-		<label for="img" style="color: blue;" >프로필 사진 추가</label>
+		<label for="img" style="color: blue;" >프로필 사진 추가</label><br>
+		<div id="preview"></div>
 		<input type="file" name="img" id="img" class="from-conrtol" style="display: none;">
 	</div>
 	<div class="form-group">
-		<label for="userid">아이디</label>
-		<input type="text" name="userid" id="userid" placeholder="아이디를 입력하세요." class="form-control">
-		<button type="button" class="btn" id="idCheck">중복확인</button>
+		<label for="userid">아이디</label><br>
+		<input type="text" name="userid" id="userid" placeholder="아이디를 입력하세요." class="form-control" required="required">
+		<button type="button" class="btn btn-success" id="idCheck">중복확인</button>
 		<span id="result"></span>
 	</div>
 	<div class="form-group">
 		<label for="userpw">비밀번호</label>
-		<input type="password" name="userpw" id="userpw" placeholder="비밀번호를 입력하세요." class="form-control">
+		<input type="password" name="userpw" id="userpw" placeholder="비밀번호를 입력하세요." class="form-control" required="required">
 	</div>
 	<div class="form-group">
 		<label for="userpwch">비밀번호 확인</label>
-		<input type="password" name="userpwch" id="userpwch" placeholder="비밀번호 확인" class="form-control">
+		<input type="password" name="userpwch" id="userpwch" placeholder="비밀번호 확인" class="form-control" required="required">
+		<div class="pwckSuccess" id="pwchSuccess" style="color: blue;">비밀번호가 일치합니다.</div>
+		<div class="pwckFaild" id="pwchFaild" style="color: red;">비밀번호가 일치하지 않습니다.</div>
+		
 	</div>
 	<div class="form-group">
 		<label for="username">이름</label>
-		<input type="text" name="username" id="username" placeholder="이름을 입력하세요." class="form-control">
+		<input type="text" name="username" id="username" placeholder="이름을 입력하세요." class="form-control" required="required">
 	</div>
 	<div class="form-group">
 		<label for="usernick">닉네임</label>
@@ -152,9 +252,9 @@ $(document).ready(function() {
 		</select>
 	</div>
 	<div class="form-group">
-		<label for="postno">주소</label>
-		<input type="text" name="postno" id="postno" placeholder="우편번호" class="form-control">
-		<button type="button" class="btn" id="btnDaumPost" onclick="btnDaumPost">우편번호 찾기</button>
+		<label for="postno">주소</label><br>
+		<input type="text" name="postno" id="postno" placeholder="우편번호" class="form-control" required="required">
+		<button type="button" class="btn btn-success" id="btnDaumPost" onclick="btnDaumPost">우편번호 찾기</button><br>
 		<input type="text" name="address" id="address" placeholder="주소" class="form-control">
 		<input type="text" name="detailaddress" id="detailaddress" placeholder="상세주소" class="form-control">
 	</div>
@@ -162,14 +262,18 @@ $(document).ready(function() {
 		<label for="birth">생년월일</label>
 		<input type="date" name="birth" id="birth" class="form-control">
 	</div>
-	<button class="btn">회원가입</button>
-	<a href="/"><button type="button" class="btn">취소</button></a>
+	<div style="text-align: center;">
+	<button class="btn btn-primary" id="join" name="join">회원가입</button>
+	<a href="./login"><button type="button" class="btn btn-danger">취소</button></a>
+	</div>
 	</div>
 </form>
 
 
 
 </div><!-- .container end -->
+
+
 
 
 <c:import url="../layout/footer.jsp" />
