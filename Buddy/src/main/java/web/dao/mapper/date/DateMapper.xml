@@ -7,4 +7,20 @@
 
 <mapper namespace="web.dao.face.date.DateDao">
 
+	<select id="selectAllList" resultType="DateBoard">
+		SELECT date_no, adminno, date_cate, title, content, loc, hit, write_date
+		FROM date_board
+		ORDER BY date_no DESC
+	</select>
+	
+	<select id="selectHitList" resultType="DateBoard">
+		SELECT date_no, adminno, date_cate, title, content, loc, hit, write_date
+		FROM date_board
+		ORDER BY hit DESC
+	</select>
+
+<!-- 	<select id="selectCntAll" resultType="int"> -->
+<!-- 		SELECT count(*) FROM date_board -->
+<!-- 	</select> -->
+
 </mapper>
