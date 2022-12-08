@@ -43,15 +43,17 @@ public class UserController {
 			
 			//로그인한 아이디의 정보 가져오기 
 			AniUser userInfo = userService.getUserInfo(user);
-//			logger.debug("가저온 정보 : {}",userInfo);
+			logger.debug("가저온 정보 : {}",userInfo);
 			
 			session.setAttribute("login", result);
 			session.setAttribute("nick", userInfo.getUsernick());
 			session.setAttribute("phone", userInfo.getPhone());
 			session.setAttribute("name", userInfo.getUsername());
 			session.setAttribute("gender", userInfo.getGender());
+			session.setAttribute("grade", userInfo.getGrade());
+			session.setAttribute("img", userInfo.getImgorigin());
 			
-			return "redirect:/";
+			return "redirect:/shopping/list";  // 합치면 경로 수정해줘야함 
 		}else {
 			
 			session.invalidate();

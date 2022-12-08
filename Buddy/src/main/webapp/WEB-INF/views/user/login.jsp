@@ -5,10 +5,18 @@
 
 <c:import url="../layout/header.jsp" />
 
-<!-- 아이디 입력창 포커스 -->
+
 <script type="text/javascript">
 $(document).ready(function() {
+	//입력창 포커스
 	$("#userid").focus()
+	|
+	//엔터 제출
+	$("#loginForm").keypress(function (e){
+		if(e.keyCode===13) {
+			$("#loginForm").submit()
+		}
+	})
 	
 	// 로그인 버튼
 	$("#btnLogin").click(function() {
@@ -51,8 +59,8 @@ a {
 <h1 style="text-align: center;">Login</h1>
 <hr>
 
-<div id="loginForm">
-<form action="./login" method="post" class="form-horizontal">
+<div id="login">
+<form action="./login" method="post" class="form-horizontal" id="loginForm">
 
 <div class="form-group">
 	<div>

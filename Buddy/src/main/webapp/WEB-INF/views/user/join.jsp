@@ -241,7 +241,7 @@ $(document).ready(function() {
 	</div>
 	<div class="form-group">
 		<label for="email">이메일</label>
-		<input type="text" name="email" id="email" placeholder="닉네임을 입력하세요." class="form-control">
+		<input type="text" name="email" id="email" placeholder="이메일을 입력하세요." class="form-control">
 	</div>
 	<div class="form-group">
 		<label for="gender">성별</label>

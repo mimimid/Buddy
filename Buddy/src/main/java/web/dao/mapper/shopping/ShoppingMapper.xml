@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 마이바티스 3 Mapper DTD -->
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="web.dao.face.shopping.ShoppingDao">
+	<select id="selectCntAll" resultType="int">
+		select count(*) from ani_product
+	</select>
+	<select id="selectList" resultType="AniProduct" parameterType="Paging">
+		SELECT * FROM (
+			SELECT rownum rnum, P.* FROM (
+				SELECT
+					ani_product.productno, ani_product.productname, ani_product.content , ani_product.price
+					, ani_product.amount, ani_product.category, ani_product.userno, ani_product_img.pimgstored
+					, ani_product.reviewcount
+				FROM ani_product, ani_product_img
+				WHERE ani_product.productno = ani_product_img.productno(+)
+				ORDER BY ani_product.productno DESC, ani_product_img.productno DESC
+			) P
+		) PRODUCT
+		WHERE rnum BETWEEN #{startNo } AND #{endNo }
+	</select>
+
+
+</mapper>

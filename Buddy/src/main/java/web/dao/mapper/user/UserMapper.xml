@@ -13,8 +13,9 @@
 	</select>
 	
 	<select id="selectAllById" resultType="AniUser" parameterType="AniUser">
-		select usernick, username, phone, gender from ani_user
-		where userid = #{userid}
+		select ani_user.usernick, ani_user.username, ani_user.phone, ani_user.gender, ani_user.grade, ani_user_img.imgorigin
+		from ani_user, ani_user_img
+		where ani_user.userno = ani_user_img.userno(+) and userid = #{userid }
 	</select>
 	
 	<select id="selectCntById" resultType="int" parameterType="String">
