@@ -1,0 +1,18 @@
+@charset "UTF-8";
+
+/*---- 검색창CSS ----*/
+#inputSearch {
+	border-top-width: 0;
+	border-left-width: 0;
+	border-right-width: 0;
+	border-bottom-width: 1;
+}
+
+#ex {
+	style="display: table;
+	margin-bottom: 0px;"
+}
+
+.juaFont {
+	font-family: 'Jua';
+}

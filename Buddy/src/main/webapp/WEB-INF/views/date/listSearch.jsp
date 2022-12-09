@@ -19,11 +19,14 @@
 <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 
-<!-- CSS -->
-<link rel="stylesheet" href="/resources/css/dateList.css">
+<!-- 웹글꼴 -->
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
 
 <!-- 아이콘 CSS -->
 <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-bold-rounded/css/uicons-bold-rounded.css'>
+
+<!-- CSS -->
+<link rel="stylesheet" href="/resources/css/dateList.css">
 
 <script type="text/javascript">
 $(document).ready(function () {
@@ -32,8 +35,6 @@ $(document).ready(function () {
 	})
 	
 	$("#btnSearch").click(function() {
-// 		console.log("검색클릭")
-// 		console.log($('#inputSearch').val())
 		location.href="/date/listSearch?keywoard=" + $('#inputSearch').val()
 	})
 })
@@ -44,6 +45,8 @@ $(document).ready(function () {
 
 <h1>헤더부분</h1>
 <hr>
+
+<i class="fi fi-br-a"></i>
 
 <!-- 데이트게시판 메인 시작 -->
 <div class="container">
@@ -65,32 +68,17 @@ $(document).ready(function () {
 
 <div class="container">
 
-<!-- 정렬, 검색 -->
+<!-- 검색 -->
 <div class="row">
-	<!-- 정렬방식 -->
-	<div class="col-sm-2">
-	<div class="btn-group">
-		<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-		정렬방식 <span class="caret"></span>
-		</button>
-		<ul class="dropdown-menu" role="menu">
-		<li><a href="/date/list?category=${category }&sort=READ">조회순</a></li>
-		<li><a href="/date/list?category=${category }&sort=TIME">등록순</a></li>
-		<li><a href="/date/list?category=${category }&sort=COMMENT">댓글순</a></li>
-		<li><a href="/date/list?category=${category }&sort=LIKE">좋아요순</a></li>
-		</ul>
-	</div>
-	</div><!-- 정렬방식 END -->
-
 	<!-- 검색방식 -->
-	<div class="col-sm-3 col-md-offset-7">
+	<div class="col-sm-3 col-md-offset-9">
 		<div class="input-group">
 		<input type="text" id="inputSearch" class="form-control" name="keywoard" placeholder="찾을 장소를 입력하세요.">
 		<span class="input-group-btn">
 			<button id="btnSearch" class="btn btn-default" type="button"><i class="fi fi-br-search"></i></button>
 		</span>
 		</div><!-- /input-group -->
-	</div><!-- 검색방식 END -->
+	</div><!-- /.col-lg-6 -->
 </div><!-- /.row -->
 
 <hr style="display: table; margin-bottom: 0px;">
@@ -116,26 +104,26 @@ $(document).ready(function () {
 
 <!-- 페이징 -->
 <div class="text-center">
-	<ul class="pagination pagination-sm">
+	<ul class="pagination pagination-sm" style="bor">
 
 	<%-- 첫 페이지로 이동 --%>
-	<c:if test="${paging.curPage ne 1 }">
-		<li><a href="/date/list?category=${category }">&larr; 처음</a></li>	
-	</c:if>
+<%-- 	<c:if test="${paging.curPage ne 1 }"> --%>
+<%-- 		<li><a href="/date/listSearch?keywoard=${keywoard }">&larr; 처음</a></li>	 --%>
+<%-- 	</c:if> --%>
 	
 	<%-- 이전 페이징 리스트로 이동 --%>
 	<c:choose>
 	<c:when test="${paging.startPage ne 1 }">
-		<li><a href="/date/list?category=${category }&curPage=${paging.startPage - paging.pageCount }">&laquo;</a></li>
+		<li><a href="/date/listSearch?keywoard=${keywoard }&curPage=${paging.startPage - paging.pageCount }"><i class="fi fi-br-angle-double-left"></i></a></li>
 	</c:when>
 	<c:when test="${paging.startPage eq 1 }">
-		<li class="disabled"><a>&laquo;</a></li>
+		<li class="disabled"><a><i class="fi fi-br-angle-double-left"></i></a></li>
 	</c:when>
 	</c:choose>
 	
 	<%-- 이전 페이지로 가기 --%>
 	<c:if test="${paging.curPage > 1 }">
-		<li><a href="/date/list?category=${category }&curPage=${paging.curPage - 1 }">&lt;</a></li>
+		<li><a href="/date/listSearch?keywoard=${keywoard }&curPage=${paging.curPage - 1 }"><i class="fi fi-br-angle-left"></i></a></li>
 	</c:if>
 	
 	
@@ -143,10 +131,10 @@ $(document).ready(function () {
 	<%-- 페이징 리스트 --%>
 	<c:forEach begin="${paging.startPage }" end="${paging.endPage }" var="i">
 	<c:if test="${paging.curPage eq i }">
-		<li class="active"><a href="/date/list?category=${category }&curPage=${i }">${i }</a></li>
+		<li class="active juaFont"><a href="/date/listSearch?keywoard=${keywoard }&curPage=${i }">${i }</a></li>
 	</c:if>
 	<c:if test="${paging.curPage ne i }">
-		<li><a href="/date/list?category=${category }&curPage=${i }">${i }</a></li>
+		<li class="juaFont"><a href="/date/listSearch?keywoard=${keywoard }&curPage=${i }">${i }</a></li>
 	</c:if>
 	</c:forEach>
 
@@ -154,23 +142,23 @@ $(document).ready(function () {
 	
 	<%-- 다음 페이지로 가기 --%>
 	<c:if test="${paging.curPage < paging.totalPage }">
-		<li><a href="/date/list?category=${category }&curPage=${paging.curPage + 1 }">&gt;</a></li>
+		<li><a href="/date/listSearch?keywoard=${keywoard }&curPage=${paging.curPage + 1 }"><i class="fi fi-br-angle-right"></i></a></li>
 	</c:if>
 	
 	<%-- 다음 페이징 리스트로 이동 --%>
 	<c:choose>
 	<c:when test="${paging.endPage ne paging.totalPage }">
-		<li><a href="/date/list?category=${category }&curPage=${paging.startPage + paging.pageCount }">&raquo;</a></li>
+		<li><a href="/date/listSearch?keywoard=${keywoard }&curPage=${paging.startPage + paging.pageCount }"><i class="fi fi-br-angle-double-right"></i></a></li>
 	</c:when>
 	<c:when test="${paging.endPage eq paging.totalPage }">
-		<li class="disabled"><a>&raquo;</a></li>
+		<li class="disabled"><a><i class="fi fi-br-angle-double-right"></i></a></li>
 	</c:when>
 	</c:choose>
 
 	<%-- 끝 페이지로 이동 --%>
-	<c:if test="${paging.curPage ne paging.totalPage }">
-		<li><a href="/date/list?category=${category }&curPage=${paging.totalPage }">끝 &rarr;</a></li>	
-	</c:if>
+<%-- 	<c:if test="${paging.curPage ne paging.totalPage }"> --%>
+<%-- 		<li><a href="/date/listSearch?keywoard=${keywoard }&curPage=${paging.totalPage }">끝 &rarr;</a></li>	 --%>
+<%-- 	</c:if> --%>
 	
 	</ul>
 </div>

@@ -1,5 +1,6 @@
 package web.controller.date;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -33,17 +34,52 @@ public class DateController {
 		
 	}
 
-	@RequestMapping("/date/cafe/list")
+	//카테고리별 리스트목록
+	@RequestMapping("/date/list")
 	public void cafeList(
 			@RequestParam(defaultValue = "0") int curPage
-			, Model model) {
-//		Paging paging = dateService.getPaging(curPage);
-//		logger.debug("{}", paging);
-//		model.addAttribute("paging", paging);
+			, Model model, int category, 
+			@RequestParam(required = false, value="sort") String sort,
+			@RequestParam(required = false, value="keywoard")String keywoard) {
 		
-//		List<DateBoard> list = dateService.list(paging);
-//		for( DateBoard d : list ) logger.debug("{}", d);
-//		model.addAttribute("list", list);		
+		//페이징 처리
+		Paging paging = dateService.getPaging(curPage, category, keywoard);
+		logger.debug("{}", paging);
+		
+		//게시물 목록
+		List<DateBoard> list = dateService.list(paging, category, sort, keywoard);
+		for( DateBoard d : list ) logger.debug("{}", d);
+		
+		model.addAttribute("paging", paging);
+		model.addAttribute("list", list);
+		model.addAttribute("category", category);
+		
 	}
+	
+	//검색페이지
+	@RequestMapping("/date/listSearch")
+	public void cafeListSearch(
+			@RequestParam(defaultValue = "0") int curPage
+			, Model model,
+			@RequestParam(defaultValue = "0") int category, 
+			@RequestParam(required = false, value="sort") String sort,
+			@RequestParam(required = false, value="keywoard")String keywoard) {
+		
+		//페이징 처리
+		Paging paging = dateService.getPaging(curPage, category, keywoard);
+		logger.debug("{}", paging);
+		
+		//게시물 목록
+		List<DateBoard> list = dateService.list(paging, category, sort, keywoard);
+		for( DateBoard d : list ) logger.debug("{}", d);
+		
+		model.addAttribute("paging", paging);
+		model.addAttribute("list", list);
+		model.addAttribute("category", category);
+		model.addAttribute("keywoard", keywoard);
+		
+	}
+	
+
 	
 }
