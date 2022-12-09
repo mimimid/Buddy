@@ -23,6 +23,27 @@
 		) PRODUCT
 		WHERE rnum BETWEEN #{startNo } AND #{endNo }
 	</select>
+	
+	<insert id="insertProduct" parameterType="AniProduct">
+		<selectKey order="BEFORE" resultType="int" keyProperty="productno">
+			select ani_product_seq.nextval from dual
+		</selectKey>
+		insert into ani_product ( productno, kind, category, productname, price, amount, content )
+		values ( #{productno }, #{kind }, #{category}, #{productname }, #{price }, #{amount }, #{content } )
+	</insert>
+	
+	<select id="selectProductNoByProductName" resultType="int" parameterType="AniProduct">
+		select productno from ani_product
+		where productname = #{productname }
+	</select>
+	
+	<insert id="insertImg" parameterType="AniProductImg">
+		<selectKey order="BEFORE" resultType="int" keyProperty="pimgno">
+			select ani_product_img_seq.nextval from dual
+		</selectKey>
+		insert into ani_product_img (pimgno, pimgorigin, pimgstored, productno)
+		values ( #{pimgno }, #{pimgorigin }, #{pimgstored }, #{productno })
+	</insert>
 
 
 </mapper>

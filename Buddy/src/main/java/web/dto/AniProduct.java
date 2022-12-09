@@ -7,6 +7,7 @@ public class AniProduct {
 	private String content;
 	private int price;
 	private int amount;
+	private String kind;
 	private String category;
 	private String pimgstored;
 	private int reviewcount;
@@ -14,14 +15,15 @@ public class AniProduct {
 	
 	public AniProduct() {}
 
-	public AniProduct(int productno, String productname, String content, int price, int amount, String category,
-			String pimgstored, int reviewcount, int userno) {
+	public AniProduct(int productno, String productname, String content, int price, int amount, String kind,
+			String category, String pimgstored, int reviewcount, int userno) {
 		super();
 		this.productno = productno;
 		this.productname = productname;
 		this.content = content;
 		this.price = price;
 		this.amount = amount;
+		this.kind = kind;
 		this.category = category;
 		this.pimgstored = pimgstored;
 		this.reviewcount = reviewcount;
@@ -31,8 +33,8 @@ public class AniProduct {
 	@Override
 	public String toString() {
 		return "AniProduct [productno=" + productno + ", productname=" + productname + ", content=" + content
-				+ ", price=" + price + ", amount=" + amount + ", category=" + category + ", pimgstored=" + pimgstored
-				+ ", reviewcount=" + reviewcount + ", userno=" + userno + "]";
+				+ ", price=" + price + ", amount=" + amount + ", kind=" + kind + ", category=" + category
+				+ ", pimgstored=" + pimgstored + ", reviewcount=" + reviewcount + ", userno=" + userno + "]";
 	}
 
 	public int getProductno() {
@@ -75,6 +77,14 @@ public class AniProduct {
 		this.amount = amount;
 	}
 
+	public String getKind() {
+		return kind;
+	}
+
+	public void setKind(String kind) {
+		this.kind = kind;
+	}
+
 	public String getCategory() {
 		return category;
 	}
@@ -107,6 +117,7 @@ public class AniProduct {
 		this.userno = userno;
 	}
 
+	
 	
 	
 	

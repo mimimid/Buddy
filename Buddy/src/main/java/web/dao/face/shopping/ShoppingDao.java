@@ -3,6 +3,7 @@ package web.dao.face.shopping;
 import java.util.List;
 
 import web.dto.AniProduct;
+import web.dto.AniProductImg;
 import web.util.Paging;
 
 public interface ShoppingDao {
@@ -19,5 +20,24 @@ public interface ShoppingDao {
 	 * @return
 	 */
 	public List<AniProduct> selectList(Paging paging);
+
+	/**
+	 * 상품 정보 입력
+	 * @param product
+	 */
+	public void insertProduct(AniProduct product);
+
+	/**
+	 * 상품 이름으로 상품번호 가저오기
+	 * @param product
+	 * @return
+	 */
+	public int selectProductNoByProductName(AniProduct product);
+
+	/**
+	 * 상품 이미지 정보 입력
+	 * @param productImg
+	 */
+	public void insertImg(AniProductImg productImg);
 
 }

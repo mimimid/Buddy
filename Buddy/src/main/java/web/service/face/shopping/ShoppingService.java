@@ -2,6 +2,8 @@ package web.service.face.shopping;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import web.dto.AniProduct;
 import web.util.Paging;
 
@@ -20,5 +22,12 @@ public interface ShoppingService {
 	 * @return
 	 */
 	public List<AniProduct> getList(Paging paging);
+
+	/**
+	 * 상품 입력처리
+	 * @param product
+	 * @param img
+	 */
+	public void input(AniProduct product, MultipartFile img);
 
 }

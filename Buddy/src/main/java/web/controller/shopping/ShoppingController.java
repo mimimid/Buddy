@@ -7,8 +7,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import web.dto.AniProduct;
 import web.service.face.shopping.ShoppingService;
@@ -35,6 +38,21 @@ public class ShoppingController {
 		model.addAttribute("list",list);
 		
 		
+	}
+	
+	@GetMapping("/input")
+	public void input() {
+		
+	}
+	
+	@PostMapping("/input")
+	public String inputProc(AniProduct product, MultipartFile img) {
+		logger.debug("입력받은 내용 : {}", product);
+		logger.debug("입력받은 이미지 : {}", img);
+		
+		shoppingService.input(product, img);
+		
+		return "redirect:/shopping/list";
 	}
 
 }

@@ -12,9 +12,7 @@ table{
 	margin: 0 auto;
 }
 
-img{
-	height: 100px;
-}
+
 
 tr { 
 	display: block; 
@@ -30,13 +28,15 @@ th, td {
 <div class="container">
 <h1 style="text-align: center;">Shopping</h1> 
 <a href="../user/logout"><button>임시 로그아웃</button></a>
-<a href="./input" style="float: right;" ><button class="btn btn-success">상품 입력</button></a>
+<c:if test="${grade eq '관리자' }">
+<a href="./input" style="float: right;" ><button type="button" class="btn btn-success">상품 입력</button></a>
+</c:if>
 <hr>
 
 <table>
 <c:forEach items="${list }" var="product" begin="0" end="4">
 	<tr>
-		<td><img alt="이미지가 없습니다." src="<%=request.getContextPath() %>/upload/${product.pimgstored }"></td>
+		<td><img alt="" src="<%=request.getContextPath() %>/upload/${product.pimgstored }"></td>
 		<td>${product.productname }</td>
 		<td style="color: red;">(${product.reviewcount })</td>
 		<td>${product.price }</td>
@@ -46,7 +46,7 @@ th, td {
 <table>
 <c:forEach items="${list }" var="product" begin="5" end="10">
 	<tr>
-		<td><img alt="이미지가 없습니다." src="<%=request.getContextPath() %>/upload/${product.pimgstored }"></td>
+		<td><img alt="" src="<%=request.getContextPath() %>/upload/${product.pimgstored }"></td>
 		<td>${product.productname }</td>
 		<td style="color: red;">(${product.reviewcount })</td>
 		<td>${product.price }</td>

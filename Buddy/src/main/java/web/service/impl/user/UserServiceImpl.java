@@ -6,6 +6,8 @@ import java.util.UUID;
 
 import javax.servlet.ServletContext;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,6 +19,8 @@ import web.service.face.user.UserService;
 
 @Service
 public class UserServiceImpl implements UserService  {
+	
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@Autowired private UserDao userDao;
 	
@@ -79,9 +83,12 @@ public class UserServiceImpl implements UserService  {
 			storedFolder.mkdir();
 		}
 				
+		
 		//파일이 저장될 이름
 		String originName = img.getOriginalFilename();
 		String storedName = originName + UUID.randomUUID().toString().split("-")[4];
+		
+		
 				
 		//저장할 파일의 정보 객체
 		File dest = new File( storedFolder, storedName );
