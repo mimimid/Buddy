@@ -46,6 +46,8 @@ public class UserController {
 			logger.debug("가저온 정보 : {}",userInfo);
 			
 			session.setAttribute("login", result);
+			session.setAttribute("id", user.getUserid());
+			session.setAttribute("userno", userInfo.getUserno());
 			session.setAttribute("nick", userInfo.getUsernick());
 			session.setAttribute("phone", userInfo.getPhone());
 			session.setAttribute("name", userInfo.getUsername());
