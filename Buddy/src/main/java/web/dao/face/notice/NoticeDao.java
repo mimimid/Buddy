@@ -6,8 +6,9 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
-import web.dto.notice.Notice;
-import web.util.notice.Paging;
+import web.dto.Notice;
+import web.util.Paging;
+
 
 public interface NoticeDao {
 	

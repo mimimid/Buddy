@@ -4,8 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import web.dto.notice.Notice;
-import web.util.notice.Paging;
+import web.dto.Notice;
+import web.util.Paging;
+
 
 public interface NoticeService {
 	

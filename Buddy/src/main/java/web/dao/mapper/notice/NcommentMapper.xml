@@ -5,10 +5,10 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="notice.dao.face.NcommentDao">    
+<mapper namespace="web.dao.face.notice.NcommentDao">    
 
 	
-  	<update id="insert" parameterType="notice.dto.Ncomment">   
+  	<update id="insert" parameterType="Ncomment">   
 			  <selectKey keyProperty="ncmtno" resultType="int" order="BEFORE">
    				 select notie_comment_seq.nextval FROM DUAL
   			  </selectKey>
@@ -16,7 +16,7 @@
 					VALUES( #{ncmtno },  #{noticeno }, #{ncmtcontent }, #{writer }, SYSDATE )
 	</update> 
 	
-	  <delete id="delete" parameterType="notice.dto.Ncomment">
+	  <delete id="delete" parameterType="Ncomment">
     delete from notie_comment where ncmt_no = #{ncmtno }
  	 </delete>
   

@@ -16,7 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.servlet.view.AbstractView;
 
-import web.dto.notice.Nfile;
+import web.dto.Nfile;
 
 public class DownloadView extends AbstractView {
 

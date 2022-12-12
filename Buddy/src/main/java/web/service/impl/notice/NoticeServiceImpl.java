@@ -10,9 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import web.dao.face.notice.NoticeDao;
-import web.dto.notice.Notice;
+import web.dto.Notice;
 import web.service.face.notice.NoticeService;
-import web.util.notice.Paging;
+import web.util.Paging;
+
 
 @Service
 public class NoticeServiceImpl implements NoticeService{

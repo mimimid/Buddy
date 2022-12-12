@@ -1,6 +1,6 @@
 package web.dao.face.msg;
 
-import web.dto.msg.Msg;
+import web.dto.Msg;
 
 public interface MsgDao {
 	

@@ -1,4 +1,4 @@
-package web.dto.notice;
+package web.dto;
 
 public class Event {
 

@@ -6,7 +6,8 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
-import web.dto.notice.Ncomment;
+import web.dto.Ncomment;
+
 
 public interface NcommentDao {
 	
