@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 마이바티스 3 Mapper DTD -->
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="web.dao.face.shopping.ShoppingDao">
+	<select id="selectCntAll" resultType="int">
+		select count(*) from ani_product
+	</select>
+	<select id="selectList" resultType="AniProduct" parameterType="Paging">
+		SELECT * FROM (
+			SELECT rownum rnum, P.* FROM (
+				SELECT
+					ani_product.productno, ani_product.productname, ani_product.content , ani_product.price
+					, ani_product.amount, ani_product.category, ani_product.userno, ani_product_img.pimgstored
+					, ani_product.reviewcount
+				FROM ani_product, ani_product_img
+				WHERE ani_product.productno = ani_product_img.productno(+)
+				ORDER BY ani_product.productno DESC, ani_product_img.productno DESC
+			) P
+		) PRODUCT
+		WHERE rnum BETWEEN #{startNo } AND #{endNo }
+	</select>
+	
+	<insert id="insertProduct" parameterType="AniProduct">
+		<selectKey order="BEFORE" resultType="int" keyProperty="productno">
+			select ani_product_seq.nextval from dual
+		</selectKey>
+		insert into ani_product ( productno, kind, category, productname, price, amount, content )
+		values ( #{productno }, #{kind }, #{category}, #{productname }, #{price }, #{amount }, #{content } )
+	</insert>
+	
+	<select id="selectProductNoByProductName" resultType="int" parameterType="AniProduct">
+		select productno from ani_product
+		where productname = #{productname }
+	</select>
+	
+	<insert id="insertImg" parameterType="AniProductImg">
+		<selectKey order="BEFORE" resultType="int" keyProperty="pimgno">
+			select ani_product_img_seq.nextval from dual
+		</selectKey>
+		insert into ani_product_img (pimgno, pimgorigin, pimgstored, productno)
+		values ( #{pimgno }, #{pimgorigin }, #{pimgstored }, #{productno })
+	</insert>
+	
+	<select id="selectProductByProductno" parameterType="int" resultType="AniProduct">
+		select ani_product.productname, ani_product.content, ani_product.price, ani_product.amount, ani_product.kind, ani_product.category, ani_product.reviewcount, ani_product_img.pimgstored
+		from ani_product, ani_product_img
+		where ani_product.productno = ani_product_img.productno(+) and ani_product.productno=#{productno }
+	</select>
+	
+	<select id="selectReviewByProductno" parameterType="int" resultType="AniReview">
+		select reviewcontent, insertdate, productno, userno
+		from ani_review
+		where productno = #{productno }
+	</select>
+
+
+</mapper>
