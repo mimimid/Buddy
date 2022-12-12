@@ -209,7 +209,16 @@ $(document).ready(function() {
 						</ul>
 					</li>
 					
-					<li><a href="#" id="date">데이트</a></li>
+					<li class="dropdown">
+						<a href="/date/main">데이트</a>
+						<ul class="dropdown-menu" role="menu">
+								<li><a href="/date/list?category=1">카페</a></li>
+								<li><a href="/date/list?category=2">호텔</a></li>
+								<li><a href="/date/list?category=3">훈련소</a></li>
+								<li><a href="/date/list?category=4">여행지</a></li>
+						</ul>
+					</li>
+
 					
 					<li><a href="/hospital/hosplist" id="hospitle">병원</a></li>
 					
