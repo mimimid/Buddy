@@ -1,4 +1,4 @@
-package web.dto.msg;
+package web.dto;
 
 import java.util.Date;
 
