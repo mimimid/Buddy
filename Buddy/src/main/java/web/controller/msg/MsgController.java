@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import web.dto.msg.Msg;
+import web.dto.Msg;
 import web.service.face.msg.MsgService;
 
 @Controller

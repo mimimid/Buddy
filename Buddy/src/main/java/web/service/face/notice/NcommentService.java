@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import web.dto.notice.Ncomment;
+import web.dto.Ncomment;
 
 public interface NcommentService {
 	

@@ -13,8 +13,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import web.dao.face.notice.NfileDao;
-import web.dto.notice.Nfile;
+import web.dto.Nfile;
 import web.service.face.notice.NfileService;
+
 
 @Service
 public class NfileServiceImpl implements NfileService {

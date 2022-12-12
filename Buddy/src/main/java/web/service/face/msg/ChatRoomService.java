@@ -3,7 +3,7 @@ package web.service.face.msg;
 import java.util.List;
 import java.util.Map;
 
-import web.dto.msg.ChatRoom;
+import web.dto.ChatRoom;
 
 public interface ChatRoomService {
 	

@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import web.dao.face.notice.NcommentDao;
-import web.dto.notice.Ncomment;
+import web.dto.Ncomment;
 import web.service.face.notice.NcommentService;
 
 @Service

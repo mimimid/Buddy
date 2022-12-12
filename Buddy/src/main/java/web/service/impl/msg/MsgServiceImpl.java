@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import web.dao.face.msg.MsgDao;
-import web.dto.msg.Msg;
+import web.dto.Msg;
 import web.service.face.msg.MsgService;
 @Service
 public class MsgServiceImpl implements MsgService{

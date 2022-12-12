@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import web.dao.face.msg.ChatRoomDao;
-import web.dto.msg.ChatRoom;
+import web.dto.ChatRoom;
 import web.service.face.msg.ChatRoomService;
 @Service
 public class ChatRoomServiceImpl implements ChatRoomService{

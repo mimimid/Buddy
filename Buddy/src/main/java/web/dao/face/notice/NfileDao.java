@@ -1,6 +1,6 @@
 package web.dao.face.notice;
 
-import web.dto.notice.Nfile;
+import web.dto.Nfile;
 
 public interface NfileDao {
 	

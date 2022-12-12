@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import web.dto.notice.Ncomment;
+import web.dto.Ncomment;
 import web.service.face.notice.NcommentService;
 import web.service.face.notice.NlikeService;
 import web.service.face.notice.NoticeService;

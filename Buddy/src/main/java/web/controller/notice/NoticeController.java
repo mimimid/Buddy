@@ -18,14 +18,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import web.dto.notice.Event;
-import web.dto.notice.Nfile;
-import web.dto.notice.Notice;
-import web.service.face.notice.NcommentService;
+import web.dto.Nfile;
+import web.dto.Notice;
 import web.service.face.notice.NfileService;
 import web.service.face.notice.NlikeService;
 import web.service.face.notice.NoticeService;
-import web.util.notice.Paging;
+import web.util.Paging;
+
 
 @Controller
 @RequestMapping("notice")
