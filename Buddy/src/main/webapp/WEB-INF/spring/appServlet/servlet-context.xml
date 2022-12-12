@@ -40,6 +40,11 @@
 		<beans:property name="order" value="0" />
 	</beans:bean>
 	
+
+	<!-- DownloadView 스프링 빈 등록 -->
+	<beans:bean id="reptDown" class="web.down.ReptDownView" />
+	<beans:bean id="resrchDown" class="web.down.ResrchDownView" />
+
 	
 	<!-- JSON응답용 jsonview를 스프링 빈으로 등록하기 -->
 	<beans:bean id="jsonView" class="org.springframework.web.servlet.view.json.MappingJackson2JsonView">
@@ -49,7 +54,7 @@
 	
 	<!-- DownloadView 스프링 빈 등록 -->
 	<beans:bean id="downHospBoard" class="web.view.HospBoardDownloadView" />
-	
+
 	
 	<!-- MultipartResolver 설정 -->
 	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">

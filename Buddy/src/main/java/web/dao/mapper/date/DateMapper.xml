@@ -6,5 +6,90 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="web.dao.face.date.DateDao">
+	
+	<sql id="keywoard">
+		<where>
+		<if test="keywoard == null">
+			AND date_cate = #{category}
+		</if>
+		<if test="keywoard != null">
+			AND loc LIKE '%' || #{keywoard} || '%'
+		</if>
+		</where>
+	</sql>
+	
+	<sql id="sort">
+		<if test="sort == null">
+			ORDER BY date_no DESC
+		</if>
+		<if test="sort == 'bno'">
+			ORDER BY date_no DESC
+		</if>
+		<if test="sort == 'READ'">
+			ORDER BY hit DESC
+		</if>
+		<if test="sort == 'TIME'">
+			ORDER BY write_date DESC
+		</if>
+		<if test="sort == 'COMMENT'">
+			ORDER BY date_no DESC
+		</if>
+		<if test="sort == 'LIKE'">
+			ORDER BY date_no DESC
+		</if>
+	</sql>
+	
+	<sql id="selectDate">
+		SELECT date_no, adminno, D.date_cate, C.date_cate_name, title, content, loc, hit, write_date
+		FROM date_board D
+		INNER JOIN date_cate C
+		ON D.date_cate = C.date_cate_no
+	</sql>
+	
+	<select id="selectAllList" resultType="DateBoard">
+		<include refid="selectDate" />
+		ORDER BY date_no DESC
+	</select>
+	
+	<select id="selectHitList" resultType="DateBoard">
+		<include refid="selectDate" />
+		ORDER BY hit DESC
+	</select>
 
+	<select id="selectCntAll" resultType="int" parameterType="hashmap">
+		SELECT count(*) FROM date_board
+		<include refid="keywoard" />
+	</select>
+	
+	<select id="selectList" resultType="DateBoard" parameterType="hashmap">
+		SELECT * FROM (
+		    SELECT rownum rnum, D.* FROM (
+				<include refid="selectDate" />
+				<include refid="keywoard" />
+				<include refid="sort" />
+		    ) D
+		) BOARD
+		WHERE rnum BETWEEN #{paging.startNo } AND #{paging.endNo }
+	</select>
+	
+	<update id="updateHit" parameterType="DateBoard">
+		UPDATE date_board
+		SET hit = hit + 1
+		WHERE date_no = #{dateNo }
+	</update>
+	
+	<select id="selectDateDetail" resultType="DateBoard" parameterType="DateBoard">
+		<include refid="selectDate" />
+		WHERE date_no = #{dateNo }
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 </mapper>
