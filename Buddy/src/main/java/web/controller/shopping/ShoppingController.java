@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import web.dto.AniProduct;
+import web.dto.AniReview;
 import web.service.face.shopping.ShoppingService;
 import web.util.Paging;
 
@@ -53,6 +54,24 @@ public class ShoppingController {
 		shoppingService.input(product, img);
 		
 		return "redirect:/shopping/list";
+	}
+	
+	@GetMapping("/view")
+	public void view(int productno, Model model) {
+//		logger.debug("보여질 상품 번호 : {}", productno);
+		
+		//상품 상세 정보
+		AniProduct product = shoppingService.view(productno);
+//		logger.debug("상품 상세정보 : {}", product);
+		
+		//리뷰 조회
+		AniReview review = shoppingService.viewReview(productno);
+//		logger.debug("리뷰 상세정보 : {}", review);
+		
+		model.addAttribute("product", product);
+		model.addAttribute("review", review);
+		
+	
 	}
 
 }

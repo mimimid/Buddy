@@ -4,6 +4,7 @@ import java.util.List;
 
 import web.dto.AniProduct;
 import web.dto.AniProductImg;
+import web.dto.AniReview;
 import web.util.Paging;
 
 public interface ShoppingDao {
@@ -39,5 +40,21 @@ public interface ShoppingDao {
 	 * @param productImg
 	 */
 	public void insertImg(AniProductImg productImg);
+
+	/**
+	 * 상품번호로 상품 상세정보 조회
+	 * @param productno
+	 * @return
+	 */
+	public AniProduct selectProductByProductno(int productno);
+
+	/**
+	 * 상품번호로 상품 리뷰 조회
+	 * @param productno
+	 * @return
+	 */
+	public AniReview selectReviewByProductno(int productno);
+
+	
 
 }

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <c:import url="../layout/header.jsp" />
 
@@ -22,6 +23,12 @@ tr {
 }
 th, td { 
 	display: block; 
+	margin: 10px;
+}
+
+img{
+	height: 130px;
+	width: 130px;
 }
 </style>
 
@@ -36,20 +43,20 @@ th, td {
 <table>
 <c:forEach items="${list }" var="product" begin="0" end="4">
 	<tr>
-		<td><img alt="" src="<%=request.getContextPath() %>/upload/${product.pimgstored }"></td>
-		<td>${product.productname }</td>
+		<td><a href="/shopping/view?productno=${product.productno }"><img alt="임시" src="<%=request.getContextPath() %>/upload/${product.pimgstored }"></a></td>
+		<th><a href="/shopping/view?productno=${product.productno }">${product.productname }</a></th>
 		<td style="color: red;">(${product.reviewcount })</td>
-		<td>${product.price }</td>
+		<td><fmt:formatNumber value="${product.price }" pattern="###,###.###원"/></td>
 	</tr>
 </c:forEach>
 </table>
 <table>
 <c:forEach items="${list }" var="product" begin="5" end="10">
 	<tr>
-		<td><img alt="" src="<%=request.getContextPath() %>/upload/${product.pimgstored }"></td>
-		<td>${product.productname }</td>
+		<td><a href="/shopping/view?productno=${product.productno }"><img alt="임시" src="<%=request.getContextPath() %>/upload/${product.pimgstored }"></a></td>
+		<th><a href="/shopping/view?productno=${product.productno }">${product.productname }</a></th>
 		<td style="color: red;">(${product.reviewcount })</td>
-		<td>${product.price }</td>
+		<td><fmt:formatNumber value="${product.price }" pattern="###,###.###원"/></td>
 	</tr>
 </c:forEach>
 </table>

@@ -44,6 +44,18 @@
 		insert into ani_product_img (pimgno, pimgorigin, pimgstored, productno)
 		values ( #{pimgno }, #{pimgorigin }, #{pimgstored }, #{productno })
 	</insert>
+	
+	<select id="selectProductByProductno" parameterType="int" resultType="AniProduct">
+		select ani_product.productname, ani_product.content, ani_product.price, ani_product.amount, ani_product.kind, ani_product.category, ani_product.reviewcount, ani_product_img.pimgstored
+		from ani_product, ani_product_img
+		where ani_product.productno = ani_product_img.productno(+) and ani_product.productno=#{productno }
+	</select>
+	
+	<select id="selectReviewByProductno" parameterType="int" resultType="AniReview">
+		select reviewcontent, insertdate, productno, userno
+		from ani_review
+		where productno = #{productno }
+	</select>
 
 
 </mapper>

@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import web.dao.face.shopping.ShoppingDao;
 import web.dto.AniProduct;
 import web.dto.AniProductImg;
+import web.dto.AniReview;
 import web.service.face.shopping.ShoppingService;
 import web.util.Paging;
 
@@ -94,5 +95,19 @@ public class ShoppingServiceImpl implements ShoppingService {
 		shoppingDao.insertImg(productImg);		
 		
 	}
+
+	@Override
+	public AniProduct view(int productno) {
+		
+		return shoppingDao.selectProductByProductno(productno);
+	}
+
+	@Override
+	public AniReview viewReview(int productno) {
+		
+		return shoppingDao.selectReviewByProductno(productno);
+	}
+
+	
 
 }

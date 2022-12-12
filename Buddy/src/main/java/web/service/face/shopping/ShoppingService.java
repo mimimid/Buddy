@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
 import web.dto.AniProduct;
+import web.dto.AniReview;
 import web.util.Paging;
 
 public interface ShoppingService {
@@ -29,5 +30,21 @@ public interface ShoppingService {
 	 * @param img
 	 */
 	public void input(AniProduct product, MultipartFile img);
+
+	/**
+	 * 상품 상세보기
+	 * @param productno
+	 * @return
+	 */
+	public AniProduct view(int productno);
+
+	/**
+	 * 리뷰 조회
+	 * @param productno
+	 * @return
+	 */
+	public AniReview viewReview(int productno);
+
+	
 
 }

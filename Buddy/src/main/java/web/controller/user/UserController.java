@@ -53,7 +53,7 @@ public class UserController {
 			session.setAttribute("grade", userInfo.getGrade());
 			session.setAttribute("img", userInfo.getImgorigin());
 			
-			return "redirect:/shopping/list";  // 합치면 경로 수정해줘야함 
+			return "redirect:/";  
 		}else {
 			
 			session.invalidate();
