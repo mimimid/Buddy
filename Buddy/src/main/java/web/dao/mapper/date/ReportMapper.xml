@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<!-- 마이바티스 3 Mapper DTD -->
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="web.dao.face.adopt.ReportDao">
+
+	<select id="reptSelectCntAll" resultType="int">
+		SELECT count(*) FROM report
+	</select>
+
+
+	<select id="selectReptPagingList" resultType="HashMap" parameterType="HashMap">
+
+		SELECT * FROM (
+			SELECT rownum rnum, R.* FROM (
+				SELECT
+					a.rept_no, adminid, rept_title, rept_content
+					, rept_date, rfile_no, rfile_origin, rfile_stored
+				FROM report a LEFT OUTER JOIN rept_file b
+	                ON a.rept_no = b.rept_no
+			
+			<if test='reptTitle != null and !reptTitle.equals("")'>
+			 	 WHERE rept_title LIKE '%' || #{reptTitle} || '%'
+			</if>
+				ORDER BY rept_no DESC
+			) R 
+		) REPORT
+		WHERE rnum BETWEEN #{paging.startNo } AND #{paging.endNo }
+	
+	</select>
+	
+	<select id="selectReptCntAll" resultType="int" parameterType="String">
+		SELECT count(*) FROM report
+		WHERE rept_title LIKE '%' || #{reptTitle} || '%'
+	</select>
+	
+	<insert id="insertReport" parameterType="Report">
+		<selectKey order="BEFORE" resultType="int" keyProperty="reptNo">
+			SELECT report_seq.nextval FROM dual
+		</selectKey>
+		
+		INSERT INTO report(rept_no, adminid, rept_title, rept_content)
+		VALUES (#{reptNo}, #{adminid}, #{reptTitle}, #{reptContent})
+	</insert>
+	
+	<insert id="insertReptFile" parameterType="ReptFile">
+		INSERT INTO rept_file ( rfile_no, rept_no, rfile_origin, rfile_stored)
+		VALUES ( rept_file_seq.nextval, #{reptNo }, #{rfileOrigin }, #{rfileStored } )
+	</insert>
+	
+	<select id="selectReptFileByReptNo" resultType="ReptFile" parameterType="Report">
+		SELECT
+			rfile_no, rept_no, rfile_origin, rfile_stored
+		FROM rept_file
+		WHERE rept_no = #{reptNo }
+	</select>
+	
+	<select id="selectReptFileByRfileNo" resultType="ReptFile" parameterType="ReptFile">
+		SELECT
+			rfile_no, rept_no, rfile_origin, rfile_stored
+		FROM rept_file
+		WHERE rfile_no = #{rfileNo }
+	</select>
+	
+	
+	<select id="selectRept" resultType="Report" parameterType="Report">
+		SELECT
+			rept_no, adminid, rept_title, rept_content
+			, rept_date
+		FROM report
+		WHERE rept_no = #{reptNo }
+	</select>
+
+	
+	<update id="updateReport" parameterType="Report">
+		UPDATE report
+		SET rept_title = #{reptTitle}
+			, rept_content = #{reptContent}
+		WHERE rept_no = #{reptNo}
+	</update>
+
+	<delete id="deleteReptfile" parameterType="Report">
+		DELETE rept_file
+		WHERE rept_no = #{reptNo}
+	</delete>
+	
+	<delete id="deleteReport" parameterType="Report">
+		DELETE report
+		WHERE rept_no = #{reptNo}
+	</delete>
+</mapper>

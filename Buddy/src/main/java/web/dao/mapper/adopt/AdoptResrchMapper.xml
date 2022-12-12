@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<!-- 마이바티스 3 Mapper DTD -->
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="web.dao.face.adopt.AdoptResrchDao">
+
+	<insert id="insertResearch" parameterType="AdoptResearch">
+		<selectKey order="BEFORE" resultType="int" keyProperty="adoptNo">
+			SELECT adopt_research_seq.nextval FROM dual
+		</selectKey>
+		
+		INSERT INTO adopt_research (adopt_no, answer1, answer2, 
+			answer3, answer4, answer5, answer6, answer7, answer8)
+		VALUES (#{adoptNo}, #{answer1}, #{answer2},
+		#{answer3}, #{answer4}, #{answer5}, #{answer6}, #{answer7}, #{answer8})
+	</insert>
+	
+	<insert id="insertResrchFile" parameterType="AdoptResrchFile">
+		INSERT INTO adopt_resrchFile  
+				(resrchfile_no, adopt_no, resrchfile_origin, resrchfile_stored)
+		VALUES ( adopt_resrchFile_seq.nextval, #{adoptNo }, #{resrchfileOrigin }, #{resrchfileStored } )
+	</insert>
+	
+	<select id="selectResrchCntAll" resultType="int">
+		SELECT count(*) FROM adopt_research
+	</select>
+
+	<select id="selectResrchList" resultType="AdoptResearch" parameterType="Paging">
+		SELECT * FROM (
+			SELECT rownum rnum, B.* FROM (
+				SELECT
+				adopt_no, answer1, answer2, answer3,
+				answer4, answer5, answer6, answer7, answer8,
+				checking, adopt_date, answer_hit
+					
+				FROM adopt_research
+				ORDER BY adopt_no DESC
+			) B
+		) BOARD
+		WHERE rnum BETWEEN #{startNo } AND #{endNo }
+	</select>
+	
+	
+	
+	
+	<update id="updateAnswerHit" parameterType="AdoptResearch">
+		UPDATE adopt_research
+		SET answer_hit = answer_hit + 1
+		WHERE adopt_no = #{adoptNo}
+	</update>
+
+	<select id="selectResrchView" resultType="AdoptResearch" parameterType="AdoptResearch">
+		SELECT
+			adopt_no, answer1, answer2, answer3,
+			answer4, answer5, answer6, answer7, answer8,
+			checking, adopt_date, answer_hit
+		FROM adopt_research
+		WHERE adopt_no = #{adoptNo}
+	</select>
+	
+	<select id="selectResrchFile" resultType="AdoptResrchFile" parameterType="AdoptResearch">
+		SELECT
+			resrchfile_no, adopt_no, resrchfile_origin, resrchfile_stored
+		FROM adopt_resrchfile
+		WHERE adopt_no = #{adoptNo}
+	</select>
+	
+	<update id="updateResrchChecking" parameterType="HashMap">
+		UPDATE adopt_research
+		SET checking = #{checking}
+		WHERE adopt_no = #{adoptNo}
+	</update>
+	
+	<select id="selectResrchFileByFileNo" resultType="AdoptResrchFile" parameterType="AdoptResrchFile">
+		SELECT
+			resrchfile_no, adopt_no, resrchfile_origin, resrchfile_stored
+		FROM adopt_resrchFile
+		WHERE resrchfile_no = #{resrchfileNo }
+	</select>
+	
+</mapper>
