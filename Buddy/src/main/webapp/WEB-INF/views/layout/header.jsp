@@ -211,7 +211,7 @@ $(document).ready(function() {
 					
 					<li><a href="#" id="date">데이트</a></li>
 					
-					<li><a href="#" id="hospitle">병원</a></li>
+					<li><a href="/hospital/hosplist" id="hospitle">병원</a></li>
 					
 					<li><a href="#" id="hospitle">입양</a></li>
 					
@@ -239,7 +239,3 @@ $(document).ready(function() {
 <a class="top">
 	<span class="glyphicon glyphicon-circle-arrow-up"></span>
 </a>
-
-
-
->>>>>>> branch 'main' of https://github.com/mimimid/Buddy
