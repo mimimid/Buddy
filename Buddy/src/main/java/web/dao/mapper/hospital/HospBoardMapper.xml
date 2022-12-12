@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 마이바티스 3 Mapper DTD -->
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="web.dao.face.hospital.HospBoardDao">
+
+
+	
+	<select id="selectCntAll" resultType="int" parameterType="HospbPaging">
+		SELECT count(*) cnt FROM hosp_board
+		<where>
+		<if test="animal !=null and !animal.equals('')">
+			AND animal LIKE #{animal}
+		</if>
+		<if test="category !=null and !category.equals('')">
+			AND hbcategory LIKE #{category}
+		</if>
+		<if test="keyWord !=null and !keyWord.equals('')">
+			AND (hbtitle LIKE '%' || #{keyWord} || '%' OR hbcontent LIKE '%' || #{keyWord} || '%')
+		</if>
+		</where>
+	</select>	
+	
+
+	<select id="selectAll" resultType="HospBoard" parameterType="HospbPaging">
+		SELECT * FROM (
+			SELECT rownum rnum, H.* FROM (
+				SELECT
+					hbno, hbcategory, hbtitle, hbcontent
+					, hbwritedate, hbupdate
+					, hbtop, hbhit, hblike
+					, hbcmtcnt, animal, userno
+				FROM hosp_board
+				<where>
+					<if test="animal !=null and !animal.equals('')">
+						AND animal LIKE #{animal}
+					</if>
+					<if test="category !=null and !category.equals('')">
+						AND hbcategory LIKE #{category}
+					</if>
+					<if test="keyWord !=null and !keyWord.equals('')">
+						AND (hbtitle LIKE '%' || #{keyWord} || '%' OR hbcontent LIKE '%' || #{keyWord} || '%')
+					</if>
+				</where>
+				ORDER BY hbtop DESC, hbno DESC
+				) H
+			) BOARD
+		 WHERE rnum BETWEEN #{startNo} AND #{endNo}
+	</select>
+	
+	
+	<select id="selectBoard" resultType="HospBoard" parameterType="HospBoard">
+		SELECT
+			hbno, hbcategory, hbtitle, hbcontent
+			, hbwritedate, hbupdate
+			, hbtop, hbhit, hblike
+			, hbcmtcnt, animal, userno
+		FROM hosp_board
+		WHERE hbno = #{hbno}
+	</select>	
+	
+	
+	<update id="updateHit" parameterType="HospBoard">
+		UPDATE  hosp_board
+		SET hbhit = hbhit+1
+		WHERE hbno = #{hbno}
+	</update>
+	
+	
+	<select id="selectBoardFileByBoardNo" resultType="HospbFile" parameterType="HospBoard">
+		SELECT
+			hbfileno, hbfileoriginname, hbfilestoredname
+			, hbfilesize, hbno
+		FROM hospb_file
+		WHERE hbno = #{hbno}
+	</select>	
+	
+	
+	<insert id="insertBoard" parameterType="HospBoard">
+		<selectKey order="BEFORE" resultType="int" keyProperty="hbno"> 
+			SELECT hosp_board_seq.nextval FROM dual
+		</selectKey>
+		INSERT INTO hosp_board (hbno, hbcategory ,hbtitle, hbcontent, hbtop, animal, userno )
+		VALUES ( #{hbno}, #{hbcategory}, #{hbtitle}, #{hbcontent}, #{hbtop}, #{animal}, #{userno}  )
+	</insert>
+	
+	
+	<insert id="insertFile" parameterType="HospbFile">
+		INSERT INTO hospb_file ( hbfileno, hbfileoriginname, hbfilestoredname, hbno)
+		VALUES ( hospb_file_seq.nextval,#{hbfileoriginname}, #{hbfilestoredname}, #{hbno})
+	</insert>	
+	
+	
+	<select id="selectBoardFileByFileNo" resultType="HospbFile" parameterType="HospbFile">
+		SELECT
+			hbfileno, hbfileoriginname, hbfilestoredname, hbno
+		FROM hospb_file
+		WHERE hbfileno = #{hbfileno }
+	</select>	
+	
+	
+	<update id="updateBoard" parameterType="HospBoard">
+		UPDATE hosp_board
+		SET hbtitle = #{hbtitle}
+			, hbcategory = #{hbcategory}
+			, hbcontent = #{hbcontent}
+			, hbtop = #{hbtop}
+			, animal = #{animal}
+		WHERE hbno = #{hbno}
+	</update>
+	
+	<delete id="deleteFile" parameterType="HospBoard">
+		DELETE hospb_file
+		WHERE hbno = #{hbno}
+	</delete>
+	
+	
+	<delete id="delete" parameterType="HospBoard">
+		DELETE hosp_board
+		WHERE hbno = #{hbno}
+	</delete>
+	
+	
+	
+	
+	<!-- 좋아요 눌럿는지 안눌럿는지 -->
+	<select id="findLike" resultType="int" parameterType="HospbLike">
+		SELECT count(*) from hospb_like 
+		WHERE hbno = #{hbno} AND userno = #{userno}
+	</select>	
+	
+	
+	<insert id="likeUp" parameterType="HospbLike" >
+		INSERT INTO hospb_like (hblike_no ,hbno , userno, hblike_check)
+		VALUES( hospb_like_seq.nextval, #{hbno},#{userno},1)
+	</insert>
+	
+	
+	<delete id="likeDown" parameterType="HospbLike">
+	  	DELETE hospb_like
+	  	WHERE hbno = #{hbno} AND userno = #{userno} 
+	 </delete>
+	 
+	 
+	<update id="likeCntUp" parameterType="HospBoard">
+		UPDATE hosp_board
+		SET hblike = hblike+1
+		WHERE hbno=#{hbno}
+	</update>
+
+
+	<update id="likeCntDown" parameterType="HospBoard">
+		UPDATE hosp_board
+		SET hblike = hblike-1
+		WHERE hbno=#{hbno}
+	</update>	 
+	 
+	 
+
+	 <select id="selectAllCmt" parameterType="int" resultType="HospbCmt">
+	 	SELECT hb_cmt_no, hb_cmt_content , hb_cmt_writedate, 
+				hb_cmt_bundle, hb_cmt_sort , hb_cmt_depth , is_deleted, 
+				userid, hbno, userno
+		FROM hospb_cmt
+		WHERE hbno = #{hbno}
+		ORDER BY hb_cmt_bundle, hb_cmt_no
+	 </select>
+	
+	
+	<insert id="insertCmt" parameterType="HospbCmt">
+		<selectKey order="BEFORE" resultType="int" keyProperty="hbCmtNo"> 
+			SELECT hospb_cmt_seq.nextval FROM dual
+		</selectKey>
+		INSERT INTO hospb_cmt (
+				hb_cmt_no, hb_cmt_content , 
+				hb_cmt_bundle, hb_cmt_sort , hb_cmt_depth , is_deleted, 
+				userid, hbno, userno
+				)
+		VALUES (#{hbCmtNo}, #{hbCmtContent}, 
+			#{hbCmtNo}, #{hbCmtSort}, #{hbCmtDepth}, #{isDeleted}, 
+			#{userid}, #{hbno},#{userno} )
+	</insert>
+	
+
+	<insert id="insertReCmt" parameterType="HospbCmt">
+		<selectKey order="BEFORE" resultType="int" keyProperty="hbCmtNo"> 
+			SELECT hospb_cmt_seq.nextval FROM dual
+		</selectKey>
+		INSERT INTO hospb_cmt (
+				hb_cmt_no, hb_cmt_content , 
+				hb_cmt_bundle, hb_cmt_sort , hb_cmt_depth , is_deleted, 
+				userid, hbno, userno
+				)
+		VALUES (#{hbCmtNo}, #{hbCmtContent}, 
+			#{hbCmtBundle}, #{hbCmtSort}, 1, #{isDeleted}, 
+			#{userid}, #{hbno},#{userno} )
+	</insert>
+	
+
+	<update id="cmtUp" parameterType="HospBoard">
+		UPDATE hosp_board
+		SET hbcmtcnt = hbcmtcnt+1
+		WHERE hbno=#{hbno}
+	</update>
+	
+
+	<select id="bundleCmtCnt" parameterType="HospbCmt" resultType="int">
+		SELECT count(*) FROM hospb_cmt
+		WHERE hb_cmt_no != #{hbCmtNo} AND hb_cmt_bundle = #{hbCmtBundle}
+	</select>
+	
+
+	<select id="reCmtCnt" parameterType="HospbCmt" resultType="int">
+		SELECT count(*) FROM hospb_cmt
+		WHERE hb_cmt_no != #{hbCmtBundle} AND hb_cmt_bundle = #{hbCmtBundle}
+	</select>
+	
+
+	<delete id="deleteCmt" parameterType="HospbCmt">
+		DELETE FROM hospb_cmt
+		WHERE hb_cmt_no=#{hbCmtNo}
+	</delete>
+	
+
+	<update id="deleteParentCmt" parameterType="HospbCmt">
+		UPDATE hospb_cmt
+		SET hb_cmt_content = ""
+		WHERE hb_cmt_no=#{hbCmtNo}
+	</update>
+	
+
+	<delete id="deleteAfterAllDelete" parameterType="HospbCmt">
+		DELETE FROM hospb_cmt
+		WHERE content="" AND hb_cmt_bundle=#{hbCmtBundle}
+	</delete>
+	
+
+	<update id="cmtDown" parameterType="HospBoard">
+		UPDATE hosp_board
+		SET hbcmtcnt = hbcmtcnt-1
+		WHERE hbno=#{hbno}
+	</update>
+	
+	<select id="cmtCnt" parameterType="HospBoard" resultType="int">
+		SELECT hbcmtcnt FROM hosp_board
+		WHERE hbno=#{hbno}
+	</select>
+	
+	
+	
+	
+	
+	
+</mapper>
+    

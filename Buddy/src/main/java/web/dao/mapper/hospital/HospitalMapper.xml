@@ -1,0 +1,393 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 마이바티스 3 Mapper DTD -->
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="web.dao.face.hospital.HospitalDao">
+
+
+	<select id="selectCntAll" resultType="int" parameterType="HospitalPaging">
+		SELECT count(*) cnt FROM hospital
+		<where>
+		<if test="hour24 !=null and hour24.equals('1')">
+			AND hosp_24 = 1
+		</if>
+		<if test="searchType !=null and searchType.equals('지역')">
+			AND hosp_address LIKE '%' || #{keyWord} || '%' 
+		</if>
+		<if test="searchType !=null and searchType.equals('병원이름')">
+			AND hosp_name LIKE '%' || #{keyWord} || '%' 
+		</if>
+		</where>
+	</select>
+
+
+<!-- 	<select id="selectAll" resultType="Hospital" parameterType="HospitalPaging">
+		SELECT * FROM (
+			SELECT rownum rnum, H.* FROM (
+				SELECT
+					hosp_no, hosp_name
+					,hosp_weekday,hosp_sat ,hosp_sun ,hosp_lunchhour
+					, hosp_rate, hosp_review_cnt, hosp_like_cnt
+					, hosp_mgtno, hosp_old_address , hosp_address, hosp_post_no, hosp_y, hosp_x
+					, hosp_state_code, hosp_state_now, adminno, adminid
+				FROM hospital
+				<where>
+				<if test="hour24 !=null and hour24.equals('1')">
+					AND hosp_24 = 1
+				</if>
+				<if test="searchType !=null and searchType.equals('지역')">
+					AND hosp_address LIKE '%' || #{keyWord} || '%' 
+				</if>
+				<if test="searchType !=null and searchType.equals('병원이름')">
+					AND hosp_name LIKE '%' || #{keyWord} || '%' 
+				</if>
+				</where>
+				ORDER BY hosp_no
+				) H
+			) BOARD
+		 WHERE rnum BETWEEN #{startNo} AND #{endNo}
+	</select> -->
+	
+	<resultMap type="web.dto.Hospital" id="HospitalMap">
+
+		<id column="hosp_no" property="hospNo"/>
+		<result column="hosp_name" property="hospName" />		
+		<result column="hosp_tel" property="hospTel" />		
+		<result column="hosp_content" property="hospContent" />		
+		<result column="hosp_weekday" property="hospWeekday" />		
+		<result column="hosp_sat" property="hospSat" />		
+		<result column="hosp_sun" property="hospSun" />		
+		<result column="hosp_lunchhour" property="hospLunchhour" />	
+		<result column="hosp_24" property="hosp24" />	
+		<result column="hosp_rate" property="hospRate" />	
+		<result column="hosp_review_cnt" property="hospReviewCnt" />	
+		<result column="hosp_like_cnt" property="hospLikeCnt" />	
+		<result column="hosp_mgtno" property="hospMgtno" />	
+		<result column="hosp_old_address" property="hospOldAddress" />	
+		<result column="hosp_address" property="hospAddress" />	
+		<result column="hosp_post_no" property="hospPostNo" />	
+		<result column="hosp_y" property="hospY" />	
+		<result column="hosp_x" property="hospX" />	
+		<result column="hosp_state_code" property="hospStateCode" />	
+		<result column="hosp_state_now" property="hospStateNow" />	
+		<result column="adminno" property="adminno" />	
+		<result column="adminid" property="adminid" />	
+			
+		<association property="hospPic" javaType="web.dto.HospitalPic">
+			<id column="hpic_no" property="hpicNo"/>
+			<result column="hpic_origin_name" property="hpicOriginName" />
+			<result column="hpic_stored_name" property="hpicStoredName" />
+			<result column="hpic_size" property="hpicSize" />
+			<result column="hp_hosp_no" property="hospNo" />
+		</association>
+			
+	</resultMap>
+	
+	
+	
+ 	<select id="selectAll" resultMap="HospitalMap" parameterType="HospitalPaging">
+		SELECT * FROM (
+			SELECT rownum rnum, HR.* FROM (
+				SELECT 
+				h.*
+				, hp.hosp_no as hp_hosp_no, hp.hpic_no, hp.hpic_origin_name, hp.hpic_stored_name
+				FROM hospital h, hospital_pic hp
+				<where>
+				<if test="true">
+				AND h.hosp_no = hp.hosp_no(+)
+				</if>
+				<if test="hour24 !=null and hour24.equals('1')">
+					AND h.hosp_24 = 1
+				</if>
+				<if test="searchType !=null and searchType.equals('지역')">
+					AND h.hosp_address LIKE '%' || #{keyWord} || '%' 
+				</if>
+				<if test="searchType !=null and searchType.equals('병원이름')">
+					AND h.hosp_name LIKE '%' || #{keyWord} || '%' 
+				</if>
+				</where>
+				ORDER BY h.hosp_no
+				) HR
+			) BOARD
+		 WHERE rnum BETWEEN #{startNo} AND #{endNo}
+	</select>
+	
+	
+	<select id="selectHospLikeAll" parameterType="int" resultType="hashmap">
+		SELECT *
+		FROM hospital_like L
+		INNER JOIN hospital H
+		    ON L.hosp_no = H.hosp_no
+		WHERE L.userno = #{userno}
+		ORDER BY L.hosp_no
+	</select>
+	
+	
+	
+	
+
+	<select id="selectHospital" resultType="Hospital" parameterType="Hospital">
+		SELECT
+			hosp_no, hosp_name, hosp_tel	 , hosp_content
+			,hosp_weekday,hosp_sat ,hosp_sun ,hosp_lunchhour, hosp_24
+			, hosp_rate, hosp_review_cnt, hosp_like_cnt
+			, hosp_mgtno, hosp_old_address , hosp_address, hosp_post_no, hosp_y, hosp_x
+			, hosp_state_code, hosp_state_now, adminno, adminid
+		FROM hospital
+		WHERE hosp_no = #{hospNo}
+	</select>
+
+
+	<select id="selectHospPicByHospNo" resultType="HospitalPic" parameterType="Hospital">
+		SELECT hpic_no,hpic_origin_name,hpic_stored_name
+		FROM hospital_pic
+		WHERE hosp_no = #{hospNo}
+	</select>
+	
+	
+
+	<select id="findLike" resultType="int" parameterType="HospitalLike">
+		SELECT count(*) from hospital_like
+		WHERE hosp_no = #{hospNo} AND userno = #{userno}
+	</select>	
+	
+	
+	<insert id="likeUp" parameterType="HospitalLike" >
+		INSERT INTO hospital_like (hosp_like_no, hosp_no, userno, hosp_like_chk)
+		VALUES( hospital_like_seq.nextval, #{hospNo},#{userno},1)
+	</insert>
+	
+	
+	<delete id="likeDown" parameterType="HospitalLike">
+	  	DELETE hospital_like
+	  	WHERE hosp_no = #{hospNo} AND userno = #{userno}
+	 </delete>
+	 
+	 
+	<update id="likeCntUp" parameterType="Hospital">
+		UPDATE hospital
+		SET hosp_like_cnt = hosp_like_cnt+1
+		WHERE hosp_no = #{hospNo}
+	</update>
+
+
+	<update id="likeCntDown" parameterType="Hospital">
+		UPDATE hospital
+		SET hosp_like_cnt = hosp_like_cnt-1
+		WHERE hosp_no = #{hospNo}
+	</update>
+	
+	
+
+	 <select id="selectAllReview" parameterType="int" resultType="HospitalReview">
+	 	SELECT 
+	 		hosp_review_no, hosp_review_content, animal, hosp_review_writedate
+	 		,hosp_starrating, hosp_review_likecnt
+	 		,hosp_no ,userid, usernick, userno
+		FROM hospital_review
+		WHERE hosp_no = #{hospNo}
+		ORDER BY hosp_review_writedate DESC
+	 </select>
+	 
+
+	 <select id="selectAllReviewLikeSort" parameterType="int" resultType="HospitalReview">
+	 	SELECT 
+	 		hosp_review_no, hosp_review_content, animal, hosp_review_writedate
+	 		,hosp_starrating, hosp_review_likecnt
+	 		,hosp_no ,userid, usernick, userno
+		FROM hospital_review
+		WHERE hosp_no = #{hospNo}
+		ORDER BY hosp_review_likecnt DESC, hosp_review_writedate DESC
+	 </select>
+	 
+
+	<insert id="insertReview" parameterType="HospitalReview">
+		INSERT INTO hospital_review (
+				hosp_review_no, hosp_review_content, animal
+	 			,hosp_starrating
+	 			,hosp_no ,userid, usernick, userno
+				)
+		VALUES (hospital_review_seq.nextval, #{hospReviewContent}, #{animal}
+				,#{hospStarrating}
+				, #{hospNo}, #{userid}, #{usernick}, #{userno} )
+	</insert>
+	
+	<update id="reviewCntUp" parameterType="Hospital">
+		UPDATE hospital
+		SET hosp_review_cnt = hosp_review_cnt+1
+		WHERE hosp_no = #{hospNo}
+	</update>
+	
+	<delete id="deleteReview" parameterType="HospitalReview">
+		DELETE FROM hospital_review
+		WHERE hosp_review_no=#{hospReviewNo}
+	</delete>	
+	
+	<update id="reviewCntDown" parameterType="Hospital">
+		UPDATE hospital
+		SET hosp_review_cnt = hosp_review_cnt-1
+		WHERE hosp_no = #{hospNo}
+	</update>
+	
+
+	<update id="reviewRateUpdate" parameterType="Hospital">
+		UPDATE hospital
+		SET hosp_rate = (
+			SELECT  round (avg(hosp_starrating) , 2)
+			FROM hospital_review
+			WHERE hosp_no = #{hospNo}
+			)
+		WHERE hosp_no = #{hospNo}
+	</update>
+	
+	<select id="selectAllReviewLike" parameterType="int" resultType="HospitalReviewLike">
+		SELECT hosp_review_like_no, hosp_review_no, hosp_review_like_chk, hosp_no, userno
+		FROM hospital_review_like
+		WHERE hosp_no=#{hospNo}
+	</select>
+
+
+	<select id="findReviewLike" resultType="int" parameterType="HospitalReviewLike">
+		SELECT count(*) hospital_review_like
+		WHERE hosp_review_no = #{hosp_review_no} AND userno = #{userno}
+	</select>	
+	
+	
+	<insert id="reviewLikeUp" parameterType="HospitalReviewLike" >
+		INSERT INTO hospital_review_like (hosp_review_like_no, hosp_review_no, hosp_review_like_chk, hosp_no, userno)
+		VALUES( hospital_review_like_seq.nextval, #{hospReviewNo},1, #{hospNo}, #{userno})
+	</insert>
+	
+	<delete id="reviewLikeDown" parameterType="HospitalReviewLike">
+	  	DELETE hospital_review_like
+	  	WHERE hosp_review_no = #{hospReviewNo} AND userno = #{userno}
+	 </delete>
+	 
+
+	<update id="reviewLikeCntUp" parameterType="HospitalReview">
+		UPDATE hospital_review
+		SET hosp_review_likecnt = hosp_review_likecnt+1
+		WHERE hosp_review_no = #{hospReviewNo}
+	</update>
+
+
+	<update id="reviewLikeCntDown" parameterType="HospitalReview">
+		UPDATE hospital_review
+		SET hosp_review_likecnt = hosp_review_likecnt-1
+		WHERE hosp_review_no = #{hospReviewNo}
+	</update>
+	
+	
+	<select id="getReviewLikeCnt" parameterType="HospitalReview" resultType="int">
+		SELECT hosp_review_likecnt
+		FROM hospital_review
+		WHERE hosp_review_no = #{hospReviewNo}
+	</select>
+	
+	<select id="selectReviewLikeCnt" parameterType="int" resultType="int">
+		SELECT hosp_review_likecnt
+		FROM hospital_review
+		WHERE hosp_review_no = #{hospReviewNo}
+	</select>
+	
+	
+	
+	
+	
+	
+	<insert id="insertHospital" parameterType="Hospital">
+		<selectKey order="BEFORE" resultType="int" keyProperty="hospNo"> 
+			SELECT hospital_seq.nextval FROM dual
+		</selectKey>
+		INSERT INTO hospital (hosp_no, hosp_name, hosp_tel, hosp_content
+							, hosp_weekday, hosp_sat, hosp_sun, hosp_lunchhour, hosp_24
+							, hosp_mgtno, hosp_address, hosp_post_no
+							, adminno, adminid)
+		VALUES (#{hospNo}, #{hospName}, #{hospTel}, #{hospContent}
+				, #{hospWeekday}, #{hospSat}, #{hospSun}, #{hospLunchhour}, #{hosp24}
+				, #{hospMgtno}, #{hospAddress}, #{hospPostNo}
+				, #{adminno}, #{adminid})
+	</insert>
+	
+	<insert id="insertPic" parameterType="HospitalPic">
+		INSERT INTO hospital_pic (hpic_no,hpic_origin_name,hpic_stored_name, hosp_no)
+		VALUES (hospital_pic_seq.nextval, #{hpicOriginName}, #{hpicStoredName}, #{hospNo})
+	</insert>
+	
+	
+	
+	<update id="updateHospital" parameterType="Hospital">
+		UPDATE hospital
+		SET hosp_name = #{hospName}
+			, hosp_tel = #{hospTel}
+			, hosp_content = #{hospContent}
+			, hosp_weekday= #{hospWeekday}
+			, hosp_sat = #{hospSat}
+			, hosp_sun = #{hospSun}
+			, hosp_lunchhour = #{hospLunchhour}
+			, hosp_24 = #{hosp24}
+			, hosp_mgtno = #{hospMgtno}
+			, hosp_address = #{hospAddress}
+			, hosp_post_no=  #{hospPostNo}
+			, adminno = #{adminno}
+			, adminid = #{adminid}
+		WHERE hosp_no = #{hospNo}
+	</update>
+	
+	
+	
+	<delete id="deleteHospLike" parameterType="Hospital">
+		DELETE hospital_like
+		WHERE hosp_no = #{hospNo}
+	</delete>
+	
+	<delete id="deleteHospReviewLike" parameterType="Hospital">
+		DELETE hospital_review_like
+		WHERE hosp_no = #{hospNo}
+	</delete>
+	
+	<delete id="deleteHospReview" parameterType="Hospital">
+		DELETE hospital_review
+		WHERE hosp_no = #{hospNo}
+	</delete>
+	
+	<delete id="deleteHospPic" parameterType="Hospital">
+		DELETE hospital_pic
+		WHERE hosp_no = #{hospNo}
+	</delete>
+	
+	<delete id="deleteHospital" parameterType="Hospital">
+		DELETE hospital
+		WHERE hosp_no = #{hospNo}
+	</delete>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<insert id="insertApiData" parameterType="Hospital">
+		<selectKey order="BEFORE" resultType="int" keyProperty="hospNo"> 
+			SELECT hospital_seq.nextval FROM dual
+		</selectKey>
+		INSERT INTO hospital (
+			hosp_no, hosp_name, hosp_tel, hosp_content
+			, hosp_mgtno, hosp_old_address, hosp_address, hosp_post_no, hosp_y, hosp_x
+			, hosp_state_code, hosp_state_now )
+		VALUES (
+			#{hospNo}, #{hospName}, #{hospTel}, #{hospContent}
+				,#{hospMgtno}, #{hospOldAddress}, #{hospAddress}, #{hospPostNo}, #{hospY}, #{hospX}
+				, #{hospStateCode}, #{hospStateNow} )
+	</insert>	
+
+
+
+</mapper>
