@@ -34,7 +34,6 @@ img{
 
 <div class="container">
 <h1 style="text-align: center;">Shopping</h1> 
-<a href="../user/logout"><button>임시 로그아웃</button></a>
 <c:if test="${grade eq '관리자' }">
 <a href="./input" style="float: right;" ><button type="button" class="btn btn-success">상품 입력</button></a>
 </c:if>
