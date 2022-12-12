@@ -104,7 +104,7 @@ $(document).ready(function () {
 
 <!-- 페이징 -->
 <div class="text-center">
-	<ul class="pagination pagination-sm" style="bor">
+	<ul class="pagination pagination-sm">
 
 	<%-- 첫 페이지로 이동 --%>
 <%-- 	<c:if test="${paging.curPage ne 1 }"> --%>

@@ -53,5 +53,16 @@ public class DateServiceImpl implements DateService {
 		return dateDao.selectList(map);
 //		return dateDao.selectList(paging, category);
 	}
+	
+	@Override
+	public DateBoard view(DateBoard viewDate) {
+		
+		//조회수 증가
+		dateDao.updateHit(viewDate);
+		
+		//상세보기 조회 결과 리턴
+		return dateDao.selectDateDetail(viewDate);
+		
+	}
 
 }

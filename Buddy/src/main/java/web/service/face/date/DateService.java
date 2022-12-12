@@ -48,6 +48,14 @@ public interface DateService {
 	 * @return 페이징, 카테고리, 정렬방식, 검색객체가 적용된 게시글 목록
 	 */
 	public List<DateBoard> list(Paging paging, int category, String sort, String keywoard);
+
+	/**
+	 * 게시글 상세보기
+	 * 
+	 * @param viewDate - 상세 조회할 게시글 번호 객체
+	 * @return 조회된 상세 게시글 객체
+	 */
+	public DateBoard view(DateBoard viewDate);
 	
 	
 

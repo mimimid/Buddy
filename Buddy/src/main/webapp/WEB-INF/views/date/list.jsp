@@ -19,6 +19,9 @@
 <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 
+<!-- 웹글꼴 -->
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+
 <!-- CSS -->
 <link rel="stylesheet" href="/resources/css/dateList.css">
 
@@ -117,25 +120,20 @@ $(document).ready(function () {
 <!-- 페이징 -->
 <div class="text-center">
 	<ul class="pagination pagination-sm">
-
-	<%-- 첫 페이지로 이동 --%>
-	<c:if test="${paging.curPage ne 1 }">
-		<li><a href="/date/list?category=${category }">&larr; 처음</a></li>	
-	</c:if>
 	
 	<%-- 이전 페이징 리스트로 이동 --%>
 	<c:choose>
 	<c:when test="${paging.startPage ne 1 }">
-		<li><a href="/date/list?category=${category }&curPage=${paging.startPage - paging.pageCount }">&laquo;</a></li>
+		<li><a href="/date/list?category=${category }&curPage=${paging.startPage - paging.pageCount }"><i class="fi fi-br-angle-double-left"></i></a></li>
 	</c:when>
 	<c:when test="${paging.startPage eq 1 }">
-		<li class="disabled"><a>&laquo;</a></li>
+		<li class="disabled"><a><i class="fi fi-br-angle-double-left"></i></a></li>
 	</c:when>
 	</c:choose>
 	
 	<%-- 이전 페이지로 가기 --%>
 	<c:if test="${paging.curPage > 1 }">
-		<li><a href="/date/list?category=${category }&curPage=${paging.curPage - 1 }">&lt;</a></li>
+		<li><a href="/date/list?category=${category }&curPage=${paging.curPage - 1 }"><i class="fi fi-br-angle-left"></i></a></li>
 	</c:if>
 	
 	
@@ -143,10 +141,10 @@ $(document).ready(function () {
 	<%-- 페이징 리스트 --%>
 	<c:forEach begin="${paging.startPage }" end="${paging.endPage }" var="i">
 	<c:if test="${paging.curPage eq i }">
-		<li class="active"><a href="/date/list?category=${category }&curPage=${i }">${i }</a></li>
+		<li class="active juaFont"><a href="/date/list?category=${category }&curPage=${i }">${i }</a></li>
 	</c:if>
 	<c:if test="${paging.curPage ne i }">
-		<li><a href="/date/list?category=${category }&curPage=${i }">${i }</a></li>
+		<li class="juaFont"><a href="/date/list?category=${category }&curPage=${i }">${i }</a></li>
 	</c:if>
 	</c:forEach>
 
@@ -154,24 +152,19 @@ $(document).ready(function () {
 	
 	<%-- 다음 페이지로 가기 --%>
 	<c:if test="${paging.curPage < paging.totalPage }">
-		<li><a href="/date/list?category=${category }&curPage=${paging.curPage + 1 }">&gt;</a></li>
+		<li><a href="/date/list?category=${category }&curPage=${paging.curPage + 1 }"><i class="fi fi-br-angle-right"></i></a></li>
 	</c:if>
 	
 	<%-- 다음 페이징 리스트로 이동 --%>
 	<c:choose>
 	<c:when test="${paging.endPage ne paging.totalPage }">
-		<li><a href="/date/list?category=${category }&curPage=${paging.startPage + paging.pageCount }">&raquo;</a></li>
+		<li><a href="/date/list?category=${category }&curPage=${paging.startPage + paging.pageCount }"><i class="fi fi-br-angle-double-right"></i></a></li>
 	</c:when>
 	<c:when test="${paging.endPage eq paging.totalPage }">
-		<li class="disabled"><a>&raquo;</a></li>
+		<li class="disabled"><a><i class="fi fi-br-angle-double-right"></i></a></li>
 	</c:when>
 	</c:choose>
 
-	<%-- 끝 페이지로 이동 --%>
-	<c:if test="${paging.curPage ne paging.totalPage }">
-		<li><a href="/date/list?category=${category }&curPage=${paging.totalPage }">끝 &rarr;</a></li>	
-	</c:if>
-	
 	</ul>
 </div>
 

@@ -16,3 +16,8 @@
 .juaFont {
 	font-family: 'Jua';
 }
+
+#userImg {
+    width: 40px;
+    height: 40px;
+}

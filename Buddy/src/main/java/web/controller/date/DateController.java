@@ -1,6 +1,5 @@
 package web.controller.date;
 
-import java.util.HashMap;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -22,6 +21,7 @@ public class DateController {
 	
 	@Autowired DateService dateService;
 	
+	//데이트게시판 메인
 	@RequestMapping("/date/main")
 	public void dateMain(Model model) {
 		
@@ -80,6 +80,15 @@ public class DateController {
 		
 	}
 	
+	//게시글 상세보기
+	@RequestMapping("/date/view")
+	public void dateView(DateBoard viewDate, Model model) {
+		
+		//게시글 조회
+		viewDate = dateService.view(viewDate);
+		model.addAttribute("viewDate", viewDate);
+		
+	}
 
 	
 }
