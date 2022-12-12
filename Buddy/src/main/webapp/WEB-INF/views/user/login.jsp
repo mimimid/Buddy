@@ -19,7 +19,7 @@ $(document).ready(function() {
 	})
 	
 	// 로그인 버튼
-	$("#btnLogin").click(function() {
+	$("#loginBtn").click(function() {
 		
 		if( $("#userid").val() == "" ) {
 			$("#inputId").css("display", "")
@@ -88,7 +88,7 @@ a {
 
 <div class="form-group">
 	<div style="text-align: center;">
-		<button type="button" id="btnLogin" class="btn btn-primary form-control">로그인</button>
+		<button type="button" id="loginBtn" class="btn btn-primary form-control">로그인</button>
 	</div>
 </div>
 

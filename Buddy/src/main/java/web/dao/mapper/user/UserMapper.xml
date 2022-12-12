@@ -13,7 +13,7 @@
 	</select>
 	
 	<select id="selectAllById" resultType="AniUser" parameterType="AniUser">
-		select ani_user.usernick, ani_user.username, ani_user.phone, ani_user.gender, ani_user.grade, ani_user_img.imgorigin
+		select ani_user.usernick, ani_user.username, ani_user.phone, ani_user.gender, ani_user.grade, ani_user_img.imgorigin, ani_user.userno
 		from ani_user, ani_user_img
 		where ani_user.userno = ani_user_img.userno(+) and userid = #{userid }
 	</select>
