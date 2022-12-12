@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<!-- 마이바티스 3 Mapper DTD -->
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+    <mapper namespace="notice.dao.face.NoticeDao"> 
+    
+    <update id="insert" parameterType="notice.dto.Notice">   
+		INSERT INTO notice_board (notice_no, title, content, hit, admin_id, w_date)
+					VALUES( #{noticeno },  #{title }, #{content }, #{hit }, #{writer }, SYSDATE )
+	</update>
+	
+	 <select id="nextseq" resultType="int">
+		select notice_board_seq.nextval FROM DUAL
+	</select>   
+	
+ 	 <select id="selectByNo" parameterType="int" resultType="hashmap">    		
+		select t1.*, like_cnt from (select n.notice_no, title, content, hit, admin_id, w_date, nfile_no, originname, storedname 
+		from notice_board n
+		left join notice_file f
+		on n.notice_no = f.notice_no
+		where n.notice_no = ${noticeno }) t1
+		left outer join
+		(select count(user_id) as like_cnt,notice_no from notice_like
+		group by notice_no
+		having notice_no = ${noticeno })t2
+		on t1.notice_no = t2.notice_no
+	</select> 
+    
+    <update id="hit" parameterType="int">   
+		
+		UPDATE notice_board
+		SET hit = hit + 1
+		WHERE notice_no = #{noticeno }		
+	</update>
+
+	
+		<select id="selectCntAll" resultType="int">
+		SELECT count(*) FROM notice_board
+	</select>
+
+	<select id="selectList" resultType="hashmap" parameterType="Paging">
+		SELECT * FROM (
+			SELECT rownum rnum, n.* FROM (
+        				select t1.*, storedname, originname, cnt_comment from (
+				SELECT notice_no, title, content , admin_id, hit, w_date
+				FROM notice_board
+				ORDER BY notice_no DESC ) t1
+			left outer join (
+			select a.notice_no, a.storedname, b.originname from (
+			select notice_no, max(storedname) as storedname from notice_file
+			group by notice_no) a
+			left outer join
+			notice_file b
+			on a.storedname = b.storedname) t2
+			on t1.notice_no = t2.notice_no
+            left outer join 
+            (select notice_no, count(notice_no) as cnt_comment from notie_comment
+            group by notice_no) t3
+            on t1.notice_no = t3.notice_no
+            order by t1.notice_no desc
+			) n
+		) notice_board
+		WHERE rnum BETWEEN #{startNo } AND #{endNo }
+	</select>
+	
+	<select id="selectCntAllSearch" resultType="int" parameterType="String">
+		SELECT count(*) FROM notice_board
+		WHERE title LIKE '%' || #{keyword } || '%'
+	</select>
+	
+		<select id="selectSearchList" resultType="hashmap" parameterType="map">
+		SELECT * FROM (
+			SELECT rownum rnum, n.* FROM (
+        				select t1.*, storedname, originname, cnt_comment from (
+				SELECT notice_no, title, content , admin_id, hit, w_date
+				FROM notice_board
+				ORDER BY notice_no DESC ) t1
+			left outer join (
+			select a.notice_no, a.storedname, b.originname from (
+			select notice_no, max(storedname) as storedname from notice_file
+			group by notice_no) a
+			left outer join
+			notice_file b
+			on a.storedname = b.storedname) t2
+			on t1.notice_no = t2.notice_no
+            left outer join 
+            (select notice_no, count(notice_no) as cnt_comment from notie_comment
+            group by notice_no) t3
+            on t1.notice_no = t3.notice_no
+            WHERE title LIKE '%' || #{keyword } || '%'
+            order by t1.notice_no desc
+			) n 
+		) notice_board
+		WHERE rnum BETWEEN #{paging.startNo } AND #{paging.endNo }
+	</select>
+
+    
+    </mapper>

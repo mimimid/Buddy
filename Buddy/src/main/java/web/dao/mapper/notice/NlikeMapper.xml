@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 마이바티스 3 Mapper DTD -->
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="notice.dao.face.NlikeDao">    
+
+ 	<select id="findNlike" resultType="int" parameterType="map">
+ 		select count(*) from notice_board n
+		join notice_like l on n.notice_no = l.notice_no
+		where n.notice_no = #{noticeno } 
+		and l.user_id = #{userId }           
+	</select>	
+	
+	<update id="insertNlike" parameterType="map">  
+	<selectKey keyProperty="nlikeno" resultType="int" order="BEFORE">
+    select notice_like_seq.nextval FROM DUAL
+  </selectKey>
+	INSERT INTO notice_like (nlike_no, notice_no, user_id) VALUES ( #{nlikeno }, #{noticeno }, #{userid })
+	</update>
+	
+	<delete id="deleteNlike" parameterType="map">
+	DELETE FROM notice_like
+	WHERE user_id = #{userid}
+	AND
+	notice_no = #{noticeno}
+	</delete>
+
+
+</mapper>
