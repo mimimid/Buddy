@@ -40,6 +40,6 @@
 		<beans:property name="maxUploadSizePerFile" value="5242880" />
 	</beans:bean>
 	
-	<context:component-scan base-package="web.controller, web.service, web.logging, a.b.c" />
+	<context:component-scan base-package="web.controller, web.service, web.logging" />
 	
 </beans:beans>
