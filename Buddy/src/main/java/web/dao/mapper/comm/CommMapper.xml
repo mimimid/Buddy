@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 마이바티스 3 Mapper DTD -->
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="web.dao.face.comm.CommDao">
+	<select id="selectCntAll" resultType="int">
+		SELECT count(*) FROM comm_board
+	</select>
+	
+	<select id="selectList" resultType="CommBoard" parameterType="Paging">
+		SELECT * FROM (
+			SELECT rownum rnum, B.* FROM (
+				SELECT
+					comm_no, cate_ani, cate_con, comm_title, comm_content
+					, comm_writedate, comm_update, comm_hit, comm_like, userno
+				FROM comm_board
+				ORDER BY comm_no DESC
+			) B
+		) comm_board
+		WHERE rnum BETWEEN #{startNo } AND #{endNo }
+	</select>
+	
+	<update id="updateHit" parameterType="CommBoard">
+		UPDATE comm_board
+		SET comm_hit = comm_hit + 1
+		WHERE comm_no = #{commNo }
+	</update>
+	
+	<select id="selectBoard" resultType="CommBoard" parameterType="CommBoard">
+		SELECT
+			comm_no, cate_ani, cate_con, comm_title, comm_content
+			, comm_writedate, comm_update, comm_hit, comm_like, userno
+		FROM comm_board
+		WHERE comm_no = #{commNo }
+	</select>
+</mapper>
