@@ -242,3 +242,4 @@ $(document).ready(function() {
 
 
 
+>>>>>>> branch 'main' of https://github.com/mimimid/Buddy
