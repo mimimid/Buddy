@@ -75,6 +75,24 @@
 	<context:component-scan base-package="web, com.chat.controller"/>
 	
 <!-- 소켓 -->
+
+<beans:bean id="echoHandler" class="com.chat.config.EchoHandler"/>
+
+	<websocket:handlers>
+		 <websocket:mapping handler="echoHandler" path="/echo" />
+		<websocket:handshake-interceptors>
+        <beans:bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor" />
+    </websocket:handshake-interceptors>	
+		<websocket:sockjs/>
+	</websocket:handlers>
+	
+		<websocket:handlers>
+		 <websocket:mapping handler="echoHandler2" path="/echo-ws" />
+		<websocket:handshake-interceptors>
+        <beans:bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor" />
+    </websocket:handshake-interceptors>	
+		<websocket:sockjs/>
+	</websocket:handlers>
 	
 	
 </beans:beans>

@@ -7,6 +7,7 @@
 	<name>Buddy</name>
 	<packaging>war</packaging>
 	<version>1.0.0-BUILD-SNAPSHOT</version>
+
 	
 	<properties>
 		<java-version>11</java-version>
@@ -24,6 +25,14 @@
 	</repositories>
 	
 	<dependencies>
+
+<dependency>
+	<groupId>org.springframework</groupId>
+	<artifactId>spring-websocket</artifactId>
+	<version>${org.springframework-version}</version>
+</dependency>
+
+
 	
 		<!-- Jackson Databind -->
 		<dependency>
