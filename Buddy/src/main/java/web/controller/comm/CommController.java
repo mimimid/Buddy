@@ -53,8 +53,6 @@ public class CommController {
 		model.addAttribute("viewBoard", viewBoard);
 		
 		return "comm/view";
-		
-		
 	}
 	
 }
