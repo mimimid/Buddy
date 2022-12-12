@@ -28,4 +28,3 @@
 </body>
 </html>
 
->>>>>>> branch 'main' of https://github.com/mimimid/Buddy
