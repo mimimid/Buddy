@@ -218,7 +218,6 @@ $(document).ready(function() {
 								<li><a href="/date/list?category=4">여행지</a></li>
 						</ul>
 					</li>
-
 					
 					<li><a href="/hospital/hosplist" id="hospitle">병원</a></li>
 					
