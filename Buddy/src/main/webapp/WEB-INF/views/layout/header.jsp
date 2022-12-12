@@ -176,14 +176,14 @@ $(document).ready(function() {
 		<div class="header-login">
 			<c:choose>
 				<c:when test="${empty login }">
-					<button class="btn btn-default" id="btnLogin"><a href="/#/login">로그인</a></button>
-					<button class="btn btn-default" id="btnJoin"><a href="/#/join">회원가입</a></button>
+					<button class="btn btn-default" id="btnLogin"><a href="/user/login">로그인</a></button>
+					<button class="btn btn-default" id="btnJoin"><a href="/user/join">회원가입</a></button>
 				</c:when>
 				<c:when test="${not empty login }">
 					
 					<!-- 마이페이지 로직 구현 필요 -->
 					<strong style="padding-right: 7px;">${usernick }님</strong>
-					<button class="btn btn-default" id="btnLogout"><a href="/#/logout">로그아웃</a></button>
+					<button class="btn btn-default" id="btnLogout"><a href="/user/logout">로그아웃</a></button>
 				</c:when>
 			</c:choose>
 		</div>
@@ -223,7 +223,7 @@ $(document).ready(function() {
 						</ul>
 					</li>
 					
-					<li><a href="#" id="hospitle">장터</a></li>
+					<li><a href="/shopping/list" id="shopping">장터</a></li>
 					
 				</ul>
 		    </div><!-- /.navbar-collapse -->
