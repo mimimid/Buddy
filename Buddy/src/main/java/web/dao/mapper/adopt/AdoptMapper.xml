@@ -7,4 +7,25 @@
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
     
 <mapper namespace="web.dao.face.adopt.AdoptDao">
+	
+	
+	<select id="selectProCntAll" resultType="int">
+		SELECT count(*) FROM board
+	</select>
+
+	<select id="selectProList" resultType="AdoptPro" parameterType="Paging">
+		SELECT * FROM (
+			SELECT rownum rnum, A.* FROM (
+				SELECT
+					ani_no , userid, ani_cate, ani_name, ani_age, ani_gender, ani_neutral, ani_content, ani_hit
+				FROM adopt_pro
+				ORDER BY ani_no DESC
+			) A
+		) ADOPT
+		WHERE rnum BETWEEN #{startNo } AND #{endNo }
+	</select>
+
+
+
+
 </mapper>

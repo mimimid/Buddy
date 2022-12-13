@@ -11,11 +11,11 @@
 <script type="text/javascript">
 	function shareTwitter() {
     var sendText = "Buddy"; // 전달할 텍스트 다시!!!!~~~~~~~~~~~~~
-    var sendUrl = "localhost:8888/adopt/proView?reptNo="+${reptView.reptNo}; // 전달할 URL
+    var sendUrl = "localhost:8888/adopt/proView?aniNo="+${proView.aniNo}; // 전달할 URL
     window.open("https://twitter.com/intent/tweet?text=" + sendText + "&url=" + sendUrl);
 	}
 	function shareFacebook() {
-	    var sendUrl = "localhost:8888/report/reptView?reptNo="+${reptView.reptNo}; // 전달할 URL
+	    var sendUrl = "localhost:8888/adopt/proView?aniNo="+${proView.aniNo}; // 전달할 URL
 	    window.open("http://www.facebook.com/sharer/sharer.php?u=" + sendUrl);
 	}
 	function shareKakao() {
@@ -30,22 +30,34 @@
 		    content: {
 		      title: "Buddy", // 보여질 제목
 		      description: "Buddy 회계보고", // 보여질 설명
-		      imageUrl: "localhost:8888/report/reptView?reptNo="+${reptView.reptNo}, // 콘텐츠 URL
+		      imageUrl: "localhost:8888/adopt/proView?aniNo="+${proView.aniNo}, // 콘텐츠 URL
 		      link: {
-		         mobileWebUrl: "localhost:8888/report/reptView?reptNo="+${reptView.reptNo},
-		         webUrl: "localhost:8888/report/reptView?reptNo="+${reptView.reptNo}
+		         mobileWebUrl: "localhost:8888/adopt/proView?aniNo="+${proView.aniNo},
+		         webUrl: "localhost:8888/adopt/proView?aniNo="+${proView.aniNo}
 		      }
 		    }
 		  });
 		}
 	function CopyUrlToClipboard(){
 		var obShareUrl = document.getElementById("ShareUrl");
-		obShareUrl.value = "localhost:8888/reptView?reptNo="+ ${reptView.reptNo};
+		obShareUrl.value = "localhost:8888/adopt/proView?aniNo="+${proView.aniNo};
 		obShareUrl.select();
 		document.execCommand("copy"); 
 		obShareUrl.blur(); 
 		alert("URL이 클립보드에 복사되었습니다"); 
 	}
+</script>
+<script>
+$(document).ready(function() {
+	
+	$("#back").click(function() {
+		location.href = "/adopt/pro"
+	})
+	$(".btnAdopt").click(function() {
+		location.href = "/adopt/research"
+	})
+})
+
 </script>
 <style>
 #img_wrap{
@@ -228,6 +240,13 @@ p{
 	width: 100%;
     height: 50px;
 }
+.data{
+	font-weight: bolder;
+}
+.icons{
+	color:#FF7A85;
+	margin-right: 22px;
+}
 </style>
 <div class="ballon"></div>
 <div class="container">
@@ -237,10 +256,10 @@ p{
 	
 	<a href="/" style="text-decoration: none; color: black;"><span class="glyphicon glyphicon-home" aria-hidden="true">Home</span></a>
 	<span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
-	<a href="/report/reptList" style="text-decoration: none; color: black;">입양</a>
+	<a href="/adopt/pro" style="text-decoration: none; color: black;">입양</a>
 	<span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
-	<a href="/report/reptView?reptNo=${reptView.reptNo }" style="text-decoration: none; color: black;">
-			${reptView.reptTitle }</a>
+	<a href="localhost:8888/adopt/proView?aniNo="+${proView.aniNo} style="text-decoration: none; color: black;">
+			${proView.aniName }</a>
 	
 	
 <div class="pull-right">
@@ -263,11 +282,11 @@ p{
 		</div>
 	</div>
 	<div class="col-md-8" style="padding: 10px 0px 0px 60px;">
-		<p>안녕하세요?</p>
-		<p>저는 {동물이름}입니다.</p>
-		<p>저는 약 {나이}살이에요.</p>
-		<p>중성화 {안}한 {성별 }아이에요.</p>
-		<p>몸무게는 약 {동물몸무게}kg이에요.</p>
+		<p style="font-size: 24px;">안녕하세요?</p>
+		<p style="font-size: 24px;">저는 <span class="data" style="color=#FF7A85">{이름}</span>입니다.</p>
+		<p><span class="glyphicon glyphicon-baby-formula icons" aria-hidden="true"></span>저는 약 <span class="data">{나이}</span>살이에요.</p>
+		<p><span class="glyphicon glyphicon-sunglasses icons" aria-hidden="true"></span>중성화 <span class="data">{안}한 {성별 }</span>아이에요.</p>
+		<p><span class="glyphicon glyphicon-apple icons" aria-hidden="true"></span>몸무게는 약 <span class="data">{동물몸무게}</span>kg이에요.</p>
 		
 		<div class="btn_wrap">
 		<button class="btnStar">
@@ -299,7 +318,7 @@ p{
 				<a id="btnTwitter" class="link-icon twitter" href="javascript:shareTwitter();">트위터</a>
 		      </div>
 		      <div class="modal-footer">
-		      <input type="text" style="width: 188px;" id="ShareUrl" value="localhost:8888/reptView?reptNo="+ ${reptView.reptNo}>
+		      <input type="text" style="width: 188px;" id="ShareUrl" value="localhost:8888/adopt/proView?aniNo="+${proView.aniNo}>
 		      <span class="btn-type1"><button onclick="javascript:CopyUrlToClipboard();">URL 복사</button></span>
 		      </div>
 		    </div>
@@ -378,7 +397,7 @@ p{
 </div>
 
 <div class="text-center" style="margin: 40px 0px;">
-	<button class="btn btn-default" >목록</button>
+	<button id="back" class="btn btn-default" >목록</button>
 </div>
 </div><!-- .container end -->
 
