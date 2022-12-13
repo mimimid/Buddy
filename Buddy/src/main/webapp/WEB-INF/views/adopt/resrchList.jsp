@@ -1,20 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<%@	taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Buddy</title>
+<c:import url="../layout/header.jsp" />
 
-<!-- jQuery 2.2.4 -->
-<script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
-
-<!-- 부트스트랩 3 -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 <style type="text/css">
 table {
 	table-layout: fixed;
@@ -33,9 +23,9 @@ td:nth-child(2) {
 $(document).ready(function() {
 	
 	$('.check').each(function() {
-	    $(this).html($(this).html().replace(/입양대기/g, '<span style="color:blue">입양대기</span>'));
-	    $(this).html($(this).html().replace(/입양완료/g, '<span style="color:black">입양완료</span>'));
-	    $(this).html($(this).html().replace(/입양보류/g, '<span style="color:red">입양보류</span>'));
+	    $(this).html($(this).html().replace(/입양대기/g, '<span style="color:cornflowerblue">입양대기</span>'));
+	    $(this).html($(this).html().replace(/입양완료/g, '<span style="color:gray">입양완료</span>'));
+	    $(this).html($(this).html().replace(/입양보류/g, '<span style="color:#FF7A85">입양보류</span>'));
 	});
 
 })
@@ -43,14 +33,12 @@ $(document).ready(function() {
 
 </script>
 
-</head>
-<body>
 <div class="container">
 
-<h1>입양신청서</h1>
+<h3>입양신청서</h3>
 <hr>
 
-<table class="table table-striped table-hover table-condensed">
+<table style="vertical-align: middle;" class="table table-hover table-condensed">
 <thead>
 	<tr>
 		<th style="width: 10%;">신청번호</th>
@@ -66,7 +54,7 @@ $(document).ready(function() {
 	<tr>
 		<td>${resrch.adoptNo }</td>
 		<td><a style="text-decoration:none;color:black;"href="/adopt/resrchView?adoptNo=${resrch.adoptNo }" >${resrch.answer1 }의 입양신청서
-			<span style="color:blue;"id="icon" class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+			<span style="color:cornflowerblue;"id="icon" class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
 		</a></td>
 		<td><fmt:formatDate value="${resrch.adoptDate }" pattern="yy-MM-dd"/></td>
 		<td><span class="check">${resrch.checking }</span></td>
@@ -127,5 +115,4 @@ $(document).ready(function() {
 
 </div><!-- .container -->
 
-</body>
-</html>
+<c:import url="../layout/footer.jsp" />
