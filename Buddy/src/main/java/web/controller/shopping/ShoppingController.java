@@ -48,8 +48,8 @@ public class ShoppingController {
 	
 	@PostMapping("/input")
 	public String inputProc(AniProduct product, MultipartFile img) {
-		logger.debug("입력받은 내용 : {}", product);
-		logger.debug("입력받은 이미지 : {}", img);
+//		logger.debug("입력받은 내용 : {}", product);
+//		logger.debug("입력받은 이미지 : {}", img);
 		
 		shoppingService.input(product, img);
 		
@@ -65,13 +65,31 @@ public class ShoppingController {
 //		logger.debug("상품 상세정보 : {}", product);
 		
 		//리뷰 조회
-		AniReview review = shoppingService.viewReview(productno);
-//		logger.debug("리뷰 상세정보 : {}", review);
+		List<AniReview> review = shoppingService.viewReview(productno);
+		logger.debug("리뷰 상세정보 : {}", review);
+		logger.debug("리뷰 상세정보 : {}", review.size());
 		
+		if(review.isEmpty()) {
+			
+			model.addAttribute("review", null);
+		}else {
+			
+			model.addAttribute("review", review);
+		}
 		model.addAttribute("product", product);
-		model.addAttribute("review", review);
 		
 	
+	}
+	@PostMapping("/review")
+	public String review(AniReview review) {
+		
+		logger.debug("ajax 입력값 테스트 {}", review);
+		
+		shoppingService.inputReview(review);
+		
+		return "redirect:/shopping/view?productno="+review.getProductno();
+		
+		
 	}
 
 }

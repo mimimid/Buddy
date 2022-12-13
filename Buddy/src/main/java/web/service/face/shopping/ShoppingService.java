@@ -43,7 +43,13 @@ public interface ShoppingService {
 	 * @param productno
 	 * @return
 	 */
-	public AniReview viewReview(int productno);
+	public List<AniReview> viewReview(int productno);
+
+	/**
+	 * 리뷰 작성
+	 * @param review
+	 */
+	public void inputReview(AniReview review);
 
 	
 

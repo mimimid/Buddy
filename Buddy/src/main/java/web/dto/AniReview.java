@@ -9,22 +9,24 @@ public class AniReview {
 	private Date insertdate;
 	private int productno;
 	private int userno;
+	private String usernick;
 	
 	public AniReview() {}
 
-	public AniReview(int reviewno, String reviewcontent, Date insertdate, int productno, int userno) {
+	public AniReview(int reviewno, String reviewcontent, Date insertdate, int productno, int userno, String usernick) {
 		super();
 		this.reviewno = reviewno;
 		this.reviewcontent = reviewcontent;
 		this.insertdate = insertdate;
 		this.productno = productno;
 		this.userno = userno;
+		this.usernick = usernick;
 	}
 
 	@Override
 	public String toString() {
 		return "AniReview [reviewno=" + reviewno + ", reviewcontent=" + reviewcontent + ", insertdate=" + insertdate
-				+ ", productno=" + productno + ", userno=" + userno + "]";
+				+ ", productno=" + productno + ", userno=" + userno + ", usernick=" + usernick + "]";
 	}
 
 	public int getReviewno() {
@@ -66,6 +68,16 @@ public class AniReview {
 	public void setUserno(int userno) {
 		this.userno = userno;
 	}
+
+	public String getUsernick() {
+		return usernick;
+	}
+
+	public void setUsernick(String usernick) {
+		this.usernick = usernick;
+	}
+
+	
 	
 	
 

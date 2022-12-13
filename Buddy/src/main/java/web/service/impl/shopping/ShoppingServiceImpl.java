@@ -50,9 +50,15 @@ public class ShoppingServiceImpl implements ShoppingService {
 
 	@Override
 	public void input(AniProduct product, MultipartFile img) {
+		//상품 번호 가저오기
+		int productno = shoppingDao.selectSeq();
+		
+		product.setProductno(productno);
+		
 		//게시글 처리			
 		shoppingDao.insertProduct(product);
-				
+		
+//		logger.debug("productno는  : {}", productno);
 		//--------------------------------------------
 				
 		//첨부파일 처리
@@ -88,7 +94,7 @@ public class ShoppingServiceImpl implements ShoppingService {
 				
 		//첨부파일 정보 DB 기록
 		AniProductImg productImg = new AniProductImg();
-		productImg.setProductno( shoppingDao.selectProductNoByProductName(product));
+		productImg.setProductno( product.getProductno());
 		productImg.setPimgorigin(originName);
 		productImg.setPimgstored(storedName);
 				
@@ -103,9 +109,24 @@ public class ShoppingServiceImpl implements ShoppingService {
 	}
 
 	@Override
-	public AniReview viewReview(int productno) {
+	public List<AniReview> viewReview(int productno) {
 		
 		return shoppingDao.selectReviewByProductno(productno);
+	}
+
+	@Override
+	public void inputReview(AniReview review) {
+		
+		String usernick = shoppingDao.selectUserNickByUserNo(review);
+		
+		
+		review.setUsernick(usernick);
+		
+		shoppingDao.insertReview(review);
+		
+		shoppingDao.updateReviewCount(review);
+		
+		
 	}
 
 	

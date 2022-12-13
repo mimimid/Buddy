@@ -23,8 +23,15 @@ public interface ShoppingDao {
 	public List<AniProduct> selectList(Paging paging);
 
 	/**
+	 * 다음 시퀀스 번호 가저오기
+	 * @return
+	 */
+	public int selectSeq();
+	
+	/**
 	 * 상품 정보 입력
 	 * @param product
+	 * @return 
 	 */
 	public void insertProduct(AniProduct product);
 
@@ -53,7 +60,30 @@ public interface ShoppingDao {
 	 * @param productno
 	 * @return
 	 */
-	public AniReview selectReviewByProductno(int productno);
+	public List<AniReview> selectReviewByProductno(int productno);
+
+	/**
+	 * 유저번호로 유저 닉네임 가저오기
+	 * @param review
+	 * @return
+	 */
+	public String selectUserNickByUserNo(AniReview review);
+	
+	/**
+	 * 리뷰 작성
+	 * @param review
+	 */
+	public void insertReview(AniReview review);
+
+	/**
+	 * 리뷰 카운트 증가
+	 * @param review
+	 */
+	public void updateReviewCount(AniReview review);
+
+	
+
+
 
 	
 
