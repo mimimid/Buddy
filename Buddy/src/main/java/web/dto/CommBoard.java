@@ -2,10 +2,6 @@ package web.dto;
 
 import java.util.Date;
 
-/**
- * @author ny975
- *
- */
 public class CommBoard {
 	
 	private int commNo;

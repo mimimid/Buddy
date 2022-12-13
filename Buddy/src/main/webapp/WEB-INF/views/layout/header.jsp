@@ -169,8 +169,9 @@ $(document).ready(function() {
 		<div class="header-logo">
 		
 			<!-- 로고 디자인 or 이미지로 변경 필요 -->
-		
-			<a href="/">BUDDY</a>
+			<a href="/">
+			  <img src="../resources/img/main/logo.png" width="50"> BUDDY
+			</a>
 		</div>
 		
 		<div class="header-login">
@@ -197,9 +198,7 @@ $(document).ready(function() {
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav" id="navbar-nav">
 					
-					<!-- 링크 연결 필요 & 드롭다운 필요 항목 협의 필요 -->
-					
-					<li><a href="#" id="notice">BUDDY</a></li>
+					<li><a href="/notice/list">BUDDY</a></li>
 					
 					<li class="dropdown">
 						<a href="/comm/list">커뮤니티</a>
@@ -212,26 +211,41 @@ $(document).ready(function() {
 					<li class="dropdown">
 						<a href="/date/main">데이트</a>
 						<ul class="dropdown-menu" role="menu">
-								<li><a href="/date/list?category=1">카페</a></li>
-								<li><a href="/date/list?category=2">호텔</a></li>
-								<li><a href="/date/list?category=3">훈련소</a></li>
-								<li><a href="/date/list?category=4">여행지</a></li>
+							<li><a href="/date/list?category=1">카페</a></li>
+							<li><a href="/date/list?category=2">호텔</a></li>
+							<li><a href="/date/list?category=3">훈련소</a></li>
+							<li><a href="/date/list?category=4">여행지</a></li>
 						</ul>
 					</li>
 					
-					<li><a href="/hospital/hosplist" id="hospitle">병원</a></li>
+					<li class="dropdown">
+						<a href="/hospital/hosplist">병원</a>
+						<ul class="dropdown-menu" role="menu">
+							<li><a href="/hospital/hosplist">병원</a></li>
+							<li><a href="/hospboard/hblist">병원 질문과 정보</a></li>
+						</ul>
+					</li>
 					
-					<li><a href="#" id="hospitle">입양</a></li>
 					
+					<li class="dropdown">
+						<a href="/adopt/main">입양</a>
+						<ul class="dropdown-menu" role="menu">
+							<li><a href="/adopt/pro">입양</a></li>
+							<li><a href="/adopt/research">입양 신청서</a></li>
+							<li><a href="/adopt/news">입양/임보 후 소식</a></li>
+						</ul>
+					</li>
+
 					<li class="dropdown">
 						<a href="#">후원/봉사</a>
 						<ul class="dropdown-menu" role="menu">
 							<li><a href="#">후원</a></li>
 							<li><a href="#">봉사</a></li>
+							<li><a href="/report/reptList">회계보고</a></li>
 						</ul>
 					</li>
 					
-					<li><a href="/shopping/list" id="shopping">장터</a></li>
+					<li><a href="/shopping/list">장터</a></li>
 					
 				</ul>
 		    </div><!-- /.navbar-collapse -->
