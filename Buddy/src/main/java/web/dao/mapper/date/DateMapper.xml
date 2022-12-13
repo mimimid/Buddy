@@ -83,9 +83,16 @@
 		WHERE date_no = #{dateNo }
 	</select>
 	
+	<select id="selectComment" resultType="DateComment" parameterType="DateBoard">
+		SELECT * FROM date_comment
+		WHERE date_no = #{dateNo }
+		ORDER BY cm_no DESC
+	</select>
 	
-	
-	
+	<select id="selectCntComment" resultType="int" parameterType="DateBoard">
+		SELECT count(*) FROM date_comment
+		WHERE date_no = #{dateNO}
+	</select>
 	
 	
 	

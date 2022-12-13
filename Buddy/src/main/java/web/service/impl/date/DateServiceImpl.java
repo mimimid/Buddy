@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import web.dao.face.date.DateDao;
 import web.dto.DateBoard;
+import web.dto.DateComment;
 import web.service.face.date.DateService;
 import web.util.Paging;
 
@@ -64,5 +65,15 @@ public class DateServiceImpl implements DateService {
 		return dateDao.selectDateDetail(viewDate);
 		
 	}
+	
+	@Override
+	public List<DateComment> DateCommentList(DateBoard viewDate) {
+		return dateDao.selectComment(viewDate);
+	}
 
+	@Override
+	public int cntComment(DateBoard viewDate) {
+		return dateDao.selectCntComment(viewDate);
+	}
+	
 }

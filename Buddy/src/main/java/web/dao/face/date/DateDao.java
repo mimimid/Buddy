@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import web.dto.DateBoard;
+import web.dto.DateComment;
 import web.util.Paging;
 
 public interface DateDao {
@@ -55,5 +56,21 @@ public interface DateDao {
 	 * @return 조회된 게시글 정보
 	 */
 	public DateBoard selectDateDetail(DateBoard viewDate);
+
+	/**
+	 * 게시글 번호를 이용하여 댓글 목록을 조회한다
+	 * 
+	 * @param viewDate - 조회하려는 게시글 번호
+	 * @return 댓글 목록 조회
+	 */
+	public List<DateComment> selectComment(DateBoard viewDate);
+
+	/**
+	 * 게시글 번호를 이용하여 댓글 개수를 조회한다
+	 * 
+	 * @param viewDate - 조회하려는 게시글 번호
+	 * @return 댓글 목록 개수
+	 */
+	public int selectCntComment(DateBoard viewDate);
 
 }

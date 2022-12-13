@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import web.dto.DateBoard;
+import web.dto.DateComment;
 import web.service.face.date.DateService;
 import web.util.Paging;
 
@@ -82,11 +83,25 @@ public class DateController {
 	
 	//게시글 상세보기
 	@RequestMapping("/date/view")
-	public void dateView(DateBoard viewDate, Model model) {
+	public void dateView(
+			DateBoard viewDate
+			, Model model
+			) {
 		
 		//게시글 조회
 		viewDate = dateService.view(viewDate);
 		model.addAttribute("viewDate", viewDate);
+		
+		//댓글 조회
+		List<DateComment> commentList = dateService.DateCommentList(viewDate);
+		model.addAttribute("commentList", commentList);
+		
+		//댓글 개수 조회
+//		int cntComment = dateService.cntComment(viewDate);
+//		model.addAttribute("cntComment", cntComment);
+		
+		//좋아요 수 조회
+		
 		
 	}
 
