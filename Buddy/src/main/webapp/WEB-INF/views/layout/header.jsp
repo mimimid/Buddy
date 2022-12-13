@@ -169,7 +169,7 @@ $(document).ready(function() {
 		<div class="header-logo">
 		
 			<!-- 로고 디자인 or 이미지로 변경 필요 -->
-			<a href="/">
+			<a href="/notice/listPage">
 			  <img src="../resources/img/main/logo.png" width="50"> BUDDY
 			</a>
 		</div>
