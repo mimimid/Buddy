@@ -3,88 +3,66 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:websocket="http://www.springframework.org/schema/websocket"
-	xsi:schemaLocation="http://www.springframework.org/schema/websocket http://www.springframework.org/schema/websocket/spring-websocket-4.3.xsd
-		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
-		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
 
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 	
 	<!-- Enables the Spring MVC @Controller programming model -->
-	<!-- 컨트롤러 클래스를 @Controller어노테이션으로 등록할 수 있도록 허용한다 -->
 	<annotation-driven />
+	
+	<!-- @Aspect 어노테이션을 이용한 AOP 객체 관리 -->
+	<aop:aspectj-autoproxy />
 
+	
+	<!-- @Tramsactional 어노테이션을 이용한 트랜잭션관리 활성화 -->
+	<tx:annotation-driven/>
 
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
-	<!-- 정적 자원(HTML, JS, CSS 파일 등)을 요청/응답할 수 있도록 설정(매핑)한다 -->
-	<!-- 	-> mapping에 설정된 URL 요청이 들어오면 location에 등록된 폴더의 파일을 응답한다 -->
 	<resources mapping="/resources/**" location="/resources/" />
-	<resources location="/upload/" mapping="/upload/**" />
-
-<!-- 	<resources mapping="/img/**" location="/resources/img/" /> -->
-<!-- 	<resources mapping="/js/**" location="/resources/js/" /> -->
-<!-- 	<resources mapping="/css/**" location="/resources/css/" /> -->
-
-
+	<resources mapping="/upload/**" location="/upload/" />
 
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
-	<!-- JSP(InternalResource)를 이용하여 View를 지정하는 객체 설정 -->
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<beans:property name="prefix" value="/WEB-INF/views/" />
 		<beans:property name="suffix" value=".jsp" />
 		
-		<!-- 응답용 View객체를 설정한다 -->
-		<!-- 	-> jstl라이브러리를 포함하고 있으면 JSTL View가 활성화된다 -->
-<!-- 		<beans:property name="viewClass"> -->
-<!-- 			<beans:value>org.springframework.web.servlet.view.JstlView</beans:value> -->
-<!-- 		</beans:property> -->
-		
-		<!-- ViewResolver 동작 우선순위 - 1 -->
 		<beans:property name="order" value="1" />
 	</beans:bean>
 	
-	<!-- 스프링 빈(객체) 기반의 뷰 리졸버 -->
+	<!-- BeanNameViewResolver 등록 -->
 	<beans:bean class="org.springframework.web.servlet.view.BeanNameViewResolver">
-	
-		<!-- ViewResolver 동작 우선순위 - 0 -->
-		<!-- 	-> InternalResourceViewResolver보다 먼저 동작한다 -->
-		<!-- 	-> 응답에 적당한 Srping Bean이 없으면 다음 순위로 ViewResolver 동작을 넘긴다 -->
 		<beans:property name="order" value="0" />
 	</beans:bean>
 	
+
+	<!-- DownloadView 스프링 빈 등록 -->
+	<beans:bean id="reptDown" class="web.down.ReptDownView" />
+	<beans:bean id="resrchDown" class="web.down.ResrchDownView" />
+
 	
-	
-	<!-- MultipartResolver 설정 -->
-	<!-- 	-> 파일업로드 요청을 처리하는 클래스(스프링 빈) -->
-	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-	
-		<!-- 메모리에서 파일을 처리할 수 있는 최대 사이즈 : 1MB -->
-		<beans:property name="maxInMemorySize" value="1048576" />
-		
-		<!-- 파일업로드 허용 최대 사이즈 : 10MB -->
-		<beans:property name="maxUploadSize" value="10485760" />
-	
-		<!-- 업로드된 파일 하나 당 최대 사이즈 : 5MB -->
-		<beans:property name="maxUploadSizePerFile" value="5242880" />
-	
+	<!-- JSON응답용 jsonview를 스프링 빈으로 등록하기 -->
+	<beans:bean id="jsonView" class="org.springframework.web.servlet.view.json.MappingJackson2JsonView">
+		<beans:property name="contentType" value="application/json;charset=utf-8" />
 	</beans:bean>
 	
-	<!-- 컴포넌트를 탐색(scan)하는 패키지 설정하기 -->
-	<!-- 	**컴포넌트 : 프로그램을 구성하는 요소들(컨트롤러, 서비스, dao) -->
-	<context:component-scan base-package="web, com.chat.controller"/>
 	
-<!-- 소켓 -->
+	<!-- DownloadView 스프링 빈 등록 -->
+	<beans:bean id="downHospBoard" class="web.view.HospBoardDownloadView" />
 
-<beans:bean id="echoHandler" class="com.chat.config.EchoHandler"/>
-
-	<websocket:handlers>
-		 <websocket:mapping handler="echoHandler" path="/echo" />
-		<websocket:handshake-interceptors>
-        <beans:bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor" />
-    </websocket:handshake-interceptors>	
-		<websocket:sockjs/>
-	</websocket:handlers>
-
+	
+	<!-- MultipartResolver 설정 -->
+	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<beans:property name="maxInMemorySize" value="1048576" />
+		<beans:property name="maxUploadSize" value="10485760" />
+		<beans:property name="maxUploadSizePerFile" value="5242880" />
+	</beans:bean>
+	
+	<context:component-scan base-package="web.controller, web.service, web.logging" />
 	
 </beans:beans>
