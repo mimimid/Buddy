@@ -169,7 +169,7 @@ $(document).ready(function() {
 		<div class="header-logo">
 		
 			<!-- 로고 디자인 or 이미지로 변경 필요 -->
-			<a href="/notice/listPage">
+			<a href="/">
 			  <img src="../resources/img/main/logo.png" width="50"> BUDDY
 			</a>
 		</div>
@@ -198,7 +198,7 @@ $(document).ready(function() {
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav" id="navbar-nav">
 					
-					<li><a href="/notice/list">BUDDY</a></li>
+					<li><a href="/notice/listPage">BUDDY</a></li>
 					
 					<li class="dropdown">
 						<a href="/comm/list">커뮤니티</a>
