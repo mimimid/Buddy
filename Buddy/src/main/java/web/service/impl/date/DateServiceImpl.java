@@ -67,13 +67,13 @@ public class DateServiceImpl implements DateService {
 	}
 	
 	@Override
-	public List<DateComment> DateCommentList(DateBoard viewDate) {
-		return dateDao.selectComment(viewDate);
+	public void updateCommCount(DateBoard viewDate) {
+		dateDao.updateCommCount(viewDate);
 	}
-
+	
 	@Override
-	public int cntComment(DateBoard viewDate) {
-		return dateDao.selectCntComment(viewDate);
+	public void updateLikeCount(DateBoard viewDate) {
+		dateDao.updateLikeCount(viewDate);
 	}
 	
 }

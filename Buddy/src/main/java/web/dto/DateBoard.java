@@ -13,11 +13,13 @@ public class DateBoard {
 	private String loc;
 	private String hit;
 	private Date writeDate;
+	private int commCount;
+	private int likeCount;
 
 	public DateBoard() {}
 
 	public DateBoard(int dateNo, int adminno, int dateCate, String dateCateName, String title, String content,
-			String loc, String hit, Date writeDate) {
+			String loc, String hit, Date writeDate, int commCount, int likeCount) {
 		super();
 		this.dateNo = dateNo;
 		this.adminno = adminno;
@@ -28,13 +30,15 @@ public class DateBoard {
 		this.loc = loc;
 		this.hit = hit;
 		this.writeDate = writeDate;
+		this.commCount = commCount;
+		this.likeCount = likeCount;
 	}
 
 	@Override
 	public String toString() {
 		return "DateBoard [dateNo=" + dateNo + ", adminno=" + adminno + ", dateCate=" + dateCate + ", dateCateName="
 				+ dateCateName + ", title=" + title + ", content=" + content + ", loc=" + loc + ", hit=" + hit
-				+ ", writeDate=" + writeDate + "]";
+				+ ", writeDate=" + writeDate + ", commCount=" + commCount + ", likeCount=" + likeCount + "]";
 	}
 
 	public int getDateNo() {
@@ -107,6 +111,22 @@ public class DateBoard {
 
 	public void setWriteDate(Date writeDate) {
 		this.writeDate = writeDate;
+	}
+
+	public int getCommCount() {
+		return commCount;
+	}
+
+	public void setCommCount(int commCount) {
+		this.commCount = commCount;
+	}
+
+	public int getLikeCount() {
+		return likeCount;
+	}
+
+	public void setLikeCount(int likeCount) {
+		this.likeCount = likeCount;
 	}
 	
 }

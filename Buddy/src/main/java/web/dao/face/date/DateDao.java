@@ -58,19 +58,19 @@ public interface DateDao {
 	public DateBoard selectDateDetail(DateBoard viewDate);
 
 	/**
-	 * 게시글 번호를 이용하여 댓글 목록을 조회한다
+	 * 게시글 번호에 달린 댓글의 수를 업데이트 한다
 	 * 
 	 * @param viewDate - 조회하려는 게시글 번호
-	 * @return 댓글 목록 조회
 	 */
-	public List<DateComment> selectComment(DateBoard viewDate);
+	public void updateCommCount(DateBoard viewDate);
 
 	/**
-	 * 게시글 번호를 이용하여 댓글 개수를 조회한다
+	 * 게시글 번호에 달린 좋아요의 수를 업데이트 한다
 	 * 
 	 * @param viewDate - 조회하려는 게시글 번호
-	 * @return 댓글 목록 개수
 	 */
-	public int selectCntComment(DateBoard viewDate);
+	public void updateLikeCount(DateBoard viewDate);
+
+
 
 }

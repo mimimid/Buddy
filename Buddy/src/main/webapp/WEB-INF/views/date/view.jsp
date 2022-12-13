@@ -25,7 +25,31 @@ $(document).ready(function () {
 		$(location).attr('href', './list')
 	})
 	
+	//댓글목록 ajax
+	var url = "/date/commList?dateNo=";
+	var dateNo = $("#dateNo").val();
+	
+	$.ajax({
+		type: "get"
+		, url: url + dateNo
+		, data: {}
+		, dataType: "html"
+		, success: function(comm) {
+			console.log("AJAX 성공")
+			console.log(comm)
+			
+			$("#commList").html(comm)
+			
+		}
+		, error: function() {
+			console.log("AJAX 실패")
+		}
+	})
+	
+	
+	
 })
+
 </script>
 
 <!-- 데이트게시판 메인 시작 -->
@@ -70,8 +94,14 @@ $(document).ready(function () {
 </div>
 
 <!-- 하트, 댓글 갯수 표시 -->
-<i class="fi fi-rr-heart"></i>
-<i class="fi fi-rr-comment-alt-middle"></i>
+<i class="fi fi-rr-heart"></i> ${view.likeCount }
+<i class="fi fi-rr-comment-alt-middle"></i> ${viewDate.commCount }
+
+<!-- 좋아요표시 -->
+<div class="t-icons">
+	<a href="javascript:;" onclick="like_hate('LIKE')" class="myButton3 like_col"><i class="fi fi-sr-heart"></i></a>
+	<a href="javascript:;" onclick="like_hate('HATE')" class="myButton3 hate_col"><i class="fi fi-rr-heart"></i></a>
+</div>
 
 <!-- 목록버튼 -->
 <div class="text-center">
@@ -98,34 +128,16 @@ $(document).ready(function () {
 			<td><br><br><button type="button" id="btnCommentWrite" class="btn btn-outline-secondary">댓글작성</button></td>
 		</tr>
 	</table>
-<input type="hidden" name="reviewno" value="댓글번호">
+<input type="hidden" id="dateNo" name="dateNo" value="${viewDate.dateNo }">
 <input type="hidden" name="login" value="<%=session.getAttribute("login") %>" >
 </form>
 
 <!-- 댓글목록 -->
-<c:forEach items="${commentList }" var="cm">
+<div id="commList">
+</div><!-- 댓글목록 끝 -->
 
-<div class="media">
-	<div class="media-left media-middle">
-		<div class="media-object" style="padding: 5px;">
-			<span class="glyphicon glyphicon-user" style="font-size: 40px;"></span>
-		</div>
-	</div>
 
-	<div class="media-body text-left">
-		<h4 class="media-heading">${cm.userno } <small><fmt:formatDate value="${cm.writeDate }" pattern="yy-MM-dd HH:mm:ss"/></small></h4>
-		${cm.cmContent }
-		<div>
-			<span>수정</span> /
-			<span>삭제</span>
-		</div>
-	</div>
-<%-- <%@	include file="../layout/dateCommentPaging.jsp" %> --%>
-</div>
-
-</c:forEach><!-- 댓글창 끝 -->
-
-</div>
+</div><!-- 메인 컨테이너 END -->
 </div><!-- .container END -->
 
 <c:import url="../layout/footer.jsp" />

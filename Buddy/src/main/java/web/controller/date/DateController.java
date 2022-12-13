@@ -90,18 +90,14 @@ public class DateController {
 		
 		//게시글 조회
 		viewDate = dateService.view(viewDate);
+		
+		//댓글수 업데이트
+		dateService.updateCommCount(viewDate);
+
+		//좋아요수 업데이트
+		dateService.updateLikeCount(viewDate);
+		
 		model.addAttribute("viewDate", viewDate);
-		
-		//댓글 조회
-		List<DateComment> commentList = dateService.DateCommentList(viewDate);
-		model.addAttribute("commentList", commentList);
-		
-		//댓글 개수 조회
-//		int cntComment = dateService.cntComment(viewDate);
-//		model.addAttribute("cntComment", cntComment);
-		
-		//좋아요 수 조회
-		
 		
 	}
 

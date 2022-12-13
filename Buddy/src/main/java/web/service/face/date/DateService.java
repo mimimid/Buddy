@@ -59,20 +59,20 @@ public interface DateService {
 	public DateBoard view(DateBoard viewDate);
 
 	/**
-	 * 댓글 목록 조회
+	 * 데이트게시판의 댓글수 업데이트
 	 * 
 	 * @param viewDate - 상세 조회한 게시글 번호 객체
-	 * @return List<DateComment> - 해당 게시글에 작성된 댓글 목록 리스트
 	 */
-	public List<DateComment> DateCommentList(DateBoard viewDate);
+	public void updateCommCount(DateBoard viewDate);
 
 	/**
-	 * 댓글 개수 조회
+	 * 데이트게시판의 좋아요수 업데이트
 	 * 
 	 * @param viewDate - 상세 조회한 게시글 번호 객체
-	 * @return int - 댓글 개수
 	 */
-	public int cntComment(DateBoard viewDate);
+	public void updateLikeCount(DateBoard viewDate);
+
+
 
 
 }
