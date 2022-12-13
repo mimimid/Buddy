@@ -47,7 +47,7 @@
 </tbody>
 </table>
 
-<div class="text-center">
+<div class="text-center" style="margin: 40px 0px;">
 	<ul class="pagination pagination-sm">
 
 	<c:set var="keyword" value="${param.reptTitle }" />

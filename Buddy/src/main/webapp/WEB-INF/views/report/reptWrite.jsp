@@ -1,22 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Buddy</title>
-<!-- jQuery 2.2.4 -->
-<script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
 
-<!-- 부트스트랩 3 -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+<%@	taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<c:import url="../layout/header.jsp" />
 
 <script type="text/javascript" src="/resources/se2/js/service/HuskyEZCreator.js"></script>
 
+<style>
+.btnUp{
+	background-color: cornflowerblue;
+    color: white;
+}
+
+.btnDel{
+	background-color: #FF7A85;
+    color: white;
+}
+</style>
 
 <script type="text/javascript">
 $(document).ready(function() {
@@ -37,8 +38,7 @@ function updateContents() {
 }
 </script>
 
-</head>
-<body>
+
 
 <div class="container">
 
@@ -74,9 +74,9 @@ function updateContents() {
 </div>
 
 </form>
-<div class="text-center">
-	<button class="btn btn-primary" id="btnWrite">작성</button>
-	<button class="btn btn-danger" id="btnCancel">취소</button>
+<div class="text-center" style="margin: 40px 0px;">
+	<button class="btn btnUp" id="btnWrite">작성</button>
+	<button class="btn btnDel" id="btnCancel">취소</button>
 </div>
 
 <!-- 스마트 에디터 스킨 적용 -->
@@ -91,5 +91,4 @@ nhn.husky.EZCreator.createInIFrame({
 </script>
 
 </div><!-- .container end -->
-</body>
-</html>
+<c:import url="../layout/footer.jsp" />
