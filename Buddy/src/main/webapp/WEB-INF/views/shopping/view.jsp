@@ -25,33 +25,53 @@ $(document).ready(function(){
 
 
 <script type="text/javascript"> 
-// $(document).ready(function(){
-// 	$("#btnReview").click(function(){
-// 		console.log("#ajax click")
+$(document).ready(function(){
+	
+	$.ajax({
+		type:"get" //응답메소드방식
+		, url:"/shopping/review" //응답페이지
+		, data:{
+			productno: $("#productno").val(),
+		} //보낼 데이터
+		, dataType:"html" //응답 타입
+		,success: function(data){ 
+			console.log("AJAX 성공") 
+			
+			$("#result").html(data)
+			
+		}
+		, error:function(){
+			console.log("AJAX 실패")
+		}
+	})
+	
+	
+	
+	$("#btnReview").click(function(){
+		console.log("#ajax click")
 
 	
-// 	$.ajax({
-// 		type:"post" //응답메소드방식
-// 		, url:"/shopping/review" //응답페이지
-// 		, data:{
-// 			reviewcontent: $("#reviewcontent").val(),
-// 			productno: $("#productno").val(),
-// 			userno: $("#userno").val()
-// 		} //보낼 데이터
-// 		, dataType:"html" //응답 타입
-// 		,success: function(data){ 
-// 			console.log("AJAX 성공") 
+	$.ajax({
+		type:"post" //응답메소드방식
+		, url:"/shopping/review" //응답페이지
+		, data:{
+			reviewcontent: $("#reviewcontent").val(),
+			productno: $("#productno").val(),
+			userno: $("#userno").val()
+		} //보낼 데이터
+		,success: function(data){ 
+			console.log("AJAX 성공") 
 			
-
+			location.reload();
 			
-// 		}
-// 		, error:function(){
-// 			console.log("AJAX 실패")
-// 		}
-// 	})
-// })
+		}
+		, error:function(){
+			console.log("AJAX 실패")
+		}
+	})
+})
 	
-// })
+})
 
  </script>
 
@@ -79,8 +99,8 @@ $(document).ready(function(){
  }
  
  #reviewcontent{
- 	width: 90%; 
- 	height: 35px;
+  
+ 	height: 80px;
  }
  
  #review{
@@ -89,12 +109,18 @@ $(document).ready(function(){
  	color: white;
  	
  }
+ #btnReview{
+ 	float: right;
+ 	background-color: #FF7A85; 
+ 	color: white;
+ }
+
 </style>
 
 <div class="container">
 <h1 style="text-align: center;">Product</h1>
 
-<table class="table">
+<table class="table table-bordered">
 	<tr>
 		<td rowspan="6" colspan="2" style="width: 150px;"><img alt="임시" src="<%=request.getContextPath() %>/upload/${product.pimgstored }" id="productImg"></td>
 		<th colspan="2">${product.productname }</th>
@@ -138,38 +164,21 @@ $(document).ready(function(){
 		<td colspan="4" id="productInfo">상품 정보</td>
 	</tr>
 	<tr>
-		<td colspan="4">${product.content }</td>
+		<td colspan="4" style="height: 300px;">${product.content }</td>
 	</tr>
 	
 </table>
+
+<div id="result"></div>
 <table class="table">
 	<tr>
-		<td colspan="4" id="review">상품 리뷰</td>
-	</tr>
-	<c:forEach items="${review }" var="review">
-		<c:choose>
-			<c:when test="${empty review }">
-				<tr>
-					<td>아직 등록된 리뷰가 없습니다</td>
-				</tr>
-			</c:when>
-			<c:when test="${!empty review }">
-				<tr>
-					<td>${review.usernick }</td>
-					<td>${review.reviewcontent }</td>
-					<td><fmt:formatDate value="${review.insertdate }" pattern="yy-MM-dd HH:mm:ss"/></td>
-				</tr>
-			</c:when>
-		</c:choose>
-	</c:forEach>
-	<tr>
-		<td colspan="4">
-			<form action="./review" method="post">
-			<input type="text" name="reviewcontent"  id="reviewcontent" placeholder="리뷰를 작성해주세요.">
+		<td>
+			
+			<input type="text" name="reviewcontent"  id="reviewcontent" placeholder="리뷰를 작성해주세요." class="form-control">
 			<input type="hidden" value="${product.productno }" id="productno" name="productno">
 			<input type="hidden" value="${userno }" id="userno" name="userno">
-			<button id="btnReview" class="btn">등록</button>
-			</form>
+			<button id="btnReview" class="btn">리뷰 등록</button>
+			
 		</td>
 	</tr>
 </table>

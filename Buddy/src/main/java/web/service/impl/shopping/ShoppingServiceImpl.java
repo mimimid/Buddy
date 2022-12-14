@@ -124,8 +124,17 @@ public class ShoppingServiceImpl implements ShoppingService {
 		
 		shoppingDao.insertReview(review);
 		
-		shoppingDao.updateReviewCount(review);
+		shoppingDao.updateReviewCountIncrease(review);
 		
+		
+	}
+
+	@Override
+	public void deleteReview(AniReview review) {
+		
+		shoppingDao.updateReviewCountReduce(review);
+		
+		shoppingDao.deleteReview(review);
 		
 	}
 

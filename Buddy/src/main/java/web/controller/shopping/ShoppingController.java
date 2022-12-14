@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import web.dto.AniProduct;
@@ -64,31 +65,41 @@ public class ShoppingController {
 		AniProduct product = shoppingService.view(productno);
 //		logger.debug("상품 상세정보 : {}", product);
 		
-		//리뷰 조회
-		List<AniReview> review = shoppingService.viewReview(productno);
-		logger.debug("리뷰 상세정보 : {}", review);
-		logger.debug("리뷰 상세정보 : {}", review.size());
 		
-		if(review.isEmpty()) {
-			
-			model.addAttribute("review", null);
-		}else {
-			
-			model.addAttribute("review", review);
-		}
 		model.addAttribute("product", product);
 		
 	
 	}
+	
+	@GetMapping("/review")
+	public void review(int productno, Model model) {
+		List<AniReview> review = shoppingService.viewReview(productno);
+		
+//		logger.debug("리뷰 내역 : {}", review);
+		model.addAttribute("review", review);
+		
+	}
+	
+	@ResponseBody
 	@PostMapping("/review")
-	public String review(AniReview review) {
+	public String reviewProc(AniReview review) {
 		
 		logger.debug("ajax 입력값 테스트 {}", review);
 		
 		shoppingService.inputReview(review);
 		
-		return "redirect:/shopping/view?productno="+review.getProductno();
+		return "";
+			
+	}
+	@ResponseBody
+	@GetMapping("/deleteReview")
+	public String reviewDelte(AniReview review) {
 		
+		shoppingService.deleteReview(review);
+		
+		logger.debug("ajxa 요청 : {}", review);
+		
+		return "";
 		
 	}
 

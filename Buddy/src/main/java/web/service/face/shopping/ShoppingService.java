@@ -51,6 +51,12 @@ public interface ShoppingService {
 	 */
 	public void inputReview(AniReview review);
 
+	/**
+	 * 리뷰 삭제
+	 * @param review
+	 */
+	public void deleteReview(AniReview review);
+
 	
 
 }

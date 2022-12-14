@@ -50,9 +50,10 @@
 	</select>
 	
 	<select id="selectReviewByProductno" parameterType="int" resultType="AniReview">
-		select reviewcontent, insertdate, productno, userno, usernick
+		select reviewno, reviewcontent, insertdate, productno, userno, usernick 
 		from ani_review
 		where productno = #{productno }
+		order by reviewno
 	</select>
 	
 	<select id="selectUserNickByUserNo" parameterType="AniReview" resultType="String">
@@ -66,11 +67,21 @@
 		values (ani_review_seq.nextval, #{reviewcontent }, sysdate, #{productno }, #{userno }, #{usernick })
 	</insert>
 	
-	<update id="updateReviewCount" parameterType="AniReview">
+	<update id="updateReviewCountIncrease" parameterType="AniReview">
 		update ani_product
 		set reviewcount = reviewcount + 1
 		where productno = #{productno }
 	</update>
+	
+	<delete id="deleteReview" parameterType="AniReview">
+		delete from ani_review
+		where reviewno = #{reviewno }
+	</delete>
 
+	<update id="updateReviewCountReduce" parameterType="AniReview">
+		update ani_product
+		set reviewcount = reviewcount - 1
+		where productno = #{productno }
+	</update>
 
 </mapper>

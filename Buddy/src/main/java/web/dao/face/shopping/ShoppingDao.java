@@ -79,7 +79,19 @@ public interface ShoppingDao {
 	 * 리뷰 카운트 증가
 	 * @param review
 	 */
-	public void updateReviewCount(AniReview review);
+	public void updateReviewCountIncrease(AniReview review);
+
+	/**
+	 * 리뷰 삭제 
+	 * @param review
+	 */
+	public void deleteReview(AniReview review);
+
+	/**
+	 * 리뷰 카운트 감소
+	 * @param review
+	 */
+	public void updateReviewCountReduce(AniReview review);
 
 	
 
