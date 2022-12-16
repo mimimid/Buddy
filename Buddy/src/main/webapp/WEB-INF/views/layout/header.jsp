@@ -87,6 +87,20 @@ html, body {
 	text-align: center;
 }
 
+#navbar-nav > li > a {
+	color: #777;
+	
+	font-size: 22px;
+	font-weight: bold;
+	
+	margin: 0 15px;
+}
+
+#navbar-nav > li > a:hover, 
+#navbar-nav > li > a:focus {
+	color: #FF7A85;
+}
+
 .dropdown:hover > .dropdown-menu {
 	display: block;
 	margin-top: 0;
@@ -105,20 +119,6 @@ html, body {
 	line-height: 35px;
 }
 
-#navbar-nav > li > a {
-	color: #777;
-	
-	font-size: 22px;
-	font-weight: bold;
-	
-	margin: 0 15px;
-}
-
-#navbar-nav > li > a:hover, 
-#navbar-nav > li > a:focus {
-	color: #FF7A85;
-}
-
 .dropdown-menu > li > a:hover {
 	color: #fff;
 	background: #FF7A85;
@@ -128,9 +128,8 @@ html, body {
 
 a.top {
   position: fixed;
-  right: 100px;
+  right: 85px;
   bottom: 150px;
-  display: none;
 }
 
 a.top > span {
@@ -141,14 +140,6 @@ a.top > span {
 
 <script type="text/javascript">
 $(document).ready(function() {
-	$(window).scroll(function() {
-		if( $(this).scrollTop() > 150 ) {
-			$(".top").fadeIn()
-		} else {
-			$(".top").fadeOut()
-		}
-	})
-	
 	$(".top").click(function() {
 		$("html, body").animate( { scrollTop : 0 }, 400 )
 		return false
@@ -181,9 +172,19 @@ $(document).ready(function() {
 					<button class="btn btn-default" id="btnJoin"><a href="/user/join">회원가입</a></button>
 				</c:when>
 				<c:when test="${not empty login }">
-					
-					<!-- 마이페이지 로직 구현 필요 -->
-					<strong style="padding-right: 7px;">${usernick }님</strong>
+					<div style="display: inline-block; margin: 10px;">
+						<ul class="userInfo">
+							<li class="dropdown">
+								<a href="#">${nick }님</a>
+								<ul class="dropdown-menu" role="menu">
+									<li><a href="#">마이페이지</a></li>
+									<li><a href="#">기억한 아이</a></li>
+									<li><a href="#">장바구니</a></li>
+									<li><a href="#">쪽지</a></li>
+								</ul>
+							</li>
+						</ul>
+					</div>
 					<button class="btn btn-default" id="btnLogout"><a href="/user/logout">로그아웃</a></button>
 				</c:when>
 			</c:choose>
@@ -203,8 +204,8 @@ $(document).ready(function() {
 					<li class="dropdown">
 						<a href="/comm/list">커뮤니티</a>
 						<ul class="dropdown-menu" role="menu">
-							<li><a href="/comm/cat">고양이</a></li>
-							<li><a href="/omm/dog">강아지</a></li>
+							<li><a href="/comm/list?animal=cat">고양이</a></li>
+							<li><a href="/comm/list?animal=dog">강아지</a></li>
 						</ul>
 					</li>
 					
