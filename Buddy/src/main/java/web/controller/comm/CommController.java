@@ -167,6 +167,8 @@ public class CommController {
 	
 	
 	
+	
+	
 	//----- 댓글 ---------------------------------------------------------
 	
 	@GetMapping("/cmtlist")
