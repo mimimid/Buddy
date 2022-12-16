@@ -6,21 +6,45 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="web.dao.face.comm.CommDao">
-	<select id="selectCntAll" resultType="int">
+	
+	<select id="selectCntAll" resultType="int" parameterType="hashmap">
 		SELECT count(*) FROM comm_board
+		<where>
+		<if test="animal != null and !animal.equals('')">
+			AND cate_animal LIKE #{animal }
+		</if>
+		<if test="category != null and !category.equals('')">
+			AND cate_content LIKE #{category }
+		</if>
+		<if test="keyword != null and !keyword.equals('')">
+			AND ( comm_title LIKE '%' || #{keyword } || '%' OR comm_content LIKE '%' || #{keyword } || '%' )
+		</if>
+		</where>
 	</select>
 	
-	<select id="selectList" resultType="CommBoard" parameterType="Paging">
+	<select id="selectList" resultType="CommBoard" parameterType="hashmap">
 		SELECT * FROM (
 			SELECT rownum rnum, B.* FROM (
 				SELECT
-					comm_no, cate_ani, cate_con, comm_title, comm_content
-					, comm_writedate, comm_update, comm_hit, comm_like, userno
+					comm_no, cate_animal, cate_content, comm_title
+					, comm_content, comm_writer_nick, comm_writedate, comm_update
+					, comm_hit, comm_like_cnt, comm_cmt_cnt, userno
 				FROM comm_board
+				<where>
+					<if test="animal != null and !animal.equals('')">
+						AND cate_animal LIKE #{animal }
+					</if>
+					<if test="category != null and !category.equals('')">
+						AND cate_content LIKE #{category }
+					</if>
+					<if test="keyword != null and !keyword.equals('')">
+						AND ( comm_title LIKE '%' || #{keyword } || '%' OR comm_content LIKE '%' || #{keyword } || '%' )
+					</if>
+				</where>
 				ORDER BY comm_no DESC
 			) B
-		) comm_board
-		WHERE rnum BETWEEN #{startNo } AND #{endNo }
+		) BOARD
+		WHERE rnum BETWEEN #{paging.startNo } AND #{paging.endNo }
 	</select>
 	
 	<update id="updateHit" parameterType="CommBoard">
@@ -31,9 +55,133 @@
 	
 	<select id="selectBoard" resultType="CommBoard" parameterType="CommBoard">
 		SELECT
-			comm_no, cate_ani, cate_con, comm_title, comm_content
-			, comm_writedate, comm_update, comm_hit, comm_like, userno
+			comm_no, cate_animal, cate_content, comm_title
+			, comm_content, comm_writer_nick, comm_writedate, comm_update
+			, comm_hit, comm_like_cnt, comm_cmt_cnt, userno
 		FROM comm_board
 		WHERE comm_no = #{commNo }
 	</select>
+	
+	<insert id="insertCommBoard" parameterType="CommBoard">
+		<selectKey order="BEFORE" resultType="int" keyProperty="commNo">
+			SELECT comm_board_seq.nextval FROM dual
+		</selectKey>
+		
+		INSERT INTO comm_board ( 
+			comm_no, cate_animal, cate_content, comm_title, comm_content
+			, comm_writer_nick, comm_hit, comm_like_cnt, comm_cmt_cnt, userno 
+		)
+		VALUES ( 
+			#{commNo }, #{cateAnimal }, #{cateContent }, #{commTitle }, #{commContent }
+			, #{commWriterNick }, 0, 0, 0, #{userno } 
+		)
+	</insert>
+	
+	<insert id="insertCommFile" parameterType="CommFile">
+		INSERT INTO comm_file ( comm_file_no, comm_no, comm_file_originname, comm_file_storedname, comm_file_size )
+		VALUES ( comm_file_seq.nextval, #{commNo }, #{commFileOriginname }, #{commFileStoredname }, #{commFileSize } )
+	</insert>
+	
+	<select id="selectCommFileByCommNo" resultType="CommFile" parameterType="CommBoard">
+		SELECT
+			comm_file_no, comm_no, comm_file_originname
+			, comm_file_storedname, comm_file_size, comm_file_writedate
+		FROM comm_file
+		WHERE comm_no = #{commNo }
+	</select>
+	
+	<select id="selectCommFileByCommFileNo" resultType="CommFile" parameterType="CommFile">
+		SELECT
+			comm_file_no, comm_no, comm_file_originname
+			, comm_file_storedname, comm_file_size, comm_file_writedate
+		FROM comm_file
+		WHERE comm_file_no = #{commFileNo }	
+	</select>
+	
+	<update id="updateCommBoard" parameterType="CommBoard">
+		UPDATE comm_board SET 
+			cate_animal = #{cateAnimal }
+			, cate_content = #{cateContent }
+			, comm_title = #{commTitle }
+			, comm_content = #{commContent }
+			, comm_update = sysdate
+		WHERE comm_no = #{commNo }
+	</update>
+	
+	<delete id="deleteCommFile" parameterType="CommBoard">
+		DELETE comm_file
+		WHERE comm_no = #{commNo }
+	</delete>
+	
+	<delete id="delete" parameterType="CommBoard">
+		DELETE comm_board
+		WHERE comm_no = #{commNo }
+	</delete>
+	
+	<select id="selectAllCmt" parameterType="int" resultType="CommCmt">
+		SELECT
+			comm_cmt_no, comm_cmt_content, comm_cmt_writer_nick, comm_cmt_writedate
+			, comm_cmt_update, comm_cmt_bundle, comm_cmt_sort, comm_cmt_depth
+			, comm_cmt_delete, comm_no, userno
+		FROM comm_cmt
+		WHERE comm_no = #{commNo }
+		ORDER BY comm_cmt_bundle, comm_cmt_no
+	</select>
+	
+	<insert id="insertCmt" parameterType="CommCmt">
+		<selectKey order="BEFORE" resultType="int" keyProperty="commCmtNo">
+			SELECT comm_cmt_seq.nextval FROM dual
+		</selectKey>
+			
+		INSERT INTO comm_cmt (
+			comm_cmt_no, comm_cmt_content, comm_cmt_writer_nick
+			, comm_cmt_bundle, comm_cmt_sort, comm_cmt_depth
+			, comm_cmt_delete, comm_no, userno
+		)
+		VALUES (
+			#{commCmtNo }, #{commCmtContent }, #{commCmtWriterNick }
+			, #{commCmtNo }, #{commCmtSort }, #{commCmtDepth }
+			, #{commCmtDelete }, #{commNo }, #{userno }	
+		)
+	</insert>
+	
+	<insert id="insertReCmt" parameterType="CommCmt">
+		<selectKey order="BEFORE" resultType="int" keyProperty="commCmtNo">
+			SELECT comm_cmt_seq.nextval FROM dual
+		</selectKey>
+			
+		INSERT INTO comm_cmt (
+			comm_cmt_no, comm_cmt_content, comm_cmt_writer_nick
+			, comm_cmt_bundle, comm_cmt_sort, comm_cmt_depth
+			, comm_cmt_delete, comm_no, userno
+		)
+		VALUES (
+			#{commCmtNo }, #{commCmtContent }, #{commCmtWriterNick }
+			, #{commCmtBundle }, #{commCmtSort }, 1
+			, #{commCmtDelete }, #{commNo }, #{userno }		
+		)	
+	</insert>
+	
+	<update id="cmtUp" parameterType="CommBoard">
+		UPDATE comm_board
+		SET comm_cmt_cnt = comm_cmt_cnt + 1
+		WHERE comm_no = #{comm_no }
+	</update>
+	
+	<select id="cmtCnt" parameterType="HospBoard" resultType="int">
+		SELECT comm_cmt_cnt FROM comm_board
+		WHERE comm_no = #{comm_no }
+	</select>
+	
+	<delete id="deleteCmt" parameterType="HospbCmt">
+		DELETE FROM comm_cmt
+		WHERE comm_cmt_no = #{commCmtNo }
+	</delete>
+	
+	<update id="cmtDown" parameterType="HospBoard">
+		UPDATE comm_board
+		SET comm_cmt_cnt = comm_cmt_cnt - 1
+		WHERE comm_no = #{comm_no }
+	</update>
+	
 </mapper>
