@@ -199,7 +199,7 @@ $(document).ready(function() {
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav" id="navbar-nav">
 					
-					<li><a href="/notice/list">BUDDY</a></li>
+					<li><a href="/notice/listPage">BUDDY</a></li>
 					
 					<li class="dropdown">
 						<a href="/comm/list">커뮤니티</a>
