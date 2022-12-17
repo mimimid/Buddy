@@ -37,9 +37,6 @@
 .well { background-image: linear-gradient(to bottom,#ffffff 0,#f5f5f5 100%); }
 </style>
 
-</head>
-<body>
-
 
 <div class="container">
 

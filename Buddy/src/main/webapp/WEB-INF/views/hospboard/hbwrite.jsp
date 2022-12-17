@@ -75,9 +75,6 @@ select option[value=""][disabled] {
 
 </style>
 
-</head>
-<body>
-
 
 <div class="container">
 

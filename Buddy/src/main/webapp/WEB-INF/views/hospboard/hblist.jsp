@@ -14,8 +14,6 @@ a {
 
 
 </style>
-</head>
-<body>
 
 
 
