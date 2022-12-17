@@ -8,9 +8,8 @@
 <c:import url="../layout/header.jsp" />
 <style type="text/css">
 
-.navbar-nav {
+#navbar-nav {
     float: none;
-    margin: 0;
 }
 
 
