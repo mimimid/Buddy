@@ -5,98 +5,16 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+<c:import url="../layout/header.jsp" />
+<style type="text/css">
+
+.navbar-nav {
+    float: none;
+    margin: 0;
+}
 
 
-<!-- jQuery 2.2.4 -->
-<script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
-
-<!-- 부트스트랩 3 -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-
-
-<script type="text/javascript">
-$(document).ready(function() {
-	
-	
-	$("#btnList").click(function() {
-		location.href = "/hospboard/hblist"
-	})
-
-	
-	$("#btnUpdate").click(function() {
-		location.href = "/hospboard/hbupdate?hbno=${viewBoard.hbno }"
-	})
-
-	
-	$("#btnDelete").click(function() {
-		var result = confirm("정말 삭제 하시겠습니까?");
-		if (result) {
-		      location.href = "/hospboard/hbdelete?hbno=${viewBoard.hbno }"
-		   }
-		   else {
-		     return false
-		   }
-	})
-	
- 
-	
-	var likeval = ${like};
-	
-	let hbno = ${viewBoard.hbno};
-		
-	if( likeval == 0 ){
-		$('#likeicon').attr('class', 'glyphicon glyphicon-heart-empty');
-	}
-		
-		$('.heartbtn').click(function() {
-			
-			if( likeval >0 ){
-				$.ajax({
-					type :"POST"
-					, url : '<c:url value ="/hospboard//hbview/likedown"/>'
-					, data : {"hbno" : hbno}		
-					,success : function(data) {
-						$('#likeicon').attr('class', 'glyphicon glyphicon-heart-empty');
-						likeval = 0;
-					 console.log(likeval);
-					}
-					, error: function() {
-						console.log("좋아요 취소 실패")
-					}
-				})// 아작스 끝
-				
-			}else {
-				
-				$.ajax({
-					type :"POST"
-					, url : '<c:url value ="/hospboard//hbview/likeup"/>'
-					,data : {"hbno" : hbno}		
-					,success : function(data) {
-						$('#likeicon').attr('class', 'glyphicon glyphicon-heart');
-						likeval = 1;
-					}, error: function() {
-						console.log("좋아요 실패")
-					}
-				})
-				
-			}
-		})
-		
-		
-
-})
-</script>
-
-</head>
-<body>
-
+</style>
 
 <div class="container">
 
@@ -178,7 +96,6 @@ $(document).ready(function(){
 	
 	
 	$("#btnReply").click(function() {
-		console.log("#btnReply 클릭")
 		
 		if( $("#cmtcomment").val() == "" ) {
 				alert('댓글을 입력해주세요!');
@@ -187,11 +104,9 @@ $(document).ready(function(){
 				
 			}  else {
 				
-			var hbCmtContent = $("#cmtcomment").val(); 
-			var hbno = ${viewBoard.hbno}; 						
-			var param={ "hbCmtContent": hbCmtContent, "hbno": hbno};
-		        //var param="ncmtcomment="+ncmtcomment+"&nno="+nno;
-		
+			var hbCmtContent = $("#cmtcomment").val(); 				
+			var param={ "hbCmtContent": hbCmtContent, "hbno": ${viewBoard.hbno}};
+		        
 			$.ajax({
 				type: "post"
 				, url: "/hospboard/hbcmtwrite"	
@@ -223,6 +138,82 @@ $(document).ready(function(){
 <br>
 
 
+
+
+<div id="listReply"></div>
+
+</div>
+
+
+
+<script type="text/javascript">
+$(document).ready(function() {
+	
+	
+	$("#btnList").click(function() {
+		location.href = "/hospboard/hblist"
+	})
+
+	
+	$("#btnUpdate").click(function() {
+		location.href = "/hospboard/hbupdate?hbno=${viewBoard.hbno }"
+	})
+
+	
+	$("#btnDelete").click(function() {
+		var result = confirm("정말 삭제 하시겠습니까?");
+		if (result) {
+		      location.href = "/hospboard/hbdelete?hbno=${viewBoard.hbno }"
+		   }
+		   else {
+		     return false
+		   }
+	})
+	
+ 
+	
+	var likeval = ${like};
+
+		
+	if( likeval == 1 ){
+		
+		$('.heartbtn').click(function() {
+			
+			if( likeval ){
+				$.ajax({
+					type :"POST"
+					, url : '<c:url value ="/hospboard//hbview/likedown"/>'
+					, data : {"hbno" : ${param.hbno}}		
+					,success : function(data) {
+						$('#likeicon').attr('class', 'glyphicon glyphicon-heart-empty');
+
+					}
+					, error: function() {
+						console.log("좋아요 취소 실패")
+					}
+				})// 아작스 끝
+				
+			}else {
+				
+				$.ajax({
+					type :"POST"
+					, url : '<c:url value ="/hospboard//hbview/likeup"/>'
+					,data : {"hbno" : ${param.hbno}}		
+					,success : function(data) {
+						$('#likeicon').attr('class', 'glyphicon glyphicon-heart');
+					}, error: function() {
+						console.log("좋아요 실패")
+					}
+				})
+				
+			}
+		})
+		
+		
+
+})
+</script>
+
 <script type="text/javascript">
 $(document).ready(function(){
 		
@@ -241,15 +232,6 @@ $(document).ready(function(){
  
 </script>
 
-<div id="listReply"></div>
-
-</div>
-
-
-
-
-
 </div><!-- .container end --> 
 
-</body>
-</html>
+<c:import url="../layout/footer.jsp" />

@@ -2,7 +2,6 @@ package web.service.impl.hospital;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -63,19 +62,7 @@ public class HospitalServiceImpl implements HospitalService {
 		return hospitalList;
 	}
 	
-	
-	@Override
-	public List<HashMap<String, Object>> hosplikeList(int usernoParam) {
-		
-		List<HashMap<String, Object>> hospLikeList = hospitalDao.selectHospLikeAll(usernoParam);
-		logger.debug("hospLikeList {}",hospLikeList );
-		
-		return hospLikeList;
-	}
-	
-	
-	
-	
+
 	@Override
 	public Hospital view(Hospital viewHospital) {
 		
@@ -83,61 +70,23 @@ public class HospitalServiceImpl implements HospitalService {
 		return hospitalDao.selectHospital(viewHospital);
 	}
 	
-
-	@Override
-	public int findLike(Hospital viewHospital, int userno) {
-
-		HospitalLike like = new HospitalLike();
-		
-		like.setHospNo(viewHospital.getHospNo());
-		like.setUserno(userno);
-		
-		if( hospitalDao.findLike(like) > 0) {
-			return 1;
-		}
-		
-		return 0;
-	}
 	
 	
 	@Override
-	public void likeUp(HospitalLike like) {
-		
-		int res = 0;
-		
-		res = hospitalDao.likeUp(like);
-		
-		if(res == 1) {
-			Hospital hospital = new Hospital();
-			hospital .setHospNo(like.getHospNo());
-
-			hospitalDao.likeCntUp(hospital);
-		}
-		
+	public void likeUp(HospitalLike like) {		
+		 hospitalDao.likeUp(like);	
 	}
 
 
 
 	@Override
-	public void likeDown(HospitalLike like) {
-		
-		int res = 0;
-		
-		res = hospitalDao.likeDown(like);
-		
-		if(res == 1) {
-			Hospital hospital = new Hospital();
-			hospital .setHospNo(like.getHospNo());
-
-			hospitalDao.likeCntDown(hospital);
-		}
-		
+	public void likeDown(HospitalLike like) {		
+		hospitalDao.likeDown(like);		
 	}
 	
 	
 	@Override
-	public void insertHospApiData(Hospital hospital) {
-	
+	public void insertHospApiData(Hospital hospital) {	
 		if( ("01").equals( hospital.getHospStateCode() )  ) {
 			hospitalDao.insertApiData(hospital);
 		}else {
@@ -147,97 +96,34 @@ public class HospitalServiceImpl implements HospitalService {
 
 	
 	@Override
-	public List<HospitalReview> reviewList(int hospNo, String sort) {
-		
-		if(("1").equals(sort)) {
-			return hospitalDao.selectAllReviewLikeSort(hospNo);
-		}
+	public List<HospitalReview> reviewList(int hospNo) {	
 		return hospitalDao.selectAllReview(hospNo);
 	}
 
 
 	@Override
-	public void reviewWrite(HospitalReview hospReview) {
-	
-		int res = 0;
-		res = hospitalDao.insertReview(hospReview);
-		
-		if(res == 1) {
-			Hospital hospital = new Hospital();
-			hospital.setHospNo(hospReview.getHospNo());
-			
-			hospitalDao.reviewCntUp(hospital);
-			hospitalDao.reviewRateUpdate(hospital);
-			
-		}
-
+	public void reviewWrite(HospitalReview hospReview) {	
+		hospitalDao.insertReview(hospReview);
 	}
 
 
 	@Override
-	public void reviewDelete(HospitalReview hospReview) {
-		int res = 0;
-		res = hospitalDao.deleteReview(hospReview);
-		
-		if(res == 1) {
-			Hospital hospital = new Hospital();
-			hospital.setHospNo(hospReview.getHospNo());
-			
-			hospitalDao.reviewCntDown(hospital);
-			hospitalDao.reviewRateUpdate(hospital);
-			
-		}
-		
+	public void reviewDelete(HospitalReview hospReview) {		
+		hospitalDao.deleteReview(hospReview);
 	}
+
 	
 	
 	@Override
-	public List<HospitalReviewLike> reviewLikeList(int hospNo) {
-		
-		return hospitalDao.selectAllReviewLike(hospNo);
-	}
-	
-	
-	@Override
-	public void reviewLikeUp(HospitalReviewLike reviewLike) {
-		
-		int res = hospitalDao.reviewLikeUp(reviewLike);
-		
-		if(res == 1) {
-			HospitalReview hospReview = new HospitalReview();
-			hospReview.setHospReviewNo(reviewLike.getHospReviewNo());
-			
-			hospitalDao.reviewLikeCntUp(hospReview);
-		}
-		
+	public void reviewLikeUp(HospitalReviewLike reviewLike) {		
+		hospitalDao.reviewLikeUp(reviewLike);		
 	}
 	
 	
 	@Override
 	public void reviewLikeDown(HospitalReviewLike reviewLike) {
-		
-		int res = hospitalDao.reviewLikeDown(reviewLike);
-		
-		if(res == 1) {
-			HospitalReview hospReview = new HospitalReview();
-			hospReview.setHospReviewNo(reviewLike.getHospReviewNo());
-			
-			hospitalDao.reviewLikeCntDown(hospReview);
-		}
-		
+		 hospitalDao.reviewLikeDown(reviewLike);	
 	}
-	
-	
-	@Override
-	public int reviewLikeCnt(HospitalReview hospReview) {
-		
-		return hospitalDao.getReviewLikeCnt(hospReview);
-	}
-	
-	
-	
-	
-	
 	
 	
 	
@@ -358,7 +244,6 @@ public class HospitalServiceImpl implements HospitalService {
 	public void delete(Hospital hospital) {
 		
 		hospitalDao.deleteHospLike(hospital);
-		hospitalDao.deleteHospReviewLike(hospital);
 		hospitalDao.deleteHospReview(hospital);
 		hospitalDao.deleteHospPic(hospital);
 		hospitalDao.deleteHospital(hospital);
@@ -367,11 +252,6 @@ public class HospitalServiceImpl implements HospitalService {
 	}
 
 
-	@Override
-	public int reviewLikeCntJson(int hospReviewNo) {
-
-		return hospitalDao.selectReviewLikeCnt(hospReviewNo);
-	}
 	
 	
 	

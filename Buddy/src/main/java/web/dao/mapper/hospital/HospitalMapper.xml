@@ -146,158 +146,7 @@
 		FROM hospital_pic
 		WHERE hosp_no = #{hospNo}
 	</select>
-	
-	
 
-	<select id="findLike" resultType="int" parameterType="HospitalLike">
-		SELECT count(*) from hospital_like
-		WHERE hosp_no = #{hospNo} AND userno = #{userno}
-	</select>	
-	
-	
-	<insert id="likeUp" parameterType="HospitalLike" >
-		INSERT INTO hospital_like (hosp_like_no, hosp_no, userno, hosp_like_chk)
-		VALUES( hospital_like_seq.nextval, #{hospNo},#{userno},1)
-	</insert>
-	
-	
-	<delete id="likeDown" parameterType="HospitalLike">
-	  	DELETE hospital_like
-	  	WHERE hosp_no = #{hospNo} AND userno = #{userno}
-	 </delete>
-	 
-	 
-	<update id="likeCntUp" parameterType="Hospital">
-		UPDATE hospital
-		SET hosp_like_cnt = hosp_like_cnt+1
-		WHERE hosp_no = #{hospNo}
-	</update>
-
-
-	<update id="likeCntDown" parameterType="Hospital">
-		UPDATE hospital
-		SET hosp_like_cnt = hosp_like_cnt-1
-		WHERE hosp_no = #{hospNo}
-	</update>
-	
-	
-
-	 <select id="selectAllReview" parameterType="int" resultType="HospitalReview">
-	 	SELECT 
-	 		hosp_review_no, hosp_review_content, animal, hosp_review_writedate
-	 		,hosp_starrating, hosp_review_likecnt
-	 		,hosp_no ,userid, usernick, userno
-		FROM hospital_review
-		WHERE hosp_no = #{hospNo}
-		ORDER BY hosp_review_writedate DESC
-	 </select>
-	 
-
-	 <select id="selectAllReviewLikeSort" parameterType="int" resultType="HospitalReview">
-	 	SELECT 
-	 		hosp_review_no, hosp_review_content, animal, hosp_review_writedate
-	 		,hosp_starrating, hosp_review_likecnt
-	 		,hosp_no ,userid, usernick, userno
-		FROM hospital_review
-		WHERE hosp_no = #{hospNo}
-		ORDER BY hosp_review_likecnt DESC, hosp_review_writedate DESC
-	 </select>
-	 
-
-	<insert id="insertReview" parameterType="HospitalReview">
-		INSERT INTO hospital_review (
-				hosp_review_no, hosp_review_content, animal
-	 			,hosp_starrating
-	 			,hosp_no ,userid, usernick, userno
-				)
-		VALUES (hospital_review_seq.nextval, #{hospReviewContent}, #{animal}
-				,#{hospStarrating}
-				, #{hospNo}, #{userid}, #{usernick}, #{userno} )
-	</insert>
-	
-	<update id="reviewCntUp" parameterType="Hospital">
-		UPDATE hospital
-		SET hosp_review_cnt = hosp_review_cnt+1
-		WHERE hosp_no = #{hospNo}
-	</update>
-	
-	<delete id="deleteReview" parameterType="HospitalReview">
-		DELETE FROM hospital_review
-		WHERE hosp_review_no=#{hospReviewNo}
-	</delete>	
-	
-	<update id="reviewCntDown" parameterType="Hospital">
-		UPDATE hospital
-		SET hosp_review_cnt = hosp_review_cnt-1
-		WHERE hosp_no = #{hospNo}
-	</update>
-	
-
-	<update id="reviewRateUpdate" parameterType="Hospital">
-		UPDATE hospital
-		SET hosp_rate = (
-			SELECT  round (avg(hosp_starrating) , 2)
-			FROM hospital_review
-			WHERE hosp_no = #{hospNo}
-			)
-		WHERE hosp_no = #{hospNo}
-	</update>
-	
-	<select id="selectAllReviewLike" parameterType="int" resultType="HospitalReviewLike">
-		SELECT hosp_review_like_no, hosp_review_no, hosp_review_like_chk, hosp_no, userno
-		FROM hospital_review_like
-		WHERE hosp_no=#{hospNo}
-	</select>
-
-
-	<select id="findReviewLike" resultType="int" parameterType="HospitalReviewLike">
-		SELECT count(*) hospital_review_like
-		WHERE hosp_review_no = #{hosp_review_no} AND userno = #{userno}
-	</select>	
-	
-	
-	<insert id="reviewLikeUp" parameterType="HospitalReviewLike" >
-		INSERT INTO hospital_review_like (hosp_review_like_no, hosp_review_no, hosp_review_like_chk, hosp_no, userno)
-		VALUES( hospital_review_like_seq.nextval, #{hospReviewNo},1, #{hospNo}, #{userno})
-	</insert>
-	
-	<delete id="reviewLikeDown" parameterType="HospitalReviewLike">
-	  	DELETE hospital_review_like
-	  	WHERE hosp_review_no = #{hospReviewNo} AND userno = #{userno}
-	 </delete>
-	 
-
-	<update id="reviewLikeCntUp" parameterType="HospitalReview">
-		UPDATE hospital_review
-		SET hosp_review_likecnt = hosp_review_likecnt+1
-		WHERE hosp_review_no = #{hospReviewNo}
-	</update>
-
-
-	<update id="reviewLikeCntDown" parameterType="HospitalReview">
-		UPDATE hospital_review
-		SET hosp_review_likecnt = hosp_review_likecnt-1
-		WHERE hosp_review_no = #{hospReviewNo}
-	</update>
-	
-	
-	<select id="getReviewLikeCnt" parameterType="HospitalReview" resultType="int">
-		SELECT hosp_review_likecnt
-		FROM hospital_review
-		WHERE hosp_review_no = #{hospReviewNo}
-	</select>
-	
-	<select id="selectReviewLikeCnt" parameterType="int" resultType="int">
-		SELECT hosp_review_likecnt
-		FROM hospital_review
-		WHERE hosp_review_no = #{hospReviewNo}
-	</select>
-	
-	
-	
-	
-	
-	
 	<insert id="insertHospital" parameterType="Hospital">
 		<selectKey order="BEFORE" resultType="int" keyProperty="hospNo"> 
 			SELECT hospital_seq.nextval FROM dual
@@ -338,22 +187,7 @@
 	</update>
 	
 	
-	
-	<delete id="deleteHospLike" parameterType="Hospital">
-		DELETE hospital_like
-		WHERE hosp_no = #{hospNo}
-	</delete>
-	
-	<delete id="deleteHospReviewLike" parameterType="Hospital">
-		DELETE hospital_review_like
-		WHERE hosp_no = #{hospNo}
-	</delete>
-	
-	<delete id="deleteHospReview" parameterType="Hospital">
-		DELETE hospital_review
-		WHERE hosp_no = #{hospNo}
-	</delete>
-	
+
 	<delete id="deleteHospPic" parameterType="Hospital">
 		DELETE hospital_pic
 		WHERE hosp_no = #{hospNo}
@@ -364,30 +198,6 @@
 		WHERE hosp_no = #{hospNo}
 	</delete>
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	<insert id="insertApiData" parameterType="Hospital">
-		<selectKey order="BEFORE" resultType="int" keyProperty="hospNo"> 
-			SELECT hospital_seq.nextval FROM dual
-		</selectKey>
-		INSERT INTO hospital (
-			hosp_no, hosp_name, hosp_tel, hosp_content
-			, hosp_mgtno, hosp_old_address, hosp_address, hosp_post_no, hosp_y, hosp_x
-			, hosp_state_code, hosp_state_now )
-		VALUES (
-			#{hospNo}, #{hospName}, #{hospTel}, #{hospContent}
-				,#{hospMgtno}, #{hospOldAddress}, #{hospAddress}, #{hospPostNo}, #{hospY}, #{hospX}
-				, #{hospStateCode}, #{hospStateNow} )
-	</insert>	
-
 
 
 </mapper>

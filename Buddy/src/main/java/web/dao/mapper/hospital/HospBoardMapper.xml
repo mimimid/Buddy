@@ -123,14 +123,7 @@
 		WHERE hbno = #{hbno}
 	</delete>
 	
-	
-	
-	
-	<!-- 좋아요 눌럿는지 안눌럿는지 -->
-	<select id="findLike" resultType="int" parameterType="HospbLike">
-		SELECT count(*) from hospb_like 
-		WHERE hbno = #{hbno} AND userno = #{userno}
-	</select>	
+
 	
 	
 	<insert id="likeUp" parameterType="HospbLike" >
@@ -143,21 +136,6 @@
 	  	DELETE hospb_like
 	  	WHERE hbno = #{hbno} AND userno = #{userno} 
 	 </delete>
-	 
-	 
-	<update id="likeCntUp" parameterType="HospBoard">
-		UPDATE hosp_board
-		SET hblike = hblike+1
-		WHERE hbno=#{hbno}
-	</update>
-
-
-	<update id="likeCntDown" parameterType="HospBoard">
-		UPDATE hosp_board
-		SET hblike = hblike-1
-		WHERE hbno=#{hbno}
-	</update>	 
-	 
 	 
 
 	 <select id="selectAllCmt" parameterType="int" resultType="HospbCmt">
@@ -207,34 +185,9 @@
 	</update>
 	
 
-	<select id="bundleCmtCnt" parameterType="HospbCmt" resultType="int">
-		SELECT count(*) FROM hospb_cmt
-		WHERE hb_cmt_no != #{hbCmtNo} AND hb_cmt_bundle = #{hbCmtBundle}
-	</select>
-	
-
-	<select id="reCmtCnt" parameterType="HospbCmt" resultType="int">
-		SELECT count(*) FROM hospb_cmt
-		WHERE hb_cmt_no != #{hbCmtBundle} AND hb_cmt_bundle = #{hbCmtBundle}
-	</select>
-	
-
 	<delete id="deleteCmt" parameterType="HospbCmt">
 		DELETE FROM hospb_cmt
 		WHERE hb_cmt_no=#{hbCmtNo}
-	</delete>
-	
-
-	<update id="deleteParentCmt" parameterType="HospbCmt">
-		UPDATE hospb_cmt
-		SET hb_cmt_content = ""
-		WHERE hb_cmt_no=#{hbCmtNo}
-	</update>
-	
-
-	<delete id="deleteAfterAllDelete" parameterType="HospbCmt">
-		DELETE FROM hospb_cmt
-		WHERE content="" AND hb_cmt_bundle=#{hbCmtBundle}
 	</delete>
 	
 
@@ -243,11 +196,7 @@
 		SET hbcmtcnt = hbcmtcnt-1
 		WHERE hbno=#{hbno}
 	</update>
-	
-	<select id="cmtCnt" parameterType="HospBoard" resultType="int">
-		SELECT hbcmtcnt FROM hosp_board
-		WHERE hbno=#{hbno}
-	</select>
+
 	
 	
 	

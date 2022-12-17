@@ -60,18 +60,13 @@ public interface HospBoardService {
 	 */
 	public void delete(HospBoard board);
 
-
-	public int findLike(HospBoard viewBoard, int userno);
-
 	public void likeUp(HospbLike like);
 	
 	public void likeDown(HospbLike like);
 
 	public List<HospbCmt> cmtList(int hbno);
 
-
 	public void cmtWrite(HospbCmt hospbCmt);
-
 
 	public void cmtDelete(HospbCmt hospbCmt);
 
