@@ -1,5 +1,16 @@
 package web.controller.shopping;
 
+import java.io.BufferedReader;
+import java.io.DataOutput;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.HashMap;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -14,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import web.dto.AniOrder;
 import web.dto.AniProduct;
 import web.dto.AniReview;
 import web.service.face.shopping.ShoppingService;
@@ -91,16 +103,83 @@ public class ShoppingController {
 		return "";
 			
 	}
-	@ResponseBody
+	
 	@GetMapping("/deleteReview")
 	public String reviewDelte(AniReview review) {
 		
+		logger.debug("삭제 리뷰 정보 : {}", review);
 		shoppingService.deleteReview(review);
 		
-		logger.debug("ajxa 요청 : {}", review);
 		
-		return "";
+		return "redirect:/shopping/view?productno="+review.getProductno();
 		
 	}
+	
+	@GetMapping("/delete")
+	public String delete(int productno) {
+		
+		shoppingService.deleteProduct(productno);
+//		logger.debug("삭제할 상품번호 : {} ", productno);
+		return "redirect:/shopping/list";
+	}
+	
+	@GetMapping("order")
+	public void order(AniOrder order, Model model) {
+		
+		
+		AniProduct product = shoppingService.getProduct(order);
+		logger.debug("상품정보 확인 : {}", product);
+		
+		model.addAttribute("product", product);
+	}
+	@ResponseBody
+	@RequestMapping("kakao")
+	public String kakaopay() {
+		
+		try {
+			URL add = new URL("https://kapi.kakao.com/v1/payment/ready");
+			
+			HttpURLConnection conn = (HttpURLConnection)add.openConnection();
+			
+			conn.setRequestMethod("POST");
+			conn.setRequestProperty("Authorization", "KakaoAK 7e64369997a318b483b424bda8b8e504");
+			conn.setRequestProperty("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+			conn.setDoOutput(true);
+			
+			String param = "cid=TC0ONETIME&partner_order_id=partner_order_id&partner_user_id=partner_user_id&item_name=item_name&quantity=1&total_amount=1&tax_free_amount=1&approval_url=http://localhost:8888/shopping/success.jsp&cancel_url=http://localhost:8888/shopping/cancel.jsp&fail_url=http://localhost:8888/shopping/fail.jsp";
+			
+			OutputStream out = conn.getOutputStream();
+			DataOutputStream data = new DataOutputStream(out);
+			
+			data.writeBytes(param);
+			data.close();
+			
+			int result = conn.getResponseCode();
+			
+			InputStream input;
+			if(result==200) {
+				input=conn.getInputStream();
+			}else {
+				input=conn.getErrorStream();
+			}
+			
+			InputStreamReader inputreader = new InputStreamReader(input);
+			BufferedReader breader = new BufferedReader(inputreader);
+			return breader.readLine();
+			
+		} catch (MalformedURLException e) {
+			
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return "";
+	}
+	
+	
+	
+	
 
 }

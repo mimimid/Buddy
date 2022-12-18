@@ -7,6 +7,8 @@
 
 
 
+
+
 <style>
  table{ 
 	width: 1000px;
@@ -35,6 +37,8 @@ img{
 <div class="container">
 <h1 style="text-align: center;">Shopping</h1> 
 <hr>
+
+
 
 <table>
 <c:forEach items="${list }" var="product" begin="0" end="4">

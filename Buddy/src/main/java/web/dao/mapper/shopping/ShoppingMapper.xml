@@ -9,6 +9,7 @@
 	<select id="selectCntAll" resultType="int">
 		select count(*) from ani_product
 	</select>
+	
 	<select id="selectList" resultType="AniProduct" parameterType="Paging">
 		SELECT * FROM (
 			SELECT rownum rnum, P.* FROM (
@@ -83,5 +84,25 @@
 		set reviewcount = reviewcount - 1
 		where productno = #{productno }
 	</update>
+	
+	<delete id="deleteProdcutByProductno" parameterType="int">
+		delete from ani_product
+		where productno = #{productno }
+	</delete>
+	<delete id="deleteReviewByProductno" parameterType="int">
+		delete from ani_review
+		where productno = #{productno }
+	</delete>
+	<delete id="deleteImgByProductno" parameterType="int">
+		delete from ani_product_img
+		where productno = #{productno }
+	</delete>
+	
+	<select id="selectProductByProductNo" resultType="AniProduct" parameterType="AniOrder">
+		select ani_product.productname, ani_product_img.pimgstored
+		from ani_product,  ani_product_img
+		where ani_product.productno = ani_product_img.productno(+) and ani_product.productno = #{productno }
+	</select>
+	
 
 </mapper>

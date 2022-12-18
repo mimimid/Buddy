@@ -2,6 +2,7 @@ package web.dao.face.shopping;
 
 import java.util.List;
 
+import web.dto.AniOrder;
 import web.dto.AniProduct;
 import web.dto.AniProductImg;
 import web.dto.AniReview;
@@ -92,6 +93,34 @@ public interface ShoppingDao {
 	 * @param review
 	 */
 	public void updateReviewCountReduce(AniReview review);
+
+	/**
+	 * 상품 삭제
+	 * @param productno
+	 */
+	public void deleteProdcutByProductno(int productno);
+
+	/**
+	 * 상품 리뷰 삭제
+	 * @param productno
+	 */
+	public void deleteReviewByProductno(int productno);
+
+	/**
+	 * 상품 이미지 삭제
+	 * @param productno
+	 */
+	public void deleteImgByProductno(int productno);
+
+	/**
+	 * 상품번호로 상품이미지 상품이름 조회
+	 * @param order
+	 * @return
+	 */
+	public AniProduct selectProductByProductNo(AniOrder order);
+
+	
+	
 
 	
 

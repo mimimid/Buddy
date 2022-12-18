@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import web.dao.face.shopping.ShoppingDao;
+import web.dto.AniOrder;
 import web.dto.AniProduct;
 import web.dto.AniProductImg;
 import web.dto.AniReview;
@@ -138,6 +139,28 @@ public class ShoppingServiceImpl implements ShoppingService {
 		
 	}
 
+	@Override
+	public void deleteProduct(int productno) {
+		
+		//상품 리뷰 삭제
+		shoppingDao.deleteReviewByProductno(productno);
+		
+		//이미지 삭제
+		shoppingDao.deleteImgByProductno(productno);
+		
+		//상품 삭제
+		shoppingDao.deleteProdcutByProductno(productno);
+		
+	}
+
+	@Override
+	public AniProduct getProduct(AniOrder order) {
+		
+		return shoppingDao.selectProductByProductNo(order);
+	}
+
+	
+	
 	
 
 }

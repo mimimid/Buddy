@@ -11,14 +11,16 @@ $(document).ready(function(){
 	$("#amount").ready(function(){
 		var total = ${product.price } * $("#amount").val()
 		
-		$("#totalPrice").text(total+" 원")
+		var result = total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+		$("#totalPrice").text(result+"원")
 	})
 	
 	$("#amount").change(function(){
 		var total = ${product.price } * $("#amount").val()
+		var result = total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 		
 		
-		$("#totalPrice").text(total+" 원")
+		$("#totalPrice").text(result+"원")
 	})
 })
 </script>
@@ -74,6 +76,24 @@ $(document).ready(function(){
 })
 
  </script>
+ 
+ 
+ 
+ <script type="text/javascript">
+ $(document).ready(function(){
+	 $('#btnOrder').click(function(){
+		 
+		var amount = $('#amount').val();
+		var price = $('#price').val();
+		var productno = $('#productno').val();
+		var userno = $('#userno').val();
+		 
+		 location.href = 'order?productno='+productno+'&price='+price+'&amount='+amount+'&userno='+userno;
+	 })
+	 
+ })
+ 
+ </script>
 
 
 <style type="text/css">
@@ -87,7 +107,7 @@ $(document).ready(function(){
  	font-weight: bold;
  }
  
- #btnBuy{
+ #btnOrder{
  	width:100; 
  	color: white; 
  	background-color: #FF7A85;
@@ -141,7 +161,7 @@ $(document).ready(function(){
 	</tr>
 	<tr>
 		<td>가격 : </td>
-		<td><fmt:formatNumber value="${product.price }" pattern="###,###.###원"/></td>
+		<td ><fmt:formatNumber value="${product.price }" pattern="###,###.###원" /></td>
 	</tr>
 	<tr>
 		<td>수량 : </td>
@@ -153,8 +173,11 @@ $(document).ready(function(){
 	</tr>
 	<tr>
 		<td colspan="2" style="text-align: center; ">
-			<button type="button" class="btn" id="btnBuy" >구매하기</button>
-			<button type="button" class="btn" >임시</button>
+			<button type="button" class="btn" id="btnOrder" >주문하기</button>
+			<button type="button" class="btn" >장바구니</button>
+			<c:if test="${userno eq 1 }">
+			<a href="./delete?productno=${product.productno }"><button type="button" class="btn">상품삭제</button></a>
+			</c:if>
 		</td>
 	</tr>
 	<tr>
@@ -168,6 +191,9 @@ $(document).ready(function(){
 	</tr>
 	
 </table>
+	<input type="hidden" id="productno" value="${product.productno }">
+	<input type="hidden" id="price" value="${product.price }">
+	<input type="hidden" id="price" value="${userno }">
 
 <div id="result"></div>
 <table class="table">
