@@ -6,6 +6,8 @@ import java.util.List;
 import web.dto.CommBoard;
 import web.dto.CommCmt;
 import web.dto.CommFile;
+import web.dto.CommLike;
+import web.dto.CommReport;
 
 public interface CommDao {
 
@@ -78,6 +80,27 @@ public interface CommDao {
 	public void updateCommBoard(CommBoard commBoard);
 
 	/**
+	 * 게시글을 참조하고 있는 모든 좋아요 삭제
+	 * 
+	 * @param commBoard - 좋아요를 삭제할 게시글 번호
+	 */
+	public void deleteAllLike(CommBoard commBoard);
+	
+	/**
+	 * 게시글을 참조하고 있는 모든 댓글 삭제
+	 * 
+	 * @param commBoard - 댓글을 삭제할 게시글 번호
+	 */
+	public void deleteAllCmt(CommBoard commBoard);
+	
+	/**
+	 * 게시글을 참조하고 있는 모든 신고 삭제
+	 * 
+	 * @param commBoard - 신고를 삭제할 게시글 번호
+	 */
+	public void deleteAllReport(CommBoard commBoard);
+	
+	/**
 	 * 게시글을 참조하고 있는 모든 첨부파일 삭제
 	 * 
 	 * @param commBoard - 첨부파일을 삭제할 게시글 번호
@@ -91,6 +114,50 @@ public interface CommDao {
 	 */
 	public void delete(CommBoard commBoard);
 
+	
+	//----- 좋아요 ---------------------------------------------------------
+	
+	/**
+	 * 게시글 번호와 회원번호를 통한 좋아요 여부 조회
+	 * 
+	 * @param like - 게시글 번호, 회원번호 정보 객체
+	 * @return
+	 */
+	public int findLike(CommLike like);
+	
+	/**
+	 * 좋아요 추가
+	 * 
+	 * @param like - 게시글 번호 객체
+	 * @return 좋아요 추가 여부(추가 성공 - 1, 추가 실패 - 0 )
+	 */
+	public int likeUp(CommLike like);
+	
+	/**
+	 * 좋아요 수 추가
+	 * 
+	 * @param board - 게시글 번호 객체
+	 */
+	public void likeCntUp(CommBoard board);
+	
+	/**
+	 * 좋아요 취소
+	 * 
+	 * @param like - 게시글 번호 객체
+	 * @return 좋아요 취소 여부(추가 성공 - 1, 추가 실패 - 0 )
+	 */
+	public int likeDown(CommLike like);
+	
+	/**
+	 * 좋아요 수 감소
+	 * 
+	 * @param board - 게시글 번호 객체
+	 */
+	public void likeCntDown(CommBoard board);
+	
+	
+	//----- 댓글 ---------------------------------------------------------
+	
 	/**
 	 * 게시글 번호를 이용하여 전체 댓글 수를 조회한다
 	 * 
@@ -103,7 +170,7 @@ public interface CommDao {
 	 * 댓글 정보를 삽입한다(댓글그룹이 없을 경우)
 	 * 
 	 * @param commCmt - 삽입할 댓글 정보
-	 * @return
+	 * @return 댓글 삽입 여부(삽입 성공 - 1, 삽입 실패 - 0 )
 	 */
 	public int insertCmt(CommCmt commCmt);
 
@@ -111,7 +178,7 @@ public interface CommDao {
 	 * 댓글 정보를 삽입한다(댓글그룹이 있을 경우)
 	 * 
 	 * @param commCmt - 삽입할 댓글 정보
-	 * @return
+	 * @return 댓글 삽입 여부(삽입 성공 - 1, 삽입 실패 - 0 )
 	 */
 	public int insertReCmt(CommCmt commCmt);
 
@@ -122,10 +189,41 @@ public interface CommDao {
 	 */
 	public void cmtUp(CommBoard commBoard);
 
+	/**
+	 * 게시글의 전체 댓글 수를 조회한다
+	 * 
+	 * @param commBoard
+	 */
 	public void cmtCnt(CommBoard commBoard);
 
 	public int deleteCmt(CommCmt commCmt);
 
 	public void cmtDown(CommBoard commBoard);
+
+	/**
+	 * 신고 작성
+	 * 
+	 * @param commReport - 신고 정보 객체
+	 */
+	public void report(CommReport commReport);
+
+	
+	public List<CommBoard> selectRList();
+
+	public List<CommBoard> selectPList();
+
+	
+
+	
+
+	
+
+
+
+
+
+
+
+
 
 }

@@ -44,6 +44,15 @@ function updateContents() {
 }
 </script>
 
+<script type="text/javascript">
+$(document).ready(function() {
+	
+	$("#cateAnimal").val("${updateBoard.cateAnimal }").prop("selected",true);
+	$("#cateContent").val("${updateBoard.cateContent }").prop("selected",true);
+	
+})
+</script>
+
 <style type="text/css">
 #originFile, #newFile {
 	display: none;

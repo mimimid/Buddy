@@ -172,7 +172,7 @@ $(document).ready(function() {
 					<button class="btn btn-default" id="btnJoin"><a href="/user/join">회원가입</a></button>
 				</c:when>
 				<c:when test="${not empty login }">
-					<div style="display: inline-block; margin: 10px;">
+					<div style="display: inline-block;">
 						<ul class="userInfo">
 							<li class="dropdown">
 								<a href="#">${nick }님</a>
@@ -202,7 +202,7 @@ $(document).ready(function() {
 					<li><a href="/notice/listPage">BUDDY</a></li>
 					
 					<li class="dropdown">
-						<a href="/comm/list">커뮤니티</a>
+						<a href="/comm/list?animal=cat">커뮤니티</a>
 						<ul class="dropdown-menu" role="menu">
 							<li><a href="/comm/list?animal=cat">고양이</a></li>
 							<li><a href="/comm/list?animal=dog">강아지</a></li>

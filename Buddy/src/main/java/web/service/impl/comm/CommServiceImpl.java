@@ -18,6 +18,8 @@ import web.dao.face.comm.CommDao;
 import web.dto.CommBoard;
 import web.dto.CommCmt;
 import web.dto.CommFile;
+import web.dto.CommLike;
+import web.dto.CommReport;
 import web.service.face.comm.CommService;
 import web.util.Paging;
 
@@ -31,11 +33,12 @@ public class CommServiceImpl implements CommService {
 	@Autowired ServletContext context;
 	
 	@Override
-	public Paging getPaging(int curPage, String animal, String category, String keyword) {
+	public Paging getPaging(int curPage, String animal, String category, String searchType, String keyword) {
 		
 		HashMap<String, Object> map = new HashMap<>();
 		map.put("animal", animal);
 		map.put("category", category);
+		map.put("searchType", searchType);
 		map.put("keyword", keyword);
 		int totalCount = commDao.selectCntAll(map);
 		
@@ -45,13 +48,13 @@ public class CommServiceImpl implements CommService {
 	}
 	
 	@Override
-	public List<CommBoard> list(Paging paging, String animal, String category, String sort, String keyword) {
+	public List<CommBoard> list(Paging paging, String animal, String category, String searchType, String keyword) {
 		
 		HashMap<String, Object> map = new HashMap<>();
 		map.put("paging", paging);
 		map.put("animal", animal);
 		map.put("category", category);
-		map.put("sort", sort);
+		map.put("searchType", searchType);
 		map.put("keyword", keyword);
 		
 		return commDao.selectList(map);
@@ -192,13 +195,64 @@ public class CommServiceImpl implements CommService {
 	@Override
 	public void delete(CommBoard commBoard) {
 		
-		// 첨부파일 삭제
-		commDao.deleteCommFile(commBoard);
+		// 신고 삭제?
+		commDao.deleteAllReport(commBoard);
 		
 		// 게시글 삭제
 		commDao.delete(commBoard);
 		
 	}
+	
+	
+	//----- 좋아요 ---------------------------------------------------------
+	
+	@Override
+	public int findLike(CommBoard viewBoard, int userno) {
+		
+		CommLike like = new CommLike();
+		
+		like.setCommNo(viewBoard.getCommNo());
+		like.setUserno(userno);
+		
+		if( commDao.findLike(like) > 0 ) {
+			return 1;
+		} 
+		
+		return 0;
+	}
+	
+	@Override
+	public void likeUp(CommLike like) {
+		
+		int res = 0;
+		
+		res = commDao.likeUp(like);
+		
+		if(res == 1) {
+			CommBoard board = new CommBoard();
+			board.setCommNo(like.getCommNo());
+
+			commDao.likeCntUp(board);
+		}
+	}
+	
+	@Override
+	public void likeDown(CommLike like) {
+		
+		int res = 0;
+		
+		res = commDao.likeDown(like);
+		
+		if(res == 1) {
+			CommBoard board = new CommBoard();
+			board.setCommNo(like.getCommNo());
+
+			commDao.likeCntDown(board);
+		}
+	}
+	
+	
+	//----- 댓글 ---------------------------------------------------------
 	
 	@Override
 	public List<CommCmt> cmtList(int commNo) {
@@ -209,7 +263,6 @@ public class CommServiceImpl implements CommService {
 	public void cmtWrite(CommCmt commCmt) {
 		
 		int res = 0;
-		
 		
 		if( commCmt.getCommCmtBundle() == 0 ) {
 			
@@ -223,13 +276,16 @@ public class CommServiceImpl implements CommService {
 			
 		}
 		
+		// 댓글 작성 성공 시
 		if( res == 1 ) {
 			
 			CommBoard commBoard = new CommBoard();
 			commBoard.setCommNo(commCmt.getCommNo());
 			
+			logger.debug("{}", commBoard);
+			
+			// 댓글수 +1
 			commDao.cmtUp(commBoard);
-			commDao.cmtCnt(commBoard);
 			
 		}
 		
@@ -242,15 +298,24 @@ public class CommServiceImpl implements CommService {
 		
 		res = commDao.deleteCmt(commCmt);
 		
+		// 댓글 삭제 성공 시
 		if( res == 1 ) {
 			
 			CommBoard commBoard = new CommBoard();
 			commBoard.setCommNo(commCmt.getCommNo());
 			
+			// 댓글수 -1
 			commDao.cmtDown(commBoard);
-			commDao.cmtCnt(commBoard);
 			
 		}
+		
+	}
+	
+	
+	@Override
+	public void report(CommReport commReport) {
+		
+		commDao.report(commReport);
 		
 	}
 	
@@ -260,10 +325,16 @@ public class CommServiceImpl implements CommService {
 	
 	
 	
+	@Override
+	public List<CommBoard> rlist() {
+		return commDao.selectRList();
+	}
 	
 	
-	
-	
+	@Override
+	public List<CommBoard> plist() {
+		return commDao.selectPList();
+	}
 	
 	
 	

@@ -22,49 +22,17 @@ $(document).ready(function() {
 		
 	})
 	
-	// 검색 버튼
-	$("#btnSearch").click(function() {
-		
-		var keyword = $(this).attr("name")
-		console.log(keyword)
-		
-		if( ${not empty animal } && ${not empty category } ) {
-			var animal = "${animal }"
-			var category = "${category }"
-			location.href = "/comm/list?keyword="+keyword+"&animal="+animal+"&category="+category
-					
-		} else if ( ${not empty animal } ) {
-			var animal = "${animal }"
-			location.href = "/comm/list?keyword="+keyword+"&animal="+animal
-					
-		} else if ( ${not empty category } ) {
-			var category= "${category }"
-			location.href = "/comm/list?keyword="+keyword+"&category="+category
-			
-		} else {
-			location.href = "/comm/list?keyword="+keyword
-		}
-		
-	})
-	
 	// cate_ani button click
 	$(".btn-animal").click(function() {
+		
+		$("#searchType").prop("selected",false);
 		
 		var animal = $(this).attr("name")
 		console.log(animal)
 		
-		if( ${not empty category } && ${not empty keyword } ) {
-			var category = "${category }"
-			var keyword = "${keyword }"
-			location.href = "/comm/list?keyword="+keyword+"&animal="+animal+"&category="+category
-					
-		} else if ( ${not empty category } ) {
+		if ( ${not empty category } ) {
 			var category = "${category }"
 			location.href = "/comm/list?animal="+animal+"&category="+category
-					
-		} else if ( ${not empty keyword } ) {
-			var keyword= "${keyword }"
-			location.href = "/comm/list?keyword="+keyword+"&animal="+animal
 			
 		} else {
 			location.href = "/comm/list?animal="+animal
@@ -75,21 +43,14 @@ $(document).ready(function() {
 	// cate_con button click
 	$(".btn-category").click(function() {
 		
+		$("#searchType").prop("selected",false);
+		
 		var category = $(this).attr("name")
 		console.log(category)
 		
-		if( ${not empty animal } && ${not empty keyword } ) {
-			var animal = "${animal }"
-			var keyword = "${keyword }"
-			location.href = "/comm/list?keyword="+keyword+"&animal="+animal+"&category="+category
-					
-		} else if ( ${not empty animal } ) {
+		if ( ${not empty animal } ) {
 			var animal = "${animal }"
 			location.href = "/comm/list?animal="+animal+"&category="+category
-					
-		} else if ( ${not empty keyword } ) {
-			var keyword= "${keyword }"
-			location.href = "/comm/list?keyword="+keyword+"&category="+category
 			
 		} else {
 			location.href = "/comm/list?category="+category
@@ -99,41 +60,68 @@ $(document).ready(function() {
 	
 	// cate_ani color css
 	if( "${animal }" == "dog" ) {
-		$("#btnAniDog").css({"color" : "#fff", "background-color" : "#FF7A85"})
+		$("#btnAniDog").css({"color": "#fff", "background-color": "#FF7A85"})
 		
 	} else if ( "${animal }" == "cat" ) {
-		$("#btnAniCat").css({"color" : "#fff", "background-color" : "#FF7A85"})
-		
-	} else {
-		$("#btnAniAll").css({"color" : "#fff", "background-color" : "#FF7A85"})
+		$("#btnAniCat").css({"color": "#fff", "background-color": "#FF7A85"})
 		
 	}
 	
 	// cate_con color css
 	if ( "${category }" == "daily" ) {
-		$("#btnConDaily").css("color","#FF7A85")
-		
-	} else if ( "${category }" == "ask" ) {
-		$("#btnConAsk").css("color","#FF7A85")
+		$("#btnConDaily").css("color", "#FF7A85")
 		
 	} else if ( "${category }" == "info" ) {
-		$("#btnConInfo").css("color","#FF7A85")
-		
+		$("#btnConInfo").css("color", "#FF7A85")
+	
+	} else if ( "${category }" == "ask" ) {
+		$("#btnConAsk").css("color", "#FF7A85")
+			
 	} else if ( "${category }" == "etc" ) {
-		$("#btnConEtc").css("color","#FF7A85")
+		$("#btnConEtc").css("color", "#FF7A85")
 		
 	} else {
-		$("#btnConAll").css("color","#FF7A85")
+		$("#btnConAll").css("color", "#FF7A85")
 		
 	}
 	
 })
 </script>
 
+<!-- 검색 -->
+<script type="text/javascript">
+$(document).ready(function() {
+		
+	// 검색 버튼
+	$("#btnSearch").click(function() {
+		
+		if( $("#keyword").val() == "" ) {
+			alert('검색어를 입력해주세요!')
+ 
+			$("#keyword").focus()
+			
+		} else {
+			$("form").submit()
+		}
+		
+	})
+	
+	$("#searchType").val("${searchType }").prop("selected",true);
+	$("#hcateAnimal").val("${animal }")
+	$("#hcateContent").val("${category }")
+	
+})
+</script>
+
 <style type="text/css">
-.cate-animal, .cate-content {
+.cate-animal  {
 	text-align: center;
 	padding: 10px;
+}
+
+.cate-content {
+	text-align: center;
+	padding-bottom: 50px;
 }
 
 .btn-animal, .btn-category {
@@ -145,14 +133,14 @@ $(document).ready(function() {
 
 table {
 	table-layout: fixed;
+	padding-top: 10px;
 }
 
-table, th {
-	text-align: center;
-}
+/* --------------------------------------- */
 
-td:nth-child(2) {
-	text-align: left;
+#btnSearch {
+	background-color:#FF7A85; 
+	color: #fff;
 }
 
 /* --------------------------------------- */
@@ -165,43 +153,66 @@ td:nth-child(2) {
 <div class="container">
 
 <div class="cate-animal">
-	<button id="btnAniAll" class="btn btn-animal" name="">전체</button>
 	<button id="btnAniCat" class="btn btn-animal" name="cat">고양이</button>
 	<button id="btnAniDog" class="btn btn-animal" name="dog">강아지</button>
 </div>
 
-<div class="cate-content">
-	<button id="btnConAll" class="btn btn-category" name="">전체</button>
-	<button id="btnConDaily" class="btn btn-category" name="daily">일상</button>
-	<button id="btnConAsk" class="btn btn-category" name="ask">질문</button>
-	<button id="btnConInfo" class="btn btn-category" name="info">정보</button>
-	<button id="btnConEtc" class="btn btn-category" name="etc">기타</button>
-</div>
-
 <hr>
 
-<span class="pull-left">${category } 카테고리( ${paging.totalCount } )</span>
+<div class="cate-content">
+	<button id="btnConAll" class="btn btn-category" name="">#전체</button>
+	<button id="btnConDaily" class="btn btn-category" name="daily">#일상</button>
+	<button id="btnConInfo" class="btn btn-category" name="info">#정보</button>
+	<button id="btnConAsk" class="btn btn-category" name="ask">#질문</button>
+	<button id="btnConEtc" class="btn btn-category" name="etc">#기타</button>
+</div>
+
+<div class="pull-left">
+	<span>
+	<c:if test="${not empty category }">
+		<c:choose>
+			<c:when test="${category eq 'daily' }">일상 </c:when>
+			<c:when test="${category eq 'info' }">정보 </c:when>
+			<c:when test="${category eq 'ask' }">질문 </c:when>
+			<c:when test="${category eq 'etc' }">기타 </c:when>
+		</c:choose>
+		카테고리( ${paging.totalCount } )
+	</c:if>
+	</span>
+</div>
 
 <div class="pull-right">
 	<form action="./list" method="get" class="form-inline">
-	<select class="form-control" id="sort" name="sort">
-	    <option value="">전체</option>
-	    <option value="commTitle">제목</option>
-	    <option value="userno">작성자</option>
-	    <option value="commContent">내용</option>
-	</select>
-	<input type="text" name="keyword" class="form-control" id="keyword" value="${keyword }">
-	<button id="btnSearch" type="button" class="btn" style="background-color:#FF7A85; color: #fff;">검색</button>
+		
+		<input type="hidden" id="hcateAnimal" name="animal">
+		<input type="hidden" id="hcateContent" name="category">
+		
+		<select class="form-control" id="searchType" name="searchType">
+		    <option value="">전체</option>
+		    <option value="commTitle">제목</option>
+		    <option value="commWriterNick">작성자</option>
+		</select>
+		
+		<input type="text" name="keyword" class="form-control" id="keyword" value="${param.keyword }">
+		
+		<button type="button" class="btn" id="btnSearch">검색</button>
+		
 	</form>
 </div>
 
-<div class="clearfix"></div>
-
-<br>
+<div class="clearfix" style="padding-bottom: 20px;"></div>
 
 <table class="table">
 <c:forEach items="${list }" var="commBoard">
 	<tr>
+		<td>
+			<c:choose>
+				<c:when test="${commBoard.cateContent eq 'daily' }">[일상]</c:when>
+				<c:when test="${commBoard.cateContent eq 'info' }">[정보]</c:when>
+				<c:when test="${commBoard.cateContent eq 'ask' }">[질문]</c:when>
+				<c:when test="${commBoard.cateContent eq 'etc' }">[기타]</c:when>
+			</c:choose>
+		</td>
 		<td><a href="/comm/view?commNo=${commBoard.commNo }">${commBoard.commTitle }</a></td>
 		<td>${commBoard.commWriterNick }</td>
 		<td><fmt:formatDate value="${commBoard.commWritedate }" pattern="yy-MM-dd HH:mm:ss"/></td>

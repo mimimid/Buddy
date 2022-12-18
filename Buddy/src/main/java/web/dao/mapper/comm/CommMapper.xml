@@ -17,7 +17,17 @@
 			AND cate_content LIKE #{category }
 		</if>
 		<if test="keyword != null and !keyword.equals('')">
-			AND ( comm_title LIKE '%' || #{keyword } || '%' OR comm_content LIKE '%' || #{keyword } || '%' )
+			AND ( comm_title LIKE '%' || #{keyword } || '%' OR comm_writer_nick LIKE '%' || #{keyword } || '%' )
+		</if>
+		<if test="searchType != null and searchType.equals('commTitle')">
+			<if test="keyword != null and !keyword.equals('')">
+				AND ( comm_title LIKE '%' || #{keyword } || '%' )
+			</if>
+		</if>
+		<if test="searchType != null and searchType.equals('commWriterNick')">
+			<if test="keyword != null and !keyword.equals('')">
+				AND ( comm_writer_nick LIKE '%' || #{keyword } || '%' )
+			</if>
 		</if>
 		</where>
 	</select>
@@ -38,7 +48,17 @@
 						AND cate_content LIKE #{category }
 					</if>
 					<if test="keyword != null and !keyword.equals('')">
-						AND ( comm_title LIKE '%' || #{keyword } || '%' OR comm_content LIKE '%' || #{keyword } || '%' )
+						AND ( comm_title LIKE '%' || #{keyword } || '%' OR comm_writer_nick LIKE '%' || #{keyword } || '%' )
+					</if>
+					<if test="searchType != null and searchType.equals('commTitle')">
+						<if test="keyword != null and !keyword.equals('')">
+							AND ( comm_title LIKE '%' || #{keyword } || '%' )
+						</if>
+					</if>
+					<if test="searchType != null and searchType.equals('commWriterNick')">
+						<if test="keyword != null and !keyword.equals('')">
+							AND ( comm_writer_nick LIKE '%' || #{keyword } || '%' )
+						</if>
 					</if>
 				</where>
 				ORDER BY comm_no DESC
@@ -108,8 +128,8 @@
 		WHERE comm_no = #{commNo }
 	</update>
 	
-	<delete id="deleteCommFile" parameterType="CommBoard">
-		DELETE comm_file
+	<delete id="deleteAllReport" parameterType="CommBoard">
+		DELETE comm_report
 		WHERE comm_no = #{commNo }
 	</delete>
 	
@@ -117,6 +137,42 @@
 		DELETE comm_board
 		WHERE comm_no = #{commNo }
 	</delete>
+	
+	
+	
+	<select id="findLike" resultType="int" parameterType="CommLike">
+		SELECT count(*) FROM comm_like 
+		WHERE comm_no = #{commNo } AND userno = #{userno }
+	</select>	
+	
+	<insert id="likeUp" parameterType="CommLike" >
+		INSERT INTO comm_like ( comm_like_no, comm_no, userno, comm_like_ck )
+		VALUES( comm_like_seq.nextval, #{commNo }, #{userno }, 1 )
+	</insert>
+	
+	<update id="likeCntUp" parameterType="CommBoard">
+		UPDATE comm_board
+		SET comm_like_cnt = comm_like_cnt + 1
+		WHERE comm_no = #{commNo }
+	</update>
+	
+	<delete id="likeDown" parameterType="CommLike">
+	  	DELETE comm_like
+	  	WHERE comm_no = #{commNo } AND userno = #{userno } 
+	</delete>
+	
+	<update id="likeCntDown" parameterType="CommBoard">
+		UPDATE comm_board
+		SET comm_like_cnt = comm_like_cnt - 1
+		WHERE comm_no = #{commNo }
+	</update>
+	
+	
+	
+	
+	
+	
+	
 	
 	<select id="selectAllCmt" parameterType="int" resultType="CommCmt">
 		SELECT
@@ -132,7 +188,7 @@
 		<selectKey order="BEFORE" resultType="int" keyProperty="commCmtNo">
 			SELECT comm_cmt_seq.nextval FROM dual
 		</selectKey>
-			
+		
 		INSERT INTO comm_cmt (
 			comm_cmt_no, comm_cmt_content, comm_cmt_writer_nick
 			, comm_cmt_bundle, comm_cmt_sort, comm_cmt_depth
@@ -140,7 +196,7 @@
 		)
 		VALUES (
 			#{commCmtNo }, #{commCmtContent }, #{commCmtWriterNick }
-			, #{commCmtNo }, #{commCmtSort }, #{commCmtDepth }
+			, comm_cmt_bundle_seq.nextval, #{commCmtSort }, #{commCmtDepth }
 			, #{commCmtDelete }, #{commNo }, #{userno }	
 		)
 	</insert>
@@ -165,23 +221,79 @@
 	<update id="cmtUp" parameterType="CommBoard">
 		UPDATE comm_board
 		SET comm_cmt_cnt = comm_cmt_cnt + 1
-		WHERE comm_no = #{comm_no }
+		WHERE comm_no = #{commNo }
 	</update>
 	
-	<select id="cmtCnt" parameterType="HospBoard" resultType="int">
-		SELECT comm_cmt_cnt FROM comm_board
-		WHERE comm_no = #{comm_no }
-	</select>
-	
-	<delete id="deleteCmt" parameterType="HospbCmt">
+	<delete id="deleteCmt" parameterType="CommCmt">
 		DELETE FROM comm_cmt
 		WHERE comm_cmt_no = #{commCmtNo }
 	</delete>
 	
-	<update id="cmtDown" parameterType="HospBoard">
+	<update id="cmtDown" parameterType="CommBoard">
 		UPDATE comm_board
 		SET comm_cmt_cnt = comm_cmt_cnt - 1
-		WHERE comm_no = #{comm_no }
+		WHERE comm_no = #{commNo }
 	</update>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<insert id="report" parameterType="CommReport">
+		<selectKey order="BEFORE" resultType="int" keyProperty="commReportNo">
+			SELECT comm_report_seq.nextval FROM dual
+		</selectKey>
+		
+		INSERT INTO comm_report ( comm_report_no, comm_no, userno, comm_report_content )
+		VALUES ( #{commReportNo }, #{commNo }, #{userno }, #{commReportContent } )
+	</insert>
+	
+	
+	
+	
+	
+	
+	
+	<select id="selectRList" resultType="CommBoard">
+		SELECT * FROM (
+			SELECT rownum rnum, B.* FROM (
+				SELECT
+					comm_no, cate_animal, cate_content, comm_title
+					, comm_content, comm_writer_nick, comm_writedate, comm_update
+					, comm_hit, comm_like_cnt, comm_cmt_cnt, userno
+				FROM comm_board
+				ORDER BY comm_writedate DESC
+			) B
+		) BOARD
+		WHERE rnum BETWEEN 1 AND 5
+	</select>
+	
+	<select id="selectPList" resultType="CommBoard">
+		SELECT * FROM (
+			SELECT rownum rnum, B.* FROM (
+				SELECT
+					comm_no, cate_animal, cate_content, comm_title
+					, comm_content, comm_writer_nick, comm_writedate, comm_update
+					, comm_hit, comm_like_cnt, comm_cmt_cnt, userno
+				FROM comm_board
+				ORDER BY comm_like_cnt DESC
+			) B
+		) BOARD
+		WHERE rnum BETWEEN 1 AND 5
+	</select>
+	
+	
+
+	
+	
+	
+	
 	
 </mapper>
