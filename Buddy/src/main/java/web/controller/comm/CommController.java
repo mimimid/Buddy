@@ -13,11 +13,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import web.dto.CommBoard;
 import web.dto.CommCmt;
 import web.dto.CommFile;
+import web.dto.CommLike;
+import web.dto.CommReport;
 import web.service.face.comm.CommService;
 import web.util.Paging;
 
@@ -37,25 +40,26 @@ public class CommController {
 			, Model model
 			, @RequestParam(required = false) String animal
 			, @RequestParam(required = false) String category
-			, @RequestParam(required = false) String sort
+			, @RequestParam(required = false) String searchType
 			, @RequestParam(required = false) String keyword
 			) {
-		Paging paging = commService.getPaging(curPage, animal, category, keyword);
+		Paging paging = commService.getPaging(curPage, animal, category, searchType, keyword);
 		logger.debug("{}", paging);
 		model.addAttribute("paging", paging);
 		
-		List<CommBoard> list = commService.list(paging, animal, category, sort, keyword);
+		List<CommBoard> list = commService.list(paging, animal, category, searchType, keyword);
 		for( CommBoard c : list )	logger.debug("{}", c);
 		model.addAttribute("list", list);
 		
 		model.addAttribute("animal", animal);
 		model.addAttribute("category", category);
+		model.addAttribute("searchType", searchType);
 		model.addAttribute("keyword", keyword);
 		
 	}
 	
 	@RequestMapping("/view")
-	public String view(CommBoard viewBoard, Model model) {
+	public String view(CommBoard viewBoard, Model model, HttpSession session) {
 		logger.debug("{}", viewBoard);
 		
 		// 잘못된 게시글 번호 처리
@@ -73,6 +77,20 @@ public class CommController {
 		// 첨부파일 모델값 전달
 		CommFile commFile = commService.getAttachFile(viewBoard);
 		model.addAttribute("commFile", commFile);
+		
+		int like = 0;
+		
+		if( session.getAttribute("login") != null ) {
+			
+			// 좋아요 여부 조회
+			int userno = (int) session.getAttribute("userno");
+			
+			like = commService.findLike(viewBoard, userno);
+			logger.debug("{}", like);
+				
+		}
+		
+		model.addAttribute("like", like);
 		
 		return "comm/view";
 	}
@@ -153,32 +171,35 @@ public class CommController {
 	
 	//----- 좋아요 ---------------------------------------------------------
 	
+	@PostMapping("/likeup")
+	public @ResponseBody void likeUp(CommLike like, HttpSession session) {
+		
+		like.setUserno((int) session.getAttribute("userno"));
+		logger.debug("{}", like);
+		
+		commService.likeUp(like);
+		
+	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	@PostMapping("/likedown")
+	public @ResponseBody void likeDown(CommLike like, HttpSession session) {
+		
+		like.setUserno( (int) session.getAttribute("userno") );
+		logger.debug("{}", like);
+		
+		commService.likeDown(like);
+	}
 	
 	
 	//----- 댓글 ---------------------------------------------------------
 	
 	@GetMapping("/cmtlist")
-	public String cmtList(int commNo, HttpSession session, Model model) {
+	public void cmtList(int commNo, Model model) {
 		
 		List<CommCmt> cmtList = commService.cmtList(commNo);
 		
 		model.addAttribute("cmtList", cmtList);
 		
-		return"comm/cmtlist";
 	}
 	
 	@PostMapping("/cmtwrite")
@@ -189,7 +210,7 @@ public class CommController {
 		
 		commService.cmtWrite(commCmt);
 		
-		return "redirect:/comm/cmtlist?commNo=" + commCmt.getCommNo();
+		return "redirect:/comm/view?commNo=" + commCmt.getCommNo();
 	}
 	
 	@GetMapping("/cmtdelete")
@@ -202,12 +223,28 @@ public class CommController {
 		
 		model.addAttribute("cmtList", cmtList);
 		
-		return "redirect:/comm/cmtlist?commNo=" + commCmt.getCommNo();
+		return "redirect:/comm/view?commNo=" + commCmt.getCommNo();
 	}
 	
 	
+	//----- 신고 ---------------------------------------------------------
 	
+	@GetMapping("/report")
+	public void report() {}
 	
+	@PostMapping("/report")
+	public String reportProcess(CommReport commReport, HttpSession session) {
+		logger.debug("{}", commReport);
+		
+		// 작성자 정보 추가
+		commReport.setUserno( (int) session.getAttribute("userno") );
+		logger.debug("{}", commReport);
+		
+		// 게시글, 첨부파일 처리
+		commService.report(commReport);
+		
+		return "redirect:/comm/list";
+	}
 	
 	
 	

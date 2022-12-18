@@ -1,17 +1,30 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
-<%@	taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <c:import url="./layout/header.jsp" />
 
 <style type="text/css">
+table {
+	table-layout: fixed;
+}
 
+#rlist {
+	padding-top: 70px;
+	padding-right: 40px;
+}
+
+#plist {
+	padding-top: 70px;
+	padding-left: 40px;
+}
 </style>
 
 <script type="text/javascript">
 $(document).ready(function() {
-
+	
 })
 </script>
 
@@ -61,14 +74,67 @@ $(document).ready(function() {
 
 <div class="container">
 
-<!-- 최신글, 인기글 리스트 제작 필요... -->
+<div class="col-md-6 pull-left" id="rlist">
+	<div class="rlist-top">
+		<span style="font-size: 25px;">최신글 </span>
+		<a href="/comm/list">더보기</a>
+	</div>
+	<hr>
+	<table class="table table-striped table-hover table-condensed">
+	<thead>
+		<tr>
+			<th style="width: 10%;">글번호</th>
+			<th style="width: 10%;">제목</th>
+			<th style="width: 10%;">작성자</th>
+			<th style="width: 10%;">조회수</th>
+			<th style="width: 10%;">작성일</th>
+		</tr>
+	</thead>
+	
+	<tbody>
+	<c:forEach items="${rlist }" var="rlist">
+		<tr>
+			<td>${rlist.commNo }</td>
+			<td><a href="/comm/view?commNo=${rlist.commNo }">${rlist.commTitle }</a></td>
+			<td>${rlist.commWriterNick }</td>
+			<td>${rlist.commHit }</td>
+			<td><fmt:formatDate value="${rlist.commWritedate }" pattern="yy-MM-dd HH:mm:ss"/></td>
+		</tr>
+	</c:forEach>
+	</tbody>
+	</table>
+</div>
 
-<h1>메인 화면1</h1>
-<h1>메인 화면2</h1>
-<h1>메인 화면3</h1>
-<h1>메인 화면4</h1>
-<h1>메인 화면5</h1>
-<h1>메인 화면6</h1>
+<div class="col-md-6 pull-right" id="plist">
+	<div class="plist-top">
+		<span style="font-size: 25px;">인기글 </span>
+		<a href="/comm/list">더보기</a>
+	</div>
+	<hr>
+	<table class="table table-striped table-hover table-condensed">
+	<thead>
+		<tr>
+			<th style="width: 10%;">글번호</th>
+			<th style="width: 10%;">제목</th>
+			<th style="width: 10%;">작성자</th>
+			<th style="width: 10%;">조회수</th>
+			<th style="width: 10%;">작성일</th>
+		</tr>
+	</thead>
+	
+	<tbody>
+	<c:forEach items="${plist }" var="plist">
+		<tr>
+			<td>${plist.commNo }</td>
+			<td><a href="/comm/view?commNo=${plist.commNo }">${plist.commTitle }</a></td>
+			<td>${plist.commWriterNick }</td>
+			<td>${plist.commHit }</td>
+			<td><fmt:formatDate value="${plist.commWritedate }" pattern="yy-MM-dd HH:mm:ss"/></td>
+		</tr>
+	</c:forEach>
+	</tbody>
+	</table>
+</div>
 
 </div><!-- .container -->
 
