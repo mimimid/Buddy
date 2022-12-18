@@ -44,17 +44,17 @@ $(document).ready(function() {
 			<!-- 추후 슬라이더 이미지 변경 필요... -->
 			<!-- Slide 1 -->
 			<div class="item active" data-interval="2000">
-			<img src="./resources/img/main/slide01.png" alt="slide01" style="width:100%; height: 400px;">
+			<img src="./resources/img/main/slider01.png" alt="slide01" style="width:100%; height: 400px;">
 			</div>
 			
 			<!-- Slide 2 -->
 			<div class="item">
-			<img src="./resources/img/main/slide02.png" alt="slide02" style="width:100%; height: 400px;">
+			<img src="./resources/img/main/slider02.png" alt="slide02" style="width:100%; height: 400px;">
 			</div>
 			
 			<!-- Slide 3 -->
 			<div class="item">
-			<img src="./resources/img/main/slide03.png" alt="slide03" style="width:100%; height: 400px;">
+			<img src="./resources/img/main/slider03.png" alt="slide03" style="width:100%; height: 400px;">
 			</div>
 		
 		</div>

@@ -17,12 +17,20 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barrio&display=swap" rel="stylesheet">
+
 <style type="text/css">
+@import url('https://fonts.googleapis.com/css2?family=Barrio&display=swap');
+
 html, body {
     margin: 0;
     padding: 0;
     height: 100%;
 }
+
+
 
 .container {
 	min-height: 600px;
@@ -56,10 +64,10 @@ html, body {
 }
 
 .header-logo > a {
+	font-family: 'Barrio', cursive;
 	color: #FF7A85;
 	
-	font-size: 50px;
-	font-weight: bold;
+	font-size: 70px;
 	
 	text-decoration: none;
 }
