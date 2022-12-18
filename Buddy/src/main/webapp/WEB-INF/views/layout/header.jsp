@@ -169,7 +169,7 @@ $(document).ready(function() {
 		
 			<!-- 로고 디자인 or 이미지로 변경 필요 -->
 			<a href="/">
-			  <img src="../resources/img/main/logo.png" width="50"> BUDDY
+			  <img src="../resources/img/main/buddy.png" height="90">
 			</a>
 		</div>
 		
