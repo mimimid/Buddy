@@ -71,21 +71,25 @@ padding-top: 10px;
     height: 40px;
     font-size: 17px;
     font-weight: bold;
-    background-color: white;
-    border-color: #FF7A85;
-    border-style: solid;
-    color: #FF7A85;
+    color: white;
+    background-color: #FF7A85;
+        border: none;
+}
+.btnAdopt:hover{
+    color: lemonchiffon;
 }
 .btnStar{
 	width: 40px;
     height: 40px;
     margin-right: 3px;
     padding: 0px;
-    font-size: 18px;
+    font-size: 20px;
     background-color: white;
-    border-color: #FF7A85;
-    border-style: solid;
+    border: 3px solid #FF7A85;
     color: #FF7A85;
+}
+.btnStar:hover{
+	background-color: lemonchiffon;
 }
 .container{
 	padding-top: 0px;
@@ -96,7 +100,7 @@ padding-top: 10px;
 #dropdownMenu1{
 	color: #777;
     background-color: #fff;
-    margin-right: 35px;
+    margin-right: 10px;
 }    
 .page{
 	margin: 80px 0px;
@@ -105,23 +109,30 @@ padding-top: 10px;
     color: black;
     text-decoration: none;
 }
+.data{
+	color: #FF7A85;
+	font-size: 16px;
+}
+.btnUp{
+	background-color: cornflowerblue;
+    color: white;
+}
 </style>
 <script>
 $(document).ready(function(){
-	<!-- 카테고리 메뉴 클릭 시 아이콘 변경 -->
-	$(".dropdown").on("hide.bs.dropdown", function(){
-		$("#dropdownMenu1").html('카테고리 <span class="glyphicon glyphicon-chevron-down"></span>');
+	
+	$(".btnAdopt").click(function() {
+		location.href = "/adopt/research"
 	});
-	$(".dropdown").on("show.bs.dropdown", function(){
-		$("#dropdownMenu1").html('카테고리 <span class="glyphicon glyphicon-chevron-up"></span>');
+	
+	$(".btnStar").click(function() {
+		if(${empty userno }){
+			alert("아이를 기억하려면 로그인이 필요해요.");
+			return false;
+		}
 	});
-  
-	<!-- 카테고리 메뉴 트렌잭션 -->
-	$('.dropdown').on('show.bs.dropdown', function() {
-		$(this).find('.dropdown-menu').first().stop(true, true).slideDown();
-	});
-	$('.dropdown').on('hide.bs.dropdown', function() {
-		$(this).find('.dropdown-menu').first().stop(true, true).slideUp();
+	$(".btnUp").click(function() {
+		location.href = "/adopt/proWrite"
 	});
 });
 </script>
@@ -140,6 +151,11 @@ $(document).ready(function(){
 <div class="cate_wrap">
 <h3 style="margin-bottom: 40px;">평생 가족을 찾습니다!</h3>
 
+<!-- 찜목록 -->
+<a href="/adopt/proWishList" ><button class="btnStar">
+<span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+</button></a>
+
 <div class="pull-right">
 		<span id="menuMu">입양</span>
 		<span style="display:inline-block;" class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
@@ -147,49 +163,61 @@ $(document).ready(function(){
 	<!-- 카테고리 드롭다운 메뉴 -->
 	<div class="dropdown" style="display:inline-block;">
   		<button onclick="handleTitleClick()" class="btn btn-default.focus dropdown-toggle btn-lg" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
-    		카테고리 <span id="icon" class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+    		구분 <span id="icon" class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
 	  	</button>
 	  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
 	    <li role="presentation"><a role="menuitem" tabindex="-1" href="/musical/mcList">전체</a></li>
-	    <li role="presentation"><a role="menuitem" tabindex="-1" href="/musical/mcList">임보중</a></li>
+	    <li role="presentation"><a role="menuitem" tabindex="-1" href="/musical/mcList">임보 중</a></li>
 	    <li role="presentation"><a role="menuitem" tabindex="-1" href="/musical/mcNew">입양완료</a></li>
 	  </ul>
 	</div>
 </div>
 </div>
 
-
+<c:forEach items="${list }" var="pro">
 <div class="pro_wrap">
-	<input type="text" class="state" value="입양상태">
+	<input type="text" class="state" value="${pro.ANI_CATE}" readonly="readonly">
 	<p>안녕하세요!</p>
-	<p>저는 {동물이름}입니다.</p>
-	<img src="/resources/img/sample_adopt/sample1.jpg" alt="입양프로필" class="img_style img-circle">
-	<p>저는 약 {동물나이}살이에요.</p>
-	<p>중성화를 (안)한 {성별}아이에요.</p>
+	<p>저는 <span class="data">${pro.ANI_NAME}</span>입니다.</p>
+	<a href="/adopt/proView?aniNo=${pro.ANI_NO}">
+		<img src="/adopt/adoptDown?anifileNo=${pro.ANIFILE_NO}" alt="입양프로필" class="img_style img-circle" onerror="this.src='/resources/img/sample_adopt/noImg.jpg'">
+	</a>
+	<p>저는 약 <span class="data">${pro.ANI_AGE}</span>살이에요.</p>
+	<p>중성화 <span class="data">${pro.ANI_NEUTRAL } ${pro.ANI_GENDER}</span>아이에요.</p>
+	
+	<!-- 찜 -->
 	<div class="btn_wrap">
-	<button class="btnStar">
-<!-- 		<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span> -->
+	<a href="/adopt/proWish?aniNo=${pro.ANI_NO}" ><button class="btnStar">
+	<c:if test="${empty userno or pro.USERNO != userno}">
+		<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
+	</c:if>
+	<c:if test="${not empty userno and pro.USERNO == userno}">
 		<span class="glyphicon glyphicon-star" aria-hidden="true"></span>
-	</button>
-	<button class="btnAdopt">입양하기</button>
+	</c:if>
+	</button></a>
+	<button class="btnAdopt" >입양하기</button>
 	</div>
 </div>
+</c:forEach>
 
-
-
+<div style="padding:20px;">
+<c:if test="${userno == 1 }">
+<button class="btn btnUp pull-right">글쓰기</button>
+</c:if>
+</div>
 
 <div class="text-center page">
 	<ul class="pagination pagination-sm">
 
 	<%-- 첫 페이지로 이동 --%>
 	<c:if test="${paging.curPage ne 1 }">
-		<li><a href="/board/list">&larr; 처음</a></li>	
+		<li><a href="/adopt/pro">처음</a></li>	
 	</c:if>
 	
 	<%-- 이전 페이징 리스트로 이동 --%>
 	<c:choose>
 	<c:when test="${paging.startPage ne 1 }">
-		<li><a href="/board/list?curPage=${paging.startPage - paging.pageCount }">&laquo;</a></li>
+		<li><a href="/adopt/pro?curPage=${paging.startPage - paging.pageCount }">&laquo;</a></li>
 	</c:when>
 	<c:when test="${paging.startPage eq 1 }">
 		<li class="disabled"><a>&laquo;</a></li>
@@ -198,7 +226,7 @@ $(document).ready(function(){
 	
 	<%-- 이전 페이지로 가기 --%>
 	<c:if test="${paging.curPage > 1 }">
-		<li><a href="/board/list?curPage=${paging.curPage - 1 }">&lt;</a></li>
+		<li><a href="/adopt/pro?curPage=${paging.curPage - 1 }">&lt;</a></li>
 	</c:if>
 	
 	
@@ -206,10 +234,10 @@ $(document).ready(function(){
 	<%-- 페이징 리스트 --%>
 	<c:forEach begin="${paging.startPage }" end="${paging.endPage }" var="i">
 	<c:if test="${paging.curPage eq i }">
-		<li class="active"><a href="/board/list?curPage=${i }">${i }</a></li>
+		<li class="active"><a href="/adopt/pro?curPage=${i }">${i }</a></li>
 	</c:if>
 	<c:if test="${paging.curPage ne i }">
-		<li><a href="/board/list?curPage=${i }">${i }</a></li>
+		<li><a href="/adopt/pro?curPage=${i }">${i }</a></li>
 	</c:if>
 	</c:forEach>
 
@@ -217,13 +245,13 @@ $(document).ready(function(){
 	
 	<%-- 다음 페이지로 가기 --%>
 	<c:if test="${paging.curPage < paging.totalPage }">
-		<li><a href="/board/list?curPage=${paging.curPage + 1 }">&gt;</a></li>
+		<li><a href="/adpt/pro?curPage=${paging.curPage + 1 }">&gt;</a></li>
 	</c:if>
 	
 	<%-- 다음 페이징 리스트로 이동 --%>
 	<c:choose>
 	<c:when test="${paging.endPage ne paging.totalPage }">
-		<li><a href="/board/list?curPage=${paging.startPage + paging.pageCount }">&raquo;</a></li>
+		<li><a href="/adpt/pro?curPage=${paging.startPage + paging.pageCount }">&raquo;</a></li>
 	</c:when>
 	<c:when test="${paging.endPage eq paging.totalPage }">
 		<li class="disabled"><a>&raquo;</a></li>
@@ -232,7 +260,7 @@ $(document).ready(function(){
 
 	<%-- 끝 페이지로 이동 --%>
 	<c:if test="${paging.curPage ne paging.totalPage }">
-		<li><a href="/board/list?curPage=${paging.totalPage }">끝 &rarr;</a></li>	
+		<li><a href="/adpt/pro?curPage=${paging.totalPage }">끝</a></li>	
 	</c:if>
 	
 	</ul>
