@@ -10,11 +10,12 @@ public class AdoptPro {
 	private String aniNeutral;
 	private String aniContent;
 	private int aniHit;
+	private int aniWeight;
 	
 	public AdoptPro() {}
 
 	public AdoptPro(int aniNo, String userid, String aniCate, String aniName, int aniAge, String aniGender,
-			String aniNeutral, String aniContent, int aniHit) {
+			String aniNeutral, String aniContent, int aniHit, int aniWeight) {
 		super();
 		this.aniNo = aniNo;
 		this.userid = userid;
@@ -25,13 +26,14 @@ public class AdoptPro {
 		this.aniNeutral = aniNeutral;
 		this.aniContent = aniContent;
 		this.aniHit = aniHit;
+		this.aniWeight = aniWeight;
 	}
 
 	@Override
 	public String toString() {
 		return "AdoptPro [aniNo=" + aniNo + ", userid=" + userid + ", aniCate=" + aniCate + ", aniName=" + aniName
 				+ ", aniAge=" + aniAge + ", aniGender=" + aniGender + ", aniNeutral=" + aniNeutral + ", aniContent="
-				+ aniContent + ", aniHit=" + aniHit + "]";
+				+ aniContent + ", aniHit=" + aniHit + ", aniWeight=" + aniWeight + "]";
 	}
 
 	public int getAniNo() {
@@ -104,6 +106,14 @@ public class AdoptPro {
 
 	public void setAniHit(int aniHit) {
 		this.aniHit = aniHit;
+	}
+
+	public int getAniWeight() {
+		return aniWeight;
+	}
+
+	public void setAniWeight(int aniWeight) {
+		this.aniWeight = aniWeight;
 	}
 
 }

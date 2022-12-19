@@ -69,7 +69,7 @@
 		WHERE adopt_no = #{adoptNo}
 	</select>
 	
-	<update id="updateResrchChecking" parameterType="HashMap">
+	<update id="updateResrchChecking" parameterType="in">
 		UPDATE adopt_research
 		SET checking = #{checking}
 		WHERE adopt_no = #{adoptNo}

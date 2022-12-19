@@ -15,7 +15,7 @@
 
 	<select id="selectReptPagingList" resultType="HashMap" parameterType="HashMap">
 
-		SELECT * FROM (
+		SELECT * FROM (	
 			SELECT rownum rnum, R.* FROM (
 				SELECT
 					a.rept_no, adminid, rept_title, rept_content

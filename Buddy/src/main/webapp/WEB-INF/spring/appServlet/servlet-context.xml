@@ -46,6 +46,7 @@
 	<!-- DownloadView 스프링 빈 등록 -->
 	<beans:bean id="reptDown" class="web.down.ReptDownView" />
 	<beans:bean id="resrchDown" class="web.down.ResrchDownView" />
+	<beans:bean id="adoptDown" class="web.down.AdoptDownView" />
 
 	
 	<!-- JSON응답용 jsonview를 스프링 빈으로 등록하기 -->

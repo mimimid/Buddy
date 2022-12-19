@@ -10,22 +10,130 @@
 	
 	
 	<select id="selectProCntAll" resultType="int">
-		SELECT count(*) FROM board
+		SELECT count(*) FROM adopt_pro
 	</select>
 
-	<select id="selectProList" resultType="AdoptPro" parameterType="Paging">
+	<select id="selectProList" resultType="HashMap" parameterType="Paging">
 		SELECT * FROM (
-			SELECT rownum rnum, A.* FROM (
-				SELECT
-					ani_no , userid, ani_cate, ani_name, ani_age, ani_gender, ani_neutral, ani_content, ani_hit
-				FROM adopt_pro
-				ORDER BY ani_no DESC
-			) A
-		) ADOPT
+		    SELECT rownum rnum, f.* FROM (
+		        SELECT  c.ani_no , userid, ani_cate, ani_name, ani_age
+		        , ani_gender, ani_neutral, ani_content, ani_hit, ani_weight
+		        , anifile_no, anifile_origin, anifile_stored
+		        , userno
+		        FROM(
+		        SELECT e.* FROM (
+		            SELECT
+		            a.ani_no, userid, ani_cate, ani_name, ani_age
+		                    , ani_gender, ani_neutral, ani_content, ani_hit, ani_weight
+		                    , anifile_no, anifile_origin, anifile_stored, ROW_NUMBER() OVER(PARTITION BY a.ani_no ORDER BY anifile_no ASC) AS rn
+		            FROM adopt_pro a LEFT OUTER JOIN adopt_file b 
+		            ON a.ani_no = b.ani_no)e
+		        WHERE rn = 1)c LEFT OUTER JOIN adopt_wish d
+		        ON c.ani_no = d.ani_no 
+		    ORDER BY ani_no DESC)f 
+		)list
 		WHERE rnum BETWEEN #{startNo } AND #{endNo }
 	</select>
+	
+	<select id="checkProWish" resultType="int" parameterType="AdoptWish">
+		SELECT count(*) FROM adopt_wish
+		WHERE ani_no=${aniNo} and userno = ${userno}
+	</select>
 
+	<insert id="insertProWish" parameterType="AdoptWish">
+		INSERT INTO adopt_wish (ani_no, userno) 
+		VALUES (${aniNo}, ${userno})
+	</insert>
 
+	<delete id="deleteProWish" parameterType="AdoptWish">
+		DELETE adopt_wish
+		WHERE ani_no=${aniNo} and userno = ${userno}
+	</delete>
 
+	<select id="selectProWishAll" resultType="AdoptWish">
+		SELECT * FROM adopt_wish
+	</select>
 
+	<select id="selectUserWish" resultType="AdoptWish" parameterType="int">
+		SELECT * FROM adopt_wish
+		WHERE userno = ${userno}
+	</select>
+	
+	<select id="selectProWish" resultType="AdoptPro" parameterType="int">
+		SELECT
+			ani_no , userid, ani_cate, ani_name, ani_age, ani_gender, ani_neutral, ani_content, ani_hit, ani_weight
+		FROM adopt_pro
+		WHERE ani_no=${aniNo} 
+		ORDER BY ani_no DESC
+	</select>
+	
+	<select id="selectWishCount" resultType="int" parameterType="int">
+		SELECT count(*) FROM adopt_wish
+		WHERE userno = ${userno}
+	</select>
+	
+	<insert id="insertPro" parameterType="AdoptPro">
+		<selectKey order="BEFORE" resultType="int" keyProperty="aniNo">
+			SELECT adopt_pro_seq.nextval FROM dual
+		</selectKey>
+		
+		INSERT INTO adopt_pro (ani_no , userid, ani_cate, ani_name
+			, ani_age, ani_gender, ani_neutral, ani_content, ani_weight)
+		VALUES (#{aniNo}, #{userid}, #{aniCate}, #{aniName}
+			,#{aniAge}, #{aniGender}, #{aniNeutral}, #{aniContent}, #{aniWeight})
+	</insert>
+	
+	<insert id="insertAdoptFile" parameterType="AdoptFile">
+		INSERT INTO adopt_file  
+				(anifile_no, ani_no, anifile_origin, anifile_stored)
+		VALUES ( adopt_file_seq.nextval, #{aniNo }, #{anifileOrigin }, #{anifileStored } )
+	</insert>
+	
+	<select id="selectAdoptFileByFileNo" resultType="AdoptFile" parameterType="AdoptFile">
+		SELECT
+			anifile_no, ani_no, anifile_origin, anifile_stored
+		FROM adopt_file
+		WHERE anifile_no = #{anifileNo }
+	</select>
+	
+	<update id="updateAdoptHit" parameterType="AdoptPro">
+		UPDATE adopt_pro
+		SET ani_hit = ani_hit + 1
+		WHERE ani_no = #{aniNo}
+	</update>
+
+	<select id="selectAdoptView" resultType="AdoptPro" parameterType="AdoptPro">
+		SELECT
+			ani_no , userid, ani_cate, ani_name, ani_age
+			, ani_gender, ani_neutral, ani_content, ani_hit, ani_weight
+		FROM adopt_pro
+		WHERE ani_no = #{aniNo}
+	</select>
+	
+	<select id="selectAdoptFile" resultType="AdoptFile" parameterType="AdoptPro">
+		SELECT
+			anifile_no, ani_no, anifile_origin, anifile_stored
+		FROM adopt_file
+		WHERE ani_no = #{aniNo}
+	</select>
+	
+	<update id="updatePro" parameterType="AdoptPro">
+		UPDATE adopt_pro
+		SET ani_cate = #{aniCate}
+			, ani_name = #{aniName}
+			, ani_age = #{aniAge}, ani_gender = #{aniGender}
+			, ani_neutral = #{aniNeutral}, ani_content = #{aniContent}
+			, ani_weight = #{aniWeight}
+		WHERE ani_no = #{aniNo}
+	</update>
+
+	<delete id="deleteAdoptfile" parameterType="AdoptPro">
+		DELETE adopt_file
+		WHERE ani_no = #{aniNo}
+	</delete>
+	
+	<delete id="deleteAdoptPro" parameterType="AdoptPro">
+		DELETE adopt_pro
+		WHERE ani_no = #{aniNo}
+	</delete>
 </mapper>

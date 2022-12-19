@@ -73,18 +73,23 @@ padding-top: 10px;
     font-weight: bold;
     color: white;
     background-color: #FF7A85;
-    border: 1px solid white;;
+        border: none;
+}
+.btnAdopt:hover{
+    color: lemonchiffon;
 }
 .btnStar{
 	width: 40px;
     height: 40px;
     margin-right: 3px;
     padding: 0px;
-    font-size: 18px;
+    font-size: 20px;
     background-color: white;
-    border-color: #FF7A85;
-    border-style: solid;
+    border: 3px solid #FF7A85;
     color: #FF7A85;
+}
+.btnStar:hover{
+	background-color: lemonchiffon;
 }
 .container{
 	padding-top: 0px;
@@ -95,7 +100,7 @@ padding-top: 10px;
 #dropdownMenu1{
 	color: #777;
     background-color: #fff;
-    margin-right: 35px;
+    margin-right: 10px;
 }    
 .page{
 	margin: 80px 0px;
@@ -108,28 +113,27 @@ padding-top: 10px;
 	color: #FF7A85;
 	font-size: 16px;
 }
+.btnUp{
+	background-color: cornflowerblue;
+    color: white;
+}
 </style>
 <script>
 $(document).ready(function(){
-	<!-- 카테고리 메뉴 클릭 시 아이콘 변경 -->
-	$(".dropdown").on("hide.bs.dropdown", function(){
-		$("#dropdownMenu1").html('카테고리 <span class="glyphicon glyphicon-chevron-down"></span>');
-	});
-	$(".dropdown").on("show.bs.dropdown", function(){
-		$("#dropdownMenu1").html('카테고리 <span class="glyphicon glyphicon-chevron-up"></span>');
-	});
-  
-	<!-- 카테고리 메뉴 트렌잭션 -->
-	$('.dropdown').on('show.bs.dropdown', function() {
-		$(this).find('.dropdown-menu').first().stop(true, true).slideDown();
-	});
-	$('.dropdown').on('hide.bs.dropdown', function() {
-		$(this).find('.dropdown-menu').first().stop(true, true).slideUp();
-	});
 	
 	$(".btnAdopt").click(function() {
 		location.href = "/adopt/research"
-	})
+	});
+	
+	$(".btnStar").click(function() {
+		if(${empty userno }){
+			alert("아이를 기억하려면 로그인이 필요해요.");
+			return false;
+		}
+	});
+	$(".btnUp").click(function() {
+		location.href = "/adopt/proWrite"
+	});
 });
 </script>
 </head>
@@ -147,6 +151,11 @@ $(document).ready(function(){
 <div class="cate_wrap">
 <h3 style="margin-bottom: 40px;">평생 가족을 찾습니다!</h3>
 
+<!-- 찜목록 -->
+<a href="/adopt/proWishList" ><button class="btnStar">
+<span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+</button></a>
+
 <div class="pull-right">
 		<span id="menuMu">입양</span>
 		<span style="display:inline-block;" class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
@@ -154,7 +163,7 @@ $(document).ready(function(){
 	<!-- 카테고리 드롭다운 메뉴 -->
 	<div class="dropdown" style="display:inline-block;">
   		<button onclick="handleTitleClick()" class="btn btn-default.focus dropdown-toggle btn-lg" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
-    		카테고리 <span id="icon" class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+    		구분 <span id="icon" class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
 	  	</button>
 	  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
 	    <li role="presentation"><a role="menuitem" tabindex="-1" href="/musical/mcList">전체</a></li>
@@ -167,25 +176,35 @@ $(document).ready(function(){
 
 <c:forEach items="${list }" var="pro">
 <div class="pro_wrap">
-	<input type="text" class="state" value="임보 중">
+	<input type="text" class="state" value="${pro.ANI_CATE}" readonly="readonly">
 	<p>안녕하세요!</p>
-	<p>저는 <span class="data">${pro.aniName}</span>입니다.</p>
-	<a href="/adopt/proView?aniNo=${pro.aniNo}">
-		<img src="/resources/img/sample_adopt/sample1.jpg" alt="입양프로필" class="img_style img-circle">
+	<p>저는 <span class="data">${pro.ANI_NAME}</span>입니다.</p>
+	<a href="/adopt/proView?aniNo=${pro.ANI_NO}">
+		<img src="/adopt/adoptDown?anifileNo=${pro.ANIFILE_NO}" alt="입양프로필" class="img_style img-circle" onerror="this.src='/resources/img/sample_adopt/noImg.jpg'">
 	</a>
-	<p>저는 약 <span class="data">${pro.aniAge}</span>살이에요.</p>
-	<p>중성화 <span class="data">${pro.aniNeutral } ${pro.aniGender}</span>아이에요.</p>
+	<p>저는 약 <span class="data">${pro.ANI_AGE}</span>살이에요.</p>
+	<p>중성화 <span class="data">${pro.ANI_NEUTRAL } ${pro.ANI_GENDER}</span>아이에요.</p>
+	
+	<!-- 찜 -->
 	<div class="btn_wrap">
-	<button class="btnStar">
+	<a href="/adopt/proWish?aniNo=${pro.ANI_NO}" ><button class="btnStar">
+	<c:if test="${empty userno or pro.USERNO != userno}">
 		<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
-<!-- 		<span class="glyphicon glyphicon-star" aria-hidden="true"></span> -->
-	</button>
-	<button class="btnAdopt">입양하기</button>
+	</c:if>
+	<c:if test="${not empty userno and pro.USERNO == userno}">
+		<span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+	</c:if>
+	</button></a>
+	<button class="btnAdopt" >입양하기</button>
 	</div>
 </div>
 </c:forEach>
 
-
+<div style="padding:20px;">
+<c:if test="${userno == 1 }">
+<button class="btn btnUp pull-right">글쓰기</button>
+</c:if>
+</div>
 
 <div class="text-center page">
 	<ul class="pagination pagination-sm">

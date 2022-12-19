@@ -10,12 +10,12 @@
 <!-- 공유하기 -->
 <script type="text/javascript">
 	function shareTwitter() {
-    var sendText = "Buddy"; // 전달할 텍스트 다시!!!!~~~~~~~~~~~~~
-    var sendUrl = "localhost:8888/adopt/proView?aniNo="+${proView.aniNo}; // 전달할 URL
+    var sendText = "Buddy";
+    var sendUrl = "localhost:8888/adopt/proView?aniNo="+${adoptPro.aniNo}; // 전달할 URL
     window.open("https://twitter.com/intent/tweet?text=" + sendText + "&url=" + sendUrl);
 	}
 	function shareFacebook() {
-	    var sendUrl = "localhost:8888/adopt/proView?aniNo="+${proView.aniNo}; // 전달할 URL
+	    var sendUrl = "localhost:8888/adopt/proView?aniNo="+${adoptPro.aniNo}; // 전달할 URL
 	    window.open("http://www.facebook.com/sharer/sharer.php?u=" + sendUrl);
 	}
 	function shareKakao() {
@@ -30,17 +30,17 @@
 		    content: {
 		      title: "Buddy", // 보여질 제목
 		      description: "Buddy 회계보고", // 보여질 설명
-		      imageUrl: "localhost:8888/adopt/proView?aniNo="+${proView.aniNo}, // 콘텐츠 URL
+		      imageUrl: "localhost:8888/adopt/proView?aniNo="+${adoptPro.aniNo}, // 콘텐츠 URL
 		      link: {
-		         mobileWebUrl: "localhost:8888/adopt/proView?aniNo="+${proView.aniNo},
-		         webUrl: "localhost:8888/adopt/proView?aniNo="+${proView.aniNo}
+		         mobileWebUrl: "localhost:8888/adopt/proView?aniNo="+${adoptPro.aniNo},
+		         webUrl: "localhost:8888/adopt/proView?aniNo="+${adoptPro.aniNo}
 		      }
 		    }
 		  });
 		}
 	function CopyUrlToClipboard(){
 		var obShareUrl = document.getElementById("ShareUrl");
-		obShareUrl.value = "localhost:8888/adopt/proView?aniNo="+${proView.aniNo};
+		obShareUrl.value = "localhost:8888/adopt/proView?aniNo="+${adoptPro.aniNo};
 		obShareUrl.select();
 		document.execCommand("copy"); 
 		obShareUrl.blur(); 
@@ -56,6 +56,18 @@ $(document).ready(function() {
 	$(".btnAdopt").click(function() {
 		location.href = "/adopt/research"
 	})
+	$(".btnStar").click(function() {
+		if(${empty userno }){
+			alert("아이를 기억하려면 로그인이 필요해요.");
+			return false;
+		}
+	})
+		$("#adoptUpdate").click(function() {
+		location.href = "/adopt/proUpdate?aniNo="+${adoptPro.aniNo}
+	})
+		$("#adoptDelete").click(function() {
+		location.href = "/adopt/proDelete?aniNo="+${adoptPro.aniNo}
+	})
 })
 
 </script>
@@ -64,11 +76,11 @@ $(document).ready(function() {
 	display:inline-block;
 	position:relative;
 	width:335px;
-	height:430px
-	;margin:5px;
+	height:430px;
+	margin:5px;
 	z-index:1;
 }
-#img_style{
+.img_style{
 	width:100%;
 	height:100%;
 	border-radius:0.3em;
@@ -101,18 +113,25 @@ $(document).ready(function() {
     border: 3px solid #FF7A85;
     border-radius: 2em;
 }
+.btnAdopt:hover{
+	background-color: #FF7A85;
+    color: white;
+}
 .btnStar{
 	width: 70px;
     height: 70px;
     margin-right: 20px;
     padding: 0px;
-    font-size: 30px;
+    font-size: 35px;
     background-color: white;
     border: 3px solid #FF7A85;
     color: #FF7A85;
     border-radius: 0.3em;
 }  
-
+.btnStar:hover{
+	background-color: #FF7A85;
+    color: white;
+}
 p{
    font-size: 20px;
    font-weight: bold;
@@ -247,6 +266,11 @@ p{
 	color:#FF7A85;
 	margin-right: 22px;
 }
+.fileWrap{
+	width: 800px;
+    margin: 30px auto;
+    height: 600px;
+}
 </style>
 <div class="ballon"></div>
 <div class="container">
@@ -258,8 +282,8 @@ p{
 	<span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
 	<a href="/adopt/pro" style="text-decoration: none; color: black;">입양</a>
 	<span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
-	<a href="localhost:8888/adopt/proView?aniNo="+${proView.aniNo} style="text-decoration: none; color: black;">
-			${proView.aniName }</a>
+	<a href="localhost:8888/adopt/proView?aniNo="+${adoptPro.aniNo} style="text-decoration: none; color: black;">
+			${adoptPro.aniName }</a>
 	
 	
 <div class="pull-right">
@@ -277,24 +301,30 @@ p{
 <div class = "row">
 	<div class="col-md-4">
 		<div id="img_wrap">
-			<input type="text" id="state" value="입양상태">
-			<img src="/resources/img/sample_adopt/sample1.jpg" alt="입양프로필" id="img_style" onerror="">
+			<input type="text" id="state" value="${adoptPro.aniCate}" readonly="readonly">
+			<img src="/adopt/adoptDown?anifileNo=${adoptFile[0].anifileNo}" alt="입양프로필" class="img_style" onerror="this.src='/resources/img/sample_adopt/noImg.jpg'">
 		</div>
 	</div>
 	<div class="col-md-8" style="padding: 10px 0px 0px 60px;">
 		<p style="font-size: 24px;">안녕하세요?</p>
-		<p style="font-size: 24px;">저는 <span class="data" style="color=#FF7A85">{이름}</span>입니다.</p>
-		<p><span class="glyphicon glyphicon-baby-formula icons" aria-hidden="true"></span>저는 약 <span class="data">{나이}</span>살이에요.</p>
-		<p><span class="glyphicon glyphicon-sunglasses icons" aria-hidden="true"></span>중성화 <span class="data">{안}한 {성별 }</span>아이에요.</p>
-		<p><span class="glyphicon glyphicon-apple icons" aria-hidden="true"></span>몸무게는 약 <span class="data">{동물몸무게}</span>kg이에요.</p>
+		<p style="font-size: 24px;">저는 <span class="data" style="color=#FF7A85">${adoptPro.aniName}</span>입니다.</p>
+		<p><span class="glyphicon glyphicon-baby-formula icons" aria-hidden="true"></span>저는 약 <span class="data">${adoptPro.aniAge}</span>살이에요.</p>
+		<p><span class="glyphicon glyphicon-sunglasses icons" aria-hidden="true"></span>중성화 <span class="data">${adoptPro.aniNeutral} ${adoptPro.aniGender}</span>아이에요.</p>
+		<p><span class="glyphicon glyphicon-apple icons" aria-hidden="true"></span>몸무게는 약 <span class="data">${adoptPro.aniWeight}</span>kg이에요.</p>
 		
+		<!-- 찜 -->
 		<div class="btn_wrap">
-		<button class="btnStar">
+		<a href="/adopt/proWish?aniNo=${adoptPro.aniNo}" ><button class="btnStar">
+<%-- 		<c:if test="${wish == 0}"> --%>
 			<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
-<!-- 			<span class="glyphicon glyphicon-star" aria-hidden="true"></span> -->
-		</button>
-		<button class="btnAdopt">입양하기</button>
+<%-- 		</c:if> --%>
+		<c:if test="${wish == 1}">
+			<span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+		</c:if>
+		</button></a>
+		<button class="btnAdopt" >입양하기</button>
 		</div>
+		
 		<!-- 말풍선 -->
 		<div id="share_wrap">
 		<div class="arrow_box"><p>아이가 가족을 만날 수 있도록 친구에게 공유하여 추천해주세요</p></div>
@@ -318,7 +348,7 @@ p{
 				<a id="btnTwitter" class="link-icon twitter" href="javascript:shareTwitter();">트위터</a>
 		      </div>
 		      <div class="modal-footer">
-		      <input type="text" style="width: 188px;" id="ShareUrl" value="localhost:8888/adopt/proView?aniNo="+${proView.aniNo}>
+		      <input type="text" style="width: 188px;" id="ShareUrl" value="localhost:8888/adopt/proView?aniNo="+${adoptPro.aniNo}>
 		      <span class="btn-type1"><button onclick="javascript:CopyUrlToClipboard();">URL 복사</button></span>
 		      </div>
 		    </div>
@@ -328,9 +358,15 @@ p{
 	</div>
 		
 </div><!--.row end -->
-
+<div class="container">
 <div id="content_wrap" style="font-size: 17px;">
-본문
+${adoptPro.aniContent}
+<c:forEach items="${adoptFile }" var="file" begin="1">
+    <div class="fileWrap">
+ 	   <img class="img_style" src="/adopt/adoptDown?anifileNo=${file.anifileNo}"  alt="본문이미지" >
+    </div>
+</c:forEach>
+</div>
 </div>
 <div class="cntIcon" style="display: inline-block;">
 	<span class="glyphicon glyphicon-comment" aria-hidden="true">
@@ -339,7 +375,7 @@ p{
 </div>
 <div class="cntIcon" style="display: inline-block;">
 	<span class="glyphicon glyphicon-eye-open" aria-hidden="true">
-	<span id="cntCount" class="texts">23</span>
+	<span id="cntCount" class="texts">${adoptPro.aniHit}</span>
 	</span>
 </div>
 <hr class="line">
