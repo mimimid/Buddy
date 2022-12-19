@@ -5,7 +5,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <script type="text/javascript">
- 
 $(document).ready(function() {
 	
 	$("#rereplyWriteBtn").click(function() {
@@ -44,6 +43,11 @@ $(document).ready(function() {
 <style type="text/css">
 tr {
 	border: 1px solid #ccc;
+}
+
+button:focus, button:active { 	
+    outline:none !important;
+    box-shadow:none !important;
 }
 </style>
 

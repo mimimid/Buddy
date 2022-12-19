@@ -212,6 +212,10 @@ public interface CommDao {
 
 	public List<CommBoard> selectPList();
 
+	public CommBoard selectLikeCnt(CommLike like);
+
+	
+
 	
 
 	

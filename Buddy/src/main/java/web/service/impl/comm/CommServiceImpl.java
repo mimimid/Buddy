@@ -251,6 +251,10 @@ public class CommServiceImpl implements CommService {
 		}
 	}
 	
+	@Override
+	public CommBoard likecnt(CommLike like) {
+		return commDao.selectLikeCnt(like);
+	}
 	
 	//----- 댓글 ---------------------------------------------------------
 	

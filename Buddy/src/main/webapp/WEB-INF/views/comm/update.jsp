@@ -67,6 +67,11 @@ $(document).ready(function() {
 	color: red;
 	cursor: pointer;
 }
+
+button:focus, button:active { 	
+    outline:none !important;
+    box-shadow:none !important;
+}
 </style>
 
 <div class="container">

@@ -150,6 +150,12 @@ public interface CommService {
 
 	public List<CommBoard> plist();
 
+	public CommBoard likecnt(CommLike like);
+
+	
+
+	
+
 	
 
 	

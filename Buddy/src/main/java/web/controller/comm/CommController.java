@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import web.dto.CommBoard;
@@ -172,22 +171,33 @@ public class CommController {
 	//----- 좋아요 ---------------------------------------------------------
 	
 	@PostMapping("/likeup")
-	public @ResponseBody void likeUp(CommLike like, HttpSession session) {
+	public String likeUp(CommLike like, Model model, HttpSession session) {
 		
 		like.setUserno((int) session.getAttribute("userno"));
 		logger.debug("{}", like);
 		
 		commService.likeUp(like);
 		
+		CommBoard likeCnt = commService.likecnt(like);
+		model.addAttribute("likeCnt", likeCnt);
+		logger.debug("{}", likeCnt);
+				
+		return "/comm/likecnt";
 	}
 	
 	@PostMapping("/likedown")
-	public @ResponseBody void likeDown(CommLike like, HttpSession session) {
+	public String likeDown(CommLike like, Model model, HttpSession session) {
 		
 		like.setUserno( (int) session.getAttribute("userno") );
 		logger.debug("{}", like);
 		
 		commService.likeDown(like);
+		
+		CommBoard likeCnt = commService.likecnt(like);
+		model.addAttribute("likeCnt", likeCnt);
+		logger.debug("{}", likeCnt);
+		
+		return "/comm/likecnt";
 	}
 	
 	
