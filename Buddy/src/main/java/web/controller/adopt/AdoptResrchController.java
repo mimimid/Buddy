@@ -43,11 +43,6 @@ public class AdoptResrchController {
 		adoptResrchService.adoptAnswer(adoptResearch, fileList);
 	}
 	
-	@RequestMapping("/research_ajax")
-	public void research_ajax() {
-		
-	}
-	
 	@RequestMapping("/resrchList")
 	public void resrchList(
 			@RequestParam(defaultValue = "0") int curPage

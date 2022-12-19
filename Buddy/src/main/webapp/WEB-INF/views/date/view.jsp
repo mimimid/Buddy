@@ -22,21 +22,42 @@
 $(document).ready(function () {
 	//데이트게시판 목록으로 이동
 	$("#btnList").click(function() {
-		$(location).attr('href', './list')
+		$(location).attr('href', '/date/list?category=${viewDate.dateCate}')
 	})
 	
-	//댓글목록 ajax
-	var url = "/date/commList?dateNo=";
-	var dateNo = $("#dateNo").val();
+	//댓글목록 불러오기
+	cmList()
 	
+	//댓글 등록
+	$("#btnCommentWrite").click(function() {
+		console.log("클릭")
+		
+		if( ${empty sessionScope.login } ) {
+			alert("로그인 후 댓글을 달아주세요.");
+		} else {
+			//댓글등록ajax
+			fn_comment();
+				
+			alert("댓글이 등록되었습니다.");
+				
+		}
+	})
+	
+	//좋아요
+	
+	
+})
+
+//댓글목록
+function cmList() {
 	$.ajax({
 		type: "get"
-		, url: url + dateNo
+		, url: "${path}/date/commList?dateNo=${viewDate.dateNo}"
 		, data: {}
 		, dataType: "html"
 		, success: function(comm) {
 			console.log("AJAX 성공")
-			console.log(comm)
+// 			console.log(comm)
 			
 			$("#commList").html(comm)
 			
@@ -45,10 +66,33 @@ $(document).ready(function () {
 			console.log("AJAX 실패")
 		}
 	})
+}
+
+
+//댓글등록
+function fn_comment() {
 	
+	var cmContent = $("#cmContent").val();
 	
+	$.ajax({
+		type: "post"
+		, url: "${path}/date/commList?dateNo=${viewDate.dateNo}"
+		, data: {
+			"cmContent" : cmContent	
+		}
+		, success: function(result) {
+			console.log("AJAX 성공")
+			$("#cmContent").val('')
+			cmList();
+			
+		}
+		, error: function() {
+			console.log("AJAX 실패")
+			alert("등록 실패")
+		}
+	})
 	
-})
+}
 
 </script>
 
@@ -106,36 +150,27 @@ $(document).ready(function () {
 <!-- 목록버튼 -->
 <div class="text-center">
 	<button id="btnList" class="btn btn-outline">목록으로</button>
-	
-				<button id="btnUpdate" class="btn" style="background-color: #8EC0E4;">수정하기</button>
-				<button id="btnDelete" class="btn" style="background-color: #ea9999;">삭제하기</button>
-	
+	<button id="btnUpdate" class="btn" style="background-color: #8EC0E4;">수정하기</button>
+	<button id="btnDelete" class="btn" style="background-color: #ea9999;">삭제하기</button>
 </div>
 
 <!-- 댓글입력창 -->
 <!-- 후기게시글 댓글 -->
-<div class="page-header">
-	<h3 class="text-left">댓글 <small>로그인 후 댓글 작성 가능</small></h3>
-</div>
+<h4 class="text-left">댓글 <small>로그인 후 댓글 작성 가능</small></h4>
 
 <!-- 댓글 입력하는 폼 -->
-<form action="./view" method="post">
-
-	<table class="table table-striped">
+<form id="commentForm" name="commentForm" method="post">
+<input type="hidden" id="dateNo" name="dateNo" value="${viewDate.dateNo }">
+	<table class="table">
 		<tr>
-			<td style="border-bottom:none;" valign="middle"><br><br><%=session.getAttribute("userid") %></td>
-			<td><input type="text" style="height:100px; width:100%;" placeholder="댓글을 입력해주세요." name = "content" id="content"></td>
+			<td style="width: 100%;"><input type="text" style="height:100px; width:100%;" placeholder="댓글을 입력해주세요." name = "cmContent" id="cmContent"></td>
 			<td><br><br><button type="button" id="btnCommentWrite" class="btn btn-outline-secondary">댓글작성</button></td>
 		</tr>
 	</table>
-<input type="hidden" id="dateNo" name="dateNo" value="${viewDate.dateNo }">
-<input type="hidden" name="login" value="<%=session.getAttribute("login") %>" >
 </form>
 
 <!-- 댓글목록 -->
-<div id="commList">
-</div><!-- 댓글목록 끝 -->
-
+<div id="commList"></div><!-- 댓글목록 끝 -->
 
 </div><!-- 메인 컨테이너 END -->
 </div><!-- .container END -->

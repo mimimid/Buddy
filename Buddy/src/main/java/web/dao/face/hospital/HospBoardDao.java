@@ -81,42 +81,20 @@ public interface HospBoardDao {
 	public void deleteFile(HospBoard board);
 	public void delete(HospBoard board);
 
-
-	public int findLike(HospbLike like);
-
 	public int likeUp(HospbLike like);
 	public int likeDown(HospbLike like);
 	
-	public void likeCntUp(HospBoard board);
-	public void likeCntDown(HospBoard board);
-
-	
 	public List<HospbCmt> selectAllCmt(int hbno);
 
-	public String cmtBundleCheck();
 	
 	public int insertCmt(HospbCmt hospbCmt);
-	
 	public int insertReCmt(HospbCmt hospbCmt);
 
-	public int bundleCmtCnt(HospbCmt hospbCmt);
-	
-
 	public int reCmtCnt(HospbCmt hospbCmt);
-
 	public int deleteCmt(HospbCmt hospbCmt);
 
-
-	public int deleteParentCmt(HospbCmt hospbCmt);
-	
-	public int deleteAfterAllDelete(HospbCmt hospbCmt);
-
-
 	public void cmtUp(HospBoard board);
-
 	public void cmtDown(HospBoard board);
-
-	public void cmtCnt(HospBoard board);
 
 
 	

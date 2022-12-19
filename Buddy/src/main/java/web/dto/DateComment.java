@@ -11,9 +11,13 @@ public class DateComment {
 	private Date writeDate;
 	private Date writeDateUpdate;
 	
+	private String userid;		//유저 아이디
+	private String usernick;	//유저 닉네임
+	
 	public DateComment() {}
 
-	public DateComment(int cmNo, int userno, int dateNo, String cmContent, Date writeDate, Date writeDateUpdate) {
+	public DateComment(int cmNo, int userno, int dateNo, String cmContent, Date writeDate, Date writeDateUpdate,
+			String userid, String usernick) {
 		super();
 		this.cmNo = cmNo;
 		this.userno = userno;
@@ -21,12 +25,15 @@ public class DateComment {
 		this.cmContent = cmContent;
 		this.writeDate = writeDate;
 		this.writeDateUpdate = writeDateUpdate;
+		this.userid = userid;
+		this.usernick = usernick;
 	}
 
 	@Override
 	public String toString() {
 		return "DateComment [cmNo=" + cmNo + ", userno=" + userno + ", dateNo=" + dateNo + ", cmContent=" + cmContent
-				+ ", writeDate=" + writeDate + ", writeDateUpdate=" + writeDateUpdate + "]";
+				+ ", writeDate=" + writeDate + ", writeDateUpdate=" + writeDateUpdate + ", userid=" + userid
+				+ ", usernick=" + usernick + "]";
 	}
 
 	public int getCmNo() {
@@ -75,6 +82,22 @@ public class DateComment {
 
 	public void setWriteDateUpdate(Date writeDateUpdate) {
 		this.writeDateUpdate = writeDateUpdate;
+	}
+
+	public String getUserid() {
+		return userid;
+	}
+
+	public void setUserid(String userid) {
+		this.userid = userid;
+	}
+
+	public String getUsernick() {
+		return usernick;
+	}
+
+	public void setUsernick(String usernick) {
+		this.usernick = usernick;
 	}
 	
 }

@@ -5,25 +5,111 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-
-
-<!-- jQuery 2.2.4 -->
-<script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
-
-<!-- 부트스트랩 3 -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-
+<c:import url="../layout/header.jsp" />
 
 
 <!-- 스마트 에디터 2 로드 -->
 <script type="text/javascript" src="/resources/se2/js/service/HuskyEZCreator.js"></script>
+
+
+<style type="text/css">
+
+#originFile, #newFile {
+	display: none;
+}
+
+
+.through {
+	text-decoration: line-through;
+}
+
+
+#deleteFile {
+	font-weight: bold;
+	color: red;
+	cursor: pointer;
+}
+
+</style>
+
+
+
+<div class="container">
+
+
+
+<h1>글쓰기</h1>
+<hr>
+
+
+
+<form action="./hbupdate" method="post" enctype="multipart/form-data" class="form-horizontal">
+
+
+<input type="hidden" name="hbno" value="${param.hbno}">
+
+<div class="form-group">
+ 	<input type="checkbox" id="hbtop" name="hbtop" value="1">
+ 	<label for="hbtop"> 이 게시물을 상단에 고정</label>
+</div>
+
+<div class="form-group">
+ 	<label for="userno">작성자 번호</label>
+ 	<input type="text" name="userno" value="${userno }" class="form-control" readonly="readonly">
+</div>
+
+<div class="form-group">
+ 	<label for="hbtitle">제목</label>
+ 	<input type="text" id="hbtitle" name="hbtitle" class="form-control" value="${updateBoard.hbtitle}">
+</div>
+
+<div class="form-group">
+ 	<label for="hbcategory">카테고리</label>
+ 	<select id="hbcategory" name="hbcategory" id="hbcategory" class="form-control">
+ 		<!-- <option value="0" selected>카테고리를 선택해주세요</option> -->
+ 		<option value="동병QnA">동병QnA</option>
+ 		<option value="건강검진">건강검진</option>
+ 		<option value="약처방" >약처방</option>
+ 		<option value="진료비">진료비</option>
+ 		<option value="수의사 정보">수의사 정보</option>
+ 	</select>
+</div>
+
+<div class="form-group">
+ 	<label for="animal">반려동물</label>
+ 	<label><input type="radio" name="animal" value="강아지">강아지</label>
+ 	<label><input type="radio" name="animal" value="고양이">고양이</label>
+</div>
+
+
+
+<div class="form-group">
+ 	<label for="hbcontent">본문</label>
+ 	<textarea id="hbcontent" name="hbcontent" rows="10" style="width: 100%;">${updateBoard.hbcontent}</textarea>
+ 	
+</div>
+
+<div class="form-group">
+	<div id="fileBox">
+		<div id="originFile">
+			<a href="/board/downHospBoard?hbfileno=${boardFile.hbfileno }">${boardFile.hbfileoriginname }</a>		
+			<span id="deleteFile">X</span>
+		</div>
+		<div id="newFile">
+		 	<label for="file">새로운 첨부파일</label>
+		 	<input type="file" id="upload" name="file">
+		 	<div id="preview"></div>
+		</div>
+ 	</div>
+</div>
+
+<div class="text-center">
+	<button id="btnUpdate" class="btn btn-primary">수정</button>
+	<button type="button" onclick="history.back()" class="btn btn-danger" > 취소</button>
+</div>
+
+
+</form>
 
 
 <script type="text/javascript">
@@ -121,109 +207,6 @@ function updateContents() {
 </script>
 
 
-<style type="text/css">
-
-#originFile, #newFile {
-	display: none;
-}
-
-
-.through {
-	text-decoration: line-through;
-}
-
-
-#deleteFile {
-	font-weight: bold;
-	color: red;
-	cursor: pointer;
-}
-
-</style>
-
-
-</head>
-<body>
-
-
-<div class="container">
-
-
-
-<h1>글쓰기</h1>
-<hr>
-
-
-
-<form action="./hbupdate" method="post" enctype="multipart/form-data" class="form-horizontal">
-
-
-<input type="hidden" name="hbno" value="${param.hbno}">
-
-<div class="form-group">
- 	<input type="checkbox" id="hbtop" name="hbtop" value="1">
- 	<label for="hbtop"> 이 게시물을 상단에 고정</label>
-</div>
-
-<div class="form-group">
- 	<label for="userno">작성자 번호</label>
- 	<input type="text" name="userno" value="${userno }" class="form-control" readonly="readonly">
-</div>
-
-<div class="form-group">
- 	<label for="hbtitle">제목</label>
- 	<input type="text" id="hbtitle" name="hbtitle" class="form-control" value="${updateBoard.hbtitle}">
-</div>
-
-<div class="form-group">
- 	<label for="hbcategory">카테고리</label>
- 	<select id="hbcategory" name="hbcategory" id="hbcategory" class="form-control">
- 		<!-- <option value="0" selected>카테고리를 선택해주세요</option> -->
- 		<option value="동병QnA">동병QnA</option>
- 		<option value="건강검진">건강검진</option>
- 		<option value="약처방" >약처방</option>
- 		<option value="진료비">진료비</option>
- 		<option value="수의사 정보">수의사 정보</option>
- 	</select>
-</div>
-
-<div class="form-group">
- 	<label for="animal">반려동물</label>
- 	<label><input type="radio" name="animal" value="강아지">강아지</label>
- 	<label><input type="radio" name="animal" value="고양이">고양이</label>
-</div>
-
-
-
-<div class="form-group">
- 	<label for="hbcontent">본문</label>
- 	<textarea id="hbcontent" name="hbcontent" rows="10" style="width: 100%;">${updateBoard.hbcontent}</textarea>
- 	
-</div>
-
-<div class="form-group">
-	<div id="fileBox">
-		<div id="originFile">
-			<a href="/board/downHospBoard?hbfileno=${boardFile.hbfileno }">${boardFile.hbfileoriginname }</a>		
-			<span id="deleteFile">X</span>
-		</div>
-		<div id="newFile">
-		 	<label for="file">새로운 첨부파일</label>
-		 	<input type="file" id="upload" name="file">
-		 	<div id="preview"></div>
-		</div>
- 	</div>
-</div>
-
-<div class="text-center">
-	<button id="btnUpdate" class="btn btn-primary">수정</button>
-	<button type="button" onclick="history.back()" class="btn btn-danger" > 취소</button>
-</div>
-
-
-</form>
-
-
 
 
 <!-- 스마트 에디터 스킨 적용 -->
@@ -243,5 +226,5 @@ fCreator: "createSEditor2"
 
 </div><!-- .container end --> 
 
-</body>
-</html>
+
+<c:import url="../layout/footer.jsp" />

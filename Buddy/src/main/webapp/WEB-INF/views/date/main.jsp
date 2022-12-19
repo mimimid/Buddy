@@ -10,6 +10,9 @@
 <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
 <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 
+<!-- CSS -->
+<link rel="stylesheet" href="/resources/css/dateList.css">
+
 <!-- 아이콘 CSS -->
 <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-bold-rounded/css/uicons-bold-rounded.css'>
 
@@ -38,7 +41,7 @@ $(document).ready(function () {
 			<img src="https://cdn.imweb.me/thumbnail/20220422/0be5230e57bb5.png" alt="...">
 		</a>
 	</div>
-<div class="text-center">
+<div class="text-center btn-category">
 	<a href="/date/list?category=1"><button type="button" id="cafe" class="btn btn-default">카페</button></a>
 	<a href="/date/list?category=2"><button type="button" id="hotel" class="btn btn-default">호텔</button></a>
 	<a href="/date/list?category=3"><button type="button" id="training" class="btn btn-default">훈련소</button></a>

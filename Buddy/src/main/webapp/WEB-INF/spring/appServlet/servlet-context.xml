@@ -4,10 +4,10 @@
 	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:aop="http://www.springframework.org/schema/aop"
-	xmlns:tx="http://www.springframework.org/schema/tx"
 	xmlns:websocket="http://www.springframework.org/schema/websocket"
+	xmlns:tx="http://www.springframework.org/schema/tx"
 	xsi:schemaLocation="http://www.springframework.org/schema/websocket http://www.springframework.org/schema/websocket/spring-websocket-4.3.xsd
-		http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
+	    http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
@@ -20,7 +20,6 @@
 	
 	<!-- @Aspect 어노테이션을 이용한 AOP 객체 관리 -->
 	<aop:aspectj-autoproxy />
-
 	
 	<!-- @Tramsactional 어노테이션을 이용한 트랜잭션관리 활성화 -->
 	<tx:annotation-driven/>
@@ -41,21 +40,18 @@
 	<beans:bean class="org.springframework.web.servlet.view.BeanNameViewResolver">
 		<beans:property name="order" value="0" />
 	</beans:bean>
-	
 
 	<!-- DownloadView 스프링 빈 등록 -->
 	<beans:bean id="reptDown" class="web.down.ReptDownView" />
 	<beans:bean id="resrchDown" class="web.down.ResrchDownView" />
+	<beans:bean id="downHospBoard" class="web.view.HospBoardDownloadView" />
+	<beans:bean id="downCommBoard" class="web.view.CommBoardDownloadView" />
 
 	
 	<!-- JSON응답용 jsonview를 스프링 빈으로 등록하기 -->
 	<beans:bean id="jsonView" class="org.springframework.web.servlet.view.json.MappingJackson2JsonView">
 		<beans:property name="contentType" value="application/json;charset=utf-8" />
 	</beans:bean>
-	
-	
-	<!-- DownloadView 스프링 빈 등록 -->
-	<beans:bean id="downHospBoard" class="web.view.HospBoardDownloadView" />
 
 	
 	<!-- MultipartResolver 설정 -->
@@ -65,16 +61,17 @@
 		<beans:property name="maxUploadSizePerFile" value="5242880" />
 	</beans:bean>
 	
-	<context:component-scan base-package="web.controller, web.service, web.logging, com.chat.controller" />
+	<context:component-scan base-package="web.controller, web.service, web.logging" />
 	
 	<!-- 소켓 -->
-	<beans:bean id="echoHandler" class="com.chat.config.EchoHandler"/>
+
+<beans:bean id="echoHandler" class="com.chat.config.EchoHandler"/>
 
 	<websocket:handlers>
-		<websocket:mapping handler="echoHandler" path="/echo" />
+		 <websocket:mapping handler="echoHandler" path="/echo" />
 		<websocket:handshake-interceptors>
-			<beans:bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor" />
-		</websocket:handshake-interceptors>	
+        <beans:bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor" />
+    </websocket:handshake-interceptors>	
 		<websocket:sockjs/>
 	</websocket:handlers>
 	

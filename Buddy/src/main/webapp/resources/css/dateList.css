@@ -21,3 +21,14 @@
     width: 40px;
     height: 40px;
 }
+
+#btn-category {
+	background-color: #fff;
+	width: 80px;
+}
+
+#btnCommentWrite {
+	background: #FF7A85;
+	border: none;
+	color: #fff;
+}

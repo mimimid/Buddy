@@ -125,8 +125,7 @@ public class HospBoardController {
 			//좋아요 여부 조회
 			int userno = (int) session.getAttribute("userno");
 			
-			like = hospBoardService.findLike(viewBoard, userno);
-			logger.debug("좋아요 체크 여부 {}", like);
+			//like = hospBoardService.findLike(viewBoard, userno);
 			
 		}
 		

@@ -26,7 +26,7 @@ public interface DateDao {
 	/**
 	 * 전체 게시글 수를 조회한다
 	 * 
-	 * @param category
+	 * @param category - 카테고리 정보 객체
 	 * @param sort - 정렬방식 객체
 	 * @param keywoard - 검색입력 객체
 	 * @return 총 게시글 수

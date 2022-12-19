@@ -226,63 +226,24 @@ public class HospBoardServiceImpl implements HospBoardService {
 
 	
 	
-	
-	// 좋아요
-	
-	@Override
-	public int findLike(HospBoard viewBoard, int userno) {
-		
-		HospbLike like = new HospbLike();
-		
-		like.setHbno(viewBoard.getHbno());
-		like.setUserno(userno);
-		
-		if( hospBoardDao.findLike(like) > 0 ) {
-			return 1;
-		} 
-		
-		return 0;
-	}
-	
-	
 	@Override
 	public void likeUp(HospbLike like) {
 		
-		int res = 0;
-		
-		res = hospBoardDao.likeUp(like);
-		
-		if(res == 1) {
-			HospBoard board = new HospBoard();
-			board.setHbno(like.getHbno());
-
-			hospBoardDao.likeCntUp(board);
-		}
-		
+		int res = hospBoardDao.likeUp(like);		
+		HospBoard board = new HospBoard();
+		board.setHbno(like.getHbno());		
 	}
 	
 	
 	@Override
 	public void likeDown(HospbLike like) {
 		
-		int res = 0;
-				
-		res = hospBoardDao.likeDown(like);
-		
-		if(res == 1) {
-			HospBoard board = new HospBoard();
-			board.setHbno(like.getHbno());
-
-			hospBoardDao.likeCntDown(board);
-		}
+		int res = hospBoardDao.likeDown(like);
+		HospBoard board = new HospBoard();
+		board.setHbno(like.getHbno());
 	}
 
-	
-	
-// 댓글
 
-	
-	
 	
 	@Override
 	public List<HospbCmt> cmtList(int hbno) {
@@ -304,32 +265,18 @@ public class HospBoardServiceImpl implements HospBoardService {
 			res = hospBoardDao.insertReCmt(hospbCmt);
 			
 		}
-		
 
-		if(res == 1) {
 			HospBoard board = new HospBoard();
 			board.setHbno(hospbCmt.getHbno());
 
 			hospBoardDao.cmtUp(board);
-			hospBoardDao.cmtCnt(board);
-		}
 	}
 	
 	
 	@Override
 	public void cmtDelete(HospbCmt hospbCmt) {
 		
-		int res = 0;
-		
-		res = hospBoardDao.deleteCmt(hospbCmt);
-		
-		if(res == 1) {
-			HospBoard board = new HospBoard();
-			board.setHbno(hospbCmt.getHbno());
-
-			hospBoardDao.cmtDown(board);
-			hospBoardDao.cmtCnt(board);
-		}
+		int res = hospBoardDao.deleteCmt(hospbCmt);		
 		
 	}
 	

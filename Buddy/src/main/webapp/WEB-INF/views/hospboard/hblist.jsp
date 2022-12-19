@@ -5,128 +5,15 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-
-
-<!-- jQuery 2.2.4 -->
-<script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
-
-<!-- 부트스트랩 3 -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-
-
-<script type="text/javascript">
-$(document).ready(function() {
-	
-
-	$("#btnWrite").click(function() {
-		location.href = "/hospboard/hbwrite"
-	})
-
-	$("#btnSearch").click(function() {
-		
-		if( $("#keyWord").val() == "" ) {
-			alert('검색어를 입력해주세요!');
- 
-			$("input").eq(0).focus()
-			
-		} else {
-			$("form").submit();
-		}
-	})
-
-	
-})
-</script>
-
-<script type="text/javascript">
-$(document).ready(function(){
-	
-	animalButtonColor();
-	
-	console.log((${not empty param.animal } && ${not empty param.keyWord}));
-	console.log(${not empty param.category } && ${not empty param.keyWord});
-	
-	$(".btnAnimal").click(function() {
-		
-			var animal = $(this).attr("name");
-			console.log(animal);
-			
-			if(${not empty param.category } && ${not empty param.keyWord}) {
-				var category = "${param.category}"
-				var keyWord = "${param.keyWord}"
-				location.href = "/hospboard/hblist?keyWord="+keyWord+"&animal="+animal+"&category="+category
-						
-			}else if( ${not empty param.category } ) {
-				var category = "${param.category}"
-				location.href = "/hospboard/hblist?animal="+animal+"&category="+category
-						
-			} else if(${not empty param.keyWord }) {
-				var keyWord= "${param.keyWord}"
-				location.href = "/hospboard/hblist?keyWord="+keyWord+"&animal="+animal
-				
-			} else {
-				location.href = "/hospboard/hblist?animal="+animal;
-			}
-	})
-	
-function animalButtonColor() {
-	
-	var dog = '강아지';
-	var cat = '고양이';
-	var selectAnimal = '${param.animal}';
-	
-	console.log(selectAnimal);
-	if(dog == selectAnimal) {
-		$('#btnAnimalDog').css("background-color","#fad703");
-	} else if(cat == selectAnimal) {
-		$('#btnAnimalCat').css("background-color","#fad703");
-	} else {
-		$('#btnAnimalAll').css("background-color","#fad703");
-	}
-}
-
-
-
- 
-})
-
-function categoryLink(category) {
-	console.log(category);
-	
-	if(${not empty param.animal } && ${not empty param.keyWord}) {
-		var animal = "${param.animal}"
-		var keyWord = "${param.keyWord}"
-		location.href = "/hospboard/hblist?keyWord="+keyWord+"&animal="+animal+"&category="+category
-				
-	} else if( ${not empty param.animal } ) {
-		var animal = "${param.animal}"
-		location.href = "/hospboard/hblist?animal="+animal+"&category="+category
-				
-	} else if(${not empty param.keyWord }) {
-		var keyWord = "${param.keyWord}"
-		location.href = "/hospboard/hblist?keyWord="+keyWord+"&category="+category
-			
-	}else {
-		location.href = "/hospboard/hblist?category="+category;
-	}
-}
-
-</script>
+<c:import url="../layout/header.jsp" />
 
 <style type="text/css">
 a {
 	color : black;
 }
+
+
 </style>
-</head>
-<body>
 
 
 
@@ -222,6 +109,103 @@ a {
 
 </div><!-- .container -->
 
+<script type="text/javascript">
+$(document).ready(function() {
+	
 
-</body>
-</html>
+	$("#btnWrite").click(function() {
+		location.href = "/hospboard/hbwrite"
+	})
+
+	$("#btnSearch").click(function() {
+		
+		if( $("#keyWord").val() == "" ) {
+			alert('검색어를 입력해주세요!');
+ 
+			$("input").eq(0).focus()
+			
+		} else {
+			$("form").submit();
+		}
+	})
+
+	
+})
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){
+	
+	animalButtonColor();
+	
+	console.log((${not empty param.animal } && ${not empty param.keyWord}));
+	console.log(${not empty param.category } && ${not empty param.keyWord});
+	
+	$(".btnAnimal").click(function() {
+		
+			var animal = $(this).attr("name");
+			console.log(animal);
+			
+			if(${not empty param.category } && ${not empty param.keyWord}) {
+				var category = "${param.category}"
+				var keyWord = "${param.keyWord}"
+				location.href = "/hospboard/hblist?keyWord="+keyWord+"&animal="+animal+"&category="+category
+						
+			}else if( ${not empty param.category } ) {
+				var category = "${param.category}"
+				location.href = "/hospboard/hblist?animal="+animal+"&category="+category
+						
+			} else if(${not empty param.keyWord }) {
+				var keyWord= "${param.keyWord}"
+				location.href = "/hospboard/hblist?keyWord="+keyWord+"&animal="+animal
+				
+			} else {
+				location.href = "/hospboard/hblist?animal="+animal;
+			}
+	})
+	
+function animalButtonColor() {
+	
+	var dog = '강아지';
+	var cat = '고양이';
+	var selectAnimal = '${param.animal}';
+	
+	if(dog == selectAnimal) {
+		$('#btnAnimalDog').css("background-color","#fad703");
+	} else if(cat == selectAnimal) {
+		$('#btnAnimalCat').css("background-color","#fad703");
+	} else {
+		$('#btnAnimalAll').css("background-color","#fad703");
+	}
+}
+
+
+
+ 
+})
+
+function categoryLink(category) {
+	console.log(category);
+	
+	if(${not empty param.animal } && ${not empty param.keyWord}) {
+		var animal = "${param.animal}"
+		var keyWord = "${param.keyWord}"
+		location.href = "/hospboard/hblist?keyWord="+keyWord+"&animal="+animal+"&category="+category
+				
+	} else if( ${not empty param.animal } ) {
+		var animal = "${param.animal}"
+		location.href = "/hospboard/hblist?animal="+animal+"&category="+category
+				
+	} else if(${not empty param.keyWord }) {
+		var keyWord = "${param.keyWord}"
+		location.href = "/hospboard/hblist?keyWord="+keyWord+"&category="+category
+			
+	}else {
+		location.href = "/hospboard/hblist?category="+category;
+	}
+}
+
+</script>
+
+
+<c:import url="../layout/footer.jsp" />

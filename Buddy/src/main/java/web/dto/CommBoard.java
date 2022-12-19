@@ -5,38 +5,44 @@ import java.util.Date;
 public class CommBoard {
 	
 	private int commNo;
-	private String cateAni;
-	private String cateCon;
+	private String cateAnimal;
+	private String cateContent;
 	private String commTitle;
 	private String commContent;
+	private String commWriterNick;
 	private Date commWritedate;
 	private Date commUpdate;
 	private int commHit;
-	private int commLike;
+	private int commLikeCnt;
+	private int commCmtCnt;
 	private int userno;
 	
 	public CommBoard() {}
 
-	public CommBoard(int commNo, String cateAni, String cateCon, String commTitle, String commContent,
-			Date commWritedate, Date commUpdate, int commHit, int commLike, int userno) {
+	public CommBoard(int commNo, String cateAnimal, String cateContent, String commTitle, String commContent,
+			String commWriterNick, Date commWritedate, Date commUpdate, int commHit, int commLikeCnt, int commCmtCnt,
+			int userno) {
 		super();
 		this.commNo = commNo;
-		this.cateAni = cateAni;
-		this.cateCon = cateCon;
+		this.cateAnimal = cateAnimal;
+		this.cateContent = cateContent;
 		this.commTitle = commTitle;
 		this.commContent = commContent;
+		this.commWriterNick = commWriterNick;
 		this.commWritedate = commWritedate;
 		this.commUpdate = commUpdate;
 		this.commHit = commHit;
-		this.commLike = commLike;
+		this.commLikeCnt = commLikeCnt;
+		this.commCmtCnt = commCmtCnt;
 		this.userno = userno;
 	}
 
 	@Override
 	public String toString() {
-		return "CommBoard [commNo=" + commNo + ", cateAni=" + cateAni + ", cateCon=" + cateCon + ", commTitle="
-				+ commTitle + ", commContent=" + commContent + ", commWritedate=" + commWritedate + ", commUpdate="
-				+ commUpdate + ", commHit=" + commHit + ", commLike=" + commLike + ", userno=" + userno + "]";
+		return "CommBoard [commNo=" + commNo + ", cateAnimal=" + cateAnimal + ", cateContent=" + cateContent
+				+ ", commTitle=" + commTitle + ", commContent=" + commContent + ", commWriterNick=" + commWriterNick
+				+ ", commWritedate=" + commWritedate + ", commUpdate=" + commUpdate + ", commHit=" + commHit
+				+ ", commLikeCnt=" + commLikeCnt + ", commCmtCnt=" + commCmtCnt + ", userno=" + userno + "]";
 	}
 
 	public int getCommNo() {
@@ -47,20 +53,20 @@ public class CommBoard {
 		this.commNo = commNo;
 	}
 
-	public String getCateAni() {
-		return cateAni;
+	public String getCateAnimal() {
+		return cateAnimal;
 	}
 
-	public void setCateAni(String cateAni) {
-		this.cateAni = cateAni;
+	public void setCateAnimal(String cateAnimal) {
+		this.cateAnimal = cateAnimal;
 	}
 
-	public String getCateCon() {
-		return cateCon;
+	public String getCateContent() {
+		return cateContent;
 	}
 
-	public void setCateCon(String cateCon) {
-		this.cateCon = cateCon;
+	public void setCateContent(String cateContent) {
+		this.cateContent = cateContent;
 	}
 
 	public String getCommTitle() {
@@ -77,6 +83,14 @@ public class CommBoard {
 
 	public void setCommContent(String commContent) {
 		this.commContent = commContent;
+	}
+
+	public String getCommWriterNick() {
+		return commWriterNick;
+	}
+
+	public void setCommWriterNick(String commWriterNick) {
+		this.commWriterNick = commWriterNick;
 	}
 
 	public Date getCommWritedate() {
@@ -103,12 +117,20 @@ public class CommBoard {
 		this.commHit = commHit;
 	}
 
-	public int getCommLike() {
-		return commLike;
+	public int getCommLikeCnt() {
+		return commLikeCnt;
 	}
 
-	public void setCommLike(int commLike) {
-		this.commLike = commLike;
+	public void setCommLikeCnt(int commLikeCnt) {
+		this.commLikeCnt = commLikeCnt;
+	}
+
+	public int getCommCmtCnt() {
+		return commCmtCnt;
+	}
+
+	public void setCommCmtCnt(int commCmtCnt) {
+		this.commCmtCnt = commCmtCnt;
 	}
 
 	public int getUserno() {
