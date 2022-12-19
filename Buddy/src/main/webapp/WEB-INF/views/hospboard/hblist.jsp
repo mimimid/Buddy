@@ -8,14 +8,9 @@
 <c:import url="../layout/header.jsp" />
 
 <style type="text/css">
-a {
-	color : black;
-}
-
+a {color : black;}
 
 </style>
-
-
 
 <div class="container">
 
@@ -83,13 +78,7 @@ a {
 	<td  style="width: 15%;">${hbList.hbcategory }</td>
 	<td  style="width: 10%;">${hbList.animal }</td>
 	<td  style="width: 30%;">
-	<c:if test="${hbList.hbtop == 1 }">
-	  	<span class="label label-success" style="font-size: 11px;">공지</span>
-	 </c:if>
-	<a href="./hbview?hbno=${hbList.hbno }">${hbList.hbtitle }</a>
-	<c:if test="${hbList.hbcmtcnt !=0 }">
-	  	&nbsp&nbsp<span style="color:#69a155">[${hbList.hbcmtcnt }]</span>
-	</c:if>
+	<a href="./hbview?hbno=${hbList.hbno }">${hbList.hbtitle }</a> [${hbList.hbcmtcnt }]
 	</td>
 	<td style="width: 10%;">${hbList.userno }</td>
 	<td style="width: 10%;"><fmt:formatDate value="${hbList.hbwritedate }" pattern="yy-MM-dd"/></td>
@@ -178,8 +167,6 @@ function animalButtonColor() {
 		$('#btnAnimalAll').css("background-color","#fad703");
 	}
 }
-
-
 
  
 })

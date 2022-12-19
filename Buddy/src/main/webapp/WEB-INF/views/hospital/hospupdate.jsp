@@ -105,19 +105,10 @@
  	<textarea id="hospContent" name="hospContent" rows="10" style="width: 100%;">${updateHosp.hospContent }</textarea>
 </div>
 
-
-
-
 <div class="form-group">
  	<label for="hospMgtno">등록번호</label>
  	<input type="text" name="hospMgtno" class="form-control" value="${updateHosp.hospMgtno }">
 </div>
-
-
-
-
-
-
 
 
 
@@ -174,7 +165,6 @@ $(document).ready(function() {
 	
 	$("#btnUpdate").click(function() {
 		
-		//스마트 에디터에 작성된 내용을 #content에 반영
 		updateContents();
 		
 		$("form").submit();
@@ -234,53 +224,24 @@ function updateContents() {
 }
 
 
-/* function timeadd() {
-	
-	 var hosp_weekday_open = document.getElementById("hosp_weekday_open").value
-	 var hosp_weekday_close = document.getElementById('hosp_weekday_close').value;
-	 var hosp_weekday_all = hosp_weekday_close + '~' + hosp_weekday_close;
-	 $('#hosp_weekday').val(hosp_weekday_all);
-	 
-	 var hosp_sat_open = document.getElementById("hosp_sat_open").value
-	 var hosp_sat_close = document.getElementById('hosp_sat_close').value;
-	 var hosp_sat_all = hosp_sat_open + '~' + hosp_sat_close;
-	 $('#hosp_sat').val(hosp_sat_all);
-	 
-	 var hosp_sun_open = document.getElementById("hosp_sun_open").value
-	 var hosp_sun_close = document.getElementById('hosp_sun_close').value;
-	 var hosp_sun_all = hosp_sun_open + '~' + hosp_sun_close;
-	 $('#hosp_sun').val(hosp_sun_all);
-	 
-	 var hosp_lunchhour_open = document.getElementById("hosp_lunchhour_open").value
-	 var hosp_lunchhour_close = document.getElementById('hosp_lunchhour_close').value;
-	 var hosp_lunchhour_all = hosp_lunchhour_open + '~' + hosp_lunchhour_close;
-	 $('#hosp_lunchhour').val(hosp_lunchhour_all);
-	 	 
-} */
 
-/* 주소 찾기 */
 function sample6_execDaumPostcode() {
     new daum.Postcode({
         oncomplete: function(data) {
-            // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
 
-            // 각 주소의 노출 규칙에 따라 주소를 조합한다.
-            // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-            var addr = ''; // 주소 변수
-            var extraAddr = ''; // 참고항목 변수
+            var addr = ''; 
+            var extraAddr = ''; 
 
-            //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
-            if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+            if (data.userSelectedType === 'R') {
                 addr = data.roadAddress;
-            } else { // 사용자가 지번 주소를 선택했을 경우(J)
+            } else {
                 addr = data.jibunAddress;
             }
 
-            // 우편번호와 주소 정보를 해당 필드에 넣는다.
             document.getElementById('hospPostNo').value = data.zonecode;
             document.getElementById("top_address").value = addr;
            	document.getElementById("hospAddress").value = addr;
-            // 커서를 상세주소 필드로 이동한다.
+
             document.getElementById("detailAddress").focus();
         }
     }).open();
