@@ -11,6 +11,12 @@ table {
 	table-layout: fixed;
 }
 
+td, tr {
+	height: 50px;
+	
+	line-height: 50px !important;
+}
+
 #rlist {
 	padding-top: 70px;
 	padding-right: 40px;
@@ -19,6 +25,11 @@ table {
 #plist {
 	padding-top: 70px;
 	padding-left: 40px;
+}
+
+button:focus, button:active { 	
+    outline:none !important;
+    box-shadow:none !important;
 }
 </style>
 
@@ -83,7 +94,7 @@ $(document).ready(function() {
 	<table class="table table-striped table-hover table-condensed">
 	<thead>
 		<tr>
-			<th style="width: 10%;">글번호</th>
+			<th style="width: 10%;"></th>
 			<th style="width: 10%;">제목</th>
 			<th style="width: 10%;">작성자</th>
 			<th style="width: 10%;">조회수</th>
@@ -94,11 +105,18 @@ $(document).ready(function() {
 	<tbody>
 	<c:forEach items="${rlist }" var="rlist">
 		<tr>
-			<td>${rlist.commNo }</td>
+			<td>
+				<c:choose>
+					<c:when test="${rlist.cateContent eq 'daily' }">#일상</c:when>
+					<c:when test="${rlist.cateContent eq 'info' }">#정보</c:when>
+					<c:when test="${rlist.cateContent eq 'ask' }">#질문</c:when>
+					<c:when test="${rlist.cateContent eq 'etc' }">#기타</c:when>
+				</c:choose>
+			</td>
 			<td><a href="/comm/view?commNo=${rlist.commNo }">${rlist.commTitle }</a></td>
 			<td>${rlist.commWriterNick }</td>
 			<td>${rlist.commHit }</td>
-			<td><fmt:formatDate value="${rlist.commWritedate }" pattern="yy-MM-dd HH:mm:ss"/></td>
+			<td><fmt:formatDate value="${rlist.commWritedate }" pattern="yyyy-MM-dd"/></td>
 		</tr>
 	</c:forEach>
 	</tbody>
@@ -114,10 +132,10 @@ $(document).ready(function() {
 	<table class="table table-striped table-hover table-condensed">
 	<thead>
 		<tr>
-			<th style="width: 10%;">글번호</th>
+			<th style="width: 10%;"></th>
 			<th style="width: 10%;">제목</th>
 			<th style="width: 10%;">작성자</th>
-			<th style="width: 10%;">조회수</th>
+			<th style="width: 10%;">좋아요</th>
 			<th style="width: 10%;">작성일</th>
 		</tr>
 	</thead>
@@ -125,11 +143,18 @@ $(document).ready(function() {
 	<tbody>
 	<c:forEach items="${plist }" var="plist">
 		<tr>
-			<td>${plist.commNo }</td>
+			<td>
+				<c:choose>
+					<c:when test="${plist.cateContent eq 'daily' }">#일상</c:when>
+					<c:when test="${plist.cateContent eq 'info' }">#정보</c:when>
+					<c:when test="${plist.cateContent eq 'ask' }">#질문</c:when>
+					<c:when test="${plist.cateContent eq 'etc' }">#기타</c:when>
+				</c:choose>
+			</td>
 			<td><a href="/comm/view?commNo=${plist.commNo }">${plist.commTitle }</a></td>
 			<td>${plist.commWriterNick }</td>
-			<td>${plist.commHit }</td>
-			<td><fmt:formatDate value="${plist.commWritedate }" pattern="yy-MM-dd HH:mm:ss"/></td>
+			<td>${plist.commLikeCnt }</td>
+			<td><fmt:formatDate value="${plist.commWritedate }" pattern="yyyy-MM-dd"/></td>
 		</tr>
 	</c:forEach>
 	</tbody>

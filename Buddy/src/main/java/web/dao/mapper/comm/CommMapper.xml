@@ -167,7 +167,10 @@
 		WHERE comm_no = #{commNo }
 	</update>
 	
-	
+	<select id="selectLikeCnt" resultType="CommBoard" parameterType="CommLike">
+		SELECT comm_like_cnt FROM comm_board
+		WHERE comm_no = #{commNo }
+	</select>
 	
 	
 	

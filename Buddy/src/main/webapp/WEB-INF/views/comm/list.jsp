@@ -114,6 +114,11 @@ $(document).ready(function() {
 </script>
 
 <style type="text/css">
+span {
+	display: table-cell;
+	vertical-align: middle;
+}
+
 .cate-animal  {
 	text-align: center;
 	padding: 10px;
@@ -144,9 +149,15 @@ table {
 }
 
 /* --------------------------------------- */
-.btn-write {
+
+#btnWrite {
 	background-color: #FF7A85;
 	color: #fff;
+}
+
+button:focus, button:active { 	
+    outline:none !important;
+    box-shadow:none !important;
 }
 </style>
 
@@ -167,6 +178,7 @@ table {
 	<button id="btnConEtc" class="btn btn-category" name="etc">#기타</button>
 </div>
 
+<div class="search">
 <div class="pull-left">
 	<span>
 	<c:if test="${not empty category }">
@@ -195,30 +207,38 @@ table {
 		
 		<input type="text" name="keyword" class="form-control" id="keyword" value="${param.keyword }">
 		
-		<button type="button" class="btn" id="btnSearch">검색</button>
+		<button type="button" class="btn" id="btnSearch"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
 		
 	</form>
+</div>
 </div>
 
 <div class="clearfix" style="padding-bottom: 20px;"></div>
 
+
+
+
+
 <table class="table">
 <c:forEach items="${list }" var="commBoard">
 	<tr>
-		<td>
+		<td rowspan="2">
 			<c:choose>
-				<c:when test="${commBoard.cateContent eq 'daily' }">[일상]</c:when>
-				<c:when test="${commBoard.cateContent eq 'info' }">[정보]</c:when>
-				<c:when test="${commBoard.cateContent eq 'ask' }">[질문]</c:when>
-				<c:when test="${commBoard.cateContent eq 'etc' }">[기타]</c:when>
+				<c:when test="${commBoard.cateContent eq 'daily' }">#일상</c:when>
+				<c:when test="${commBoard.cateContent eq 'info' }">#정보</c:when>
+				<c:when test="${commBoard.cateContent eq 'ask' }">#질문</c:when>
+				<c:when test="${commBoard.cateContent eq 'etc' }">#기타</c:when>
 			</c:choose>
 		</td>
-		<td><a href="/comm/view?commNo=${commBoard.commNo }">${commBoard.commTitle }</a></td>
+		<td colspan="8"><a href="/comm/view?commNo=${commBoard.commNo }">${commBoard.commTitle }</a></td>
+		<td><span class="material-icons-outlined">chat_bubble_outline</span>&nbsp;&nbsp;${commBoard.commCmtCnt }</td>
+	</tr>
+		
+	<tr>
 		<td>${commBoard.commWriterNick }</td>
-		<td><fmt:formatDate value="${commBoard.commWritedate }" pattern="yy-MM-dd HH:mm:ss"/></td>
-		<td>${commBoard.commHit }</td>
-		<td>${commBoard.commLikeCnt }</td>
-		<td>${commBoard.commCmtCnt }</td>
+		<td><fmt:formatDate value="${commBoard.commWritedate }" pattern="yyyy-MM-dd"/></td>
+		<td colspan="6"><span class="material-icons-outlined">favorite</span>&nbsp;&nbsp;${commBoard.commLikeCnt }</td>
+		<td><span class="material-icons-outlined">visibility</span>&nbsp;&nbsp;${commBoard.commHit }</td>
 	</tr>
 </c:forEach>
 </table>
