@@ -124,10 +124,7 @@
 		WHERE L.userno = #{userno}
 		ORDER BY L.hosp_no
 	</select>
-	
-	
-	
-	
+
 
 	<select id="selectHospital" resultType="Hospital" parameterType="Hospital">
 		SELECT
@@ -185,7 +182,6 @@
 			, adminid = #{adminid}
 		WHERE hosp_no = #{hospNo}
 	</update>
-	
 	
 
 	<delete id="deleteHospPic" parameterType="Hospital">

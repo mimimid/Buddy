@@ -32,8 +32,6 @@ html, body {
     height: 100%;
 }
 
-
-
 .container {
 	min-height: 600px;
 	padding: 30px;
@@ -195,8 +193,8 @@ $(document).ready(function() {
 					<div class="btn-group" id="btnUser">
 						<span class="btn glyphicon glyphicon-user" data-toggle="dropdown" aria-hidden="true"> ${nick }님</span>
 						<ul class="dropdown-menu" role="menu">
-							<li><a href="#">마이페이지</a></li>
-							<li><a href="#">기억한 아이</a></li>
+							<li><a href="/mypage/main">마이페이지</a></li>
+							<li><a href="/adopt/proWishList">기억한 아이</a></li>
 							<li><a href="#">장바구니</a></li>
 							<li><a href="#">쪽지</a></li>
 						</ul>
@@ -244,11 +242,10 @@ $(document).ready(function() {
 					
 					
 					<li class="dropdown">
-						<a href="/adopt/main">입양</a>
+						<a href="/adopt/pro">입양</a>
 						<ul class="dropdown-menu" role="menu">
 							<li><a href="/adopt/pro">입양</a></li>
 							<li><a href="/adopt/research">입양 신청서</a></li>
-							<li><a href="/adopt/news">입양/임보 후 소식</a></li>
 						</ul>
 					</li>
 

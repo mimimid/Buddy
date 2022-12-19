@@ -122,21 +122,17 @@
 		DELETE hosp_board
 		WHERE hbno = #{hbno}
 	</delete>
-	
 
-	
 	
 	<insert id="likeUp" parameterType="HospbLike" >
 		INSERT INTO hospb_like (hblike_no ,hbno , userno, hblike_check)
 		VALUES( hospb_like_seq.nextval, #{hbno},#{userno},1)
 	</insert>
 	
-	
 	<delete id="likeDown" parameterType="HospbLike">
 	  	DELETE hospb_like
 	  	WHERE hbno = #{hbno} AND userno = #{userno} 
 	 </delete>
-	 
 
 	 <select id="selectAllCmt" parameterType="int" resultType="HospbCmt">
 	 	SELECT hb_cmt_no, hb_cmt_content , hb_cmt_writedate, 

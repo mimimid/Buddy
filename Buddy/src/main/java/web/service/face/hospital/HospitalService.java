@@ -13,17 +13,11 @@ import web.dto.HospitalReviewLike;
 
 public interface HospitalService {
 
-	
-	
-	public void insertHospApiData(Hospital hospital);
-	
 
 	public HospitalPaging getPaging(String hour24, String searchType, String keyWord, int curPage);
-	
 
 	public List<Hospital> list(HospitalPaging hospitalPaging);
 	
-
 	public Hospital view(Hospital viewHospital);
 
 	public void likeUp(HospitalLike like);
@@ -36,17 +30,9 @@ public interface HospitalService {
 	public void reviewDelete(HospitalReview hospReview);
 	public void write(Hospital hospital, MultipartFile file);
 	
-	/**
-	 * 병원 번호를 이용하여 업로드된 사진파일 정보를 조회한다
-	 * 
-	 * @param viewHospital - 조회할 병원 번호 객체
-	 * @return 첨부파일 정보
-	 */
 	public HospitalPic getAttachPic(Hospital viewHospital);
-	
-	
+
 	public void update(Hospital hospital, MultipartFile file);
-	
 	public void delete(Hospital hospital);
 	
 	public void reviewLikeUp(HospitalReviewLike reviewLike);

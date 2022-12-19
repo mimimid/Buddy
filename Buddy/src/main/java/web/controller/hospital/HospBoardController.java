@@ -52,22 +52,14 @@ public class HospBoardController {
 		
 		logger.debug("paging : {}", hospbPaging);
 		
-		
 		List<HospBoard> hbList = hospBoardService.list(hospbPaging);
 			
 		model.addAttribute("hbList", hbList);
 		model.addAttribute("paging", hospbPaging);
-		
-		//임시 세션
-		session.setAttribute("userid", "testID01");
-		session.setAttribute("userno", 1);
-		session.setAttribute("usernick", "닉네임1");
-		session.setAttribute("login", true);
-		
-		
+
+			
 		return "hospboard/hblist";
 	}
-	
 	
 	
 	@PostMapping("/hblist")
@@ -89,44 +81,32 @@ public class HospBoardController {
 		
 		logger.debug("paging : {}", hospbPaging);
 		
-		
 		List<HospBoard> hbList = hospBoardService.list(hospbPaging);
-		
 	
 		model.addAttribute("hbList", hbList);
 		model.addAttribute("paging", hospbPaging);
-		
-		//임시 세션
-		session.setAttribute("userid", "testID02");
-		session.setAttribute("userno", 2);
-		session.setAttribute("usernick", "닉네임2");
-		session.setAttribute("login", true);
-		
-		
+//		
+//		//임시 세션
+//		session.setAttribute("userid", "testID02");
+//		session.setAttribute("userno", 2);
+//		session.setAttribute("usernick", "닉네임2");
+//		session.setAttribute("login", true);
+//	
 		return "hospboard/hblist";
 	}
 	
 	
 	@GetMapping("/hbview")
 	public String view( HospBoard viewBoard, Model model, HttpSession session) {
-		logger.debug("글번호 : {}", viewBoard);
-		
-		
-		//게시글 조회
+
 		viewBoard = hospBoardService.view(viewBoard);
 		logger.debug("조회된 게시글 {}", viewBoard);
-		
-		//첨부파일 조회
+
 		HospbFile boardfile = hospBoardService.getAttachFile(viewBoard);
 		
 		int like = 0;
 		if(session.getAttribute("login") != null) {
-			
-			//좋아요 여부 조회
 			int userno = (int) session.getAttribute("userno");
-			
-			//like = hospBoardService.findLike(viewBoard, userno);
-			
 		}
 		
 		//모델값 전달
@@ -138,11 +118,7 @@ public class HospBoardController {
 		return "hospboard/hbview";
 	}
 	
-	
-	
-	
-	
-	//--- 게시글 작성 ---
+
 	@GetMapping("/hbwrite")
 	public void write(HttpSession session) {	}
 	
@@ -150,12 +126,10 @@ public class HospBoardController {
 	public String writeProc( HospBoard board, MultipartFile file, HttpSession session) {
 		logger.debug("작성글 : {}",board);
 		logger.debug("파일 : {}",file);
-		
-		//작성자 정보 추가
+
 		board.setUserno((int) session.getAttribute("userno"));
 		logger.debug("{}", board);
 		
-		//게시글, 첨부파일 처리
 		hospBoardService.write(board,file);
 		
 		
@@ -165,11 +139,9 @@ public class HospBoardController {
 	@RequestMapping("/download")
 	public String download(HospbFile hospbfile, Model model) {
 		
-		//첨부파일 정보 객체
 		hospbfile = hospBoardService.getFile(hospbfile);
 		logger.debug("{}", hospbfile);
 		
-		//모델값 전달
 		model.addAttribute("downFile", hospbfile);
 		
 		return "downHospBoard";
@@ -180,25 +152,19 @@ public class HospBoardController {
 	@GetMapping("/hbupdate")
 	public String update(HospBoard board, Model model) {
 		logger.debug("글번호 : {}", board);
-		
-		//잘못된 게시글 번호 처리
+
 		if( board.getHbno() < 0 ) {
 			return "redirect:/hospboard/hblist";
 		}		
-		
-		//게시글 조회
+
 		board = hospBoardService.view(board);
-		
-		//모델값 전달
+
 		model.addAttribute("updateBoard", board);
-		
-		//첨부파일 모델값 전달
+
 		HospbFile hospbFile = hospBoardService.getAttachFile(board);
 		model.addAttribute("boardFile", hospbFile);
-		
-		
-		return "hospboard/hbupdate";
-		
+			
+		return "hospboard/hbupdate";	
 	}
 	
 	
@@ -231,7 +197,6 @@ public class HospBoardController {
 		hospBoardService.likeUp(like);
 	}
 	
-	
 	@PostMapping("/hbview/likedown")
 	public @ResponseBody void likeDown( HospbLike like, HttpSession session) {
 		
@@ -240,17 +205,9 @@ public class HospBoardController {
 		
 		hospBoardService.likeDown(like);
 	}	
-	
-	
-	
-	//------댓글---------
-	
+
 	@GetMapping("/hbcmtlist")
-	public String hbCmtList(
-			int hbno, 
-			HttpSession session,
-			Model model
-			) {
+	public String hbCmtList(int hbno, HttpSession session,Model model) {
 		
 		List<HospbCmt> cmtList = hospBoardService.cmtList(hbno);
 		

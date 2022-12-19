@@ -42,12 +42,9 @@ public class HospitalServiceImpl implements HospitalService {
 		paramPaging.setSearchType(searchType);
 		paramPaging.setKeyWord(keyWord);
 		
-		//총 게시글 수 조회하기
 		int totalCount = hospitalDao.selectCntAll(paramPaging);
 		
-		//페이징 계산
-		HospitalPaging hospitalPaging = new HospitalPaging(totalCount,curPage);
-		
+		HospitalPaging hospitalPaging = new HospitalPaging(totalCount,curPage);	
 		
 		return hospitalPaging;
 	}
@@ -55,18 +52,14 @@ public class HospitalServiceImpl implements HospitalService {
 	
 	@Override
 	public List<Hospital> list(HospitalPaging hospitalPaging) {
-
-		//병원 목록 조회
-		List<Hospital> hospitalList = hospitalDao.selectAll(hospitalPaging);
-		
+		List<Hospital> hospitalList = hospitalDao.selectAll(hospitalPaging);	
 		return hospitalList;
 	}
 	
 
 	@Override
 	public Hospital view(Hospital viewHospital) {
-		
-		//상세보기 조회 결과 리턴
+
 		return hospitalDao.selectHospital(viewHospital);
 	}
 	
@@ -84,16 +77,6 @@ public class HospitalServiceImpl implements HospitalService {
 		hospitalDao.likeDown(like);		
 	}
 	
-	
-	@Override
-	public void insertHospApiData(Hospital hospital) {	
-		if( ("01").equals( hospital.getHospStateCode() )  ) {
-			hospitalDao.insertApiData(hospital);
-		}else {
-			return;
-		}
-	}
-
 	
 	@Override
 	public List<HospitalReview> reviewList(int hospNo) {	
@@ -125,9 +108,7 @@ public class HospitalServiceImpl implements HospitalService {
 		 hospitalDao.reviewLikeDown(reviewLike);	
 	}
 	
-	
-	
-// 글쓰기
+
 	@Override
 	public void write(Hospital hospital, MultipartFile file) {
 		

@@ -17,7 +17,7 @@ $(document).ready(function() {
 			location.href = "/user/login"
 			
 		} else {
-			location.href = "/comm/write"			
+			location.href = "/comm/write"
 		}
 		
 	})
@@ -60,33 +60,34 @@ $(document).ready(function() {
 	
 	// cate_ani color css
 	if( "${animal }" == "dog" ) {
-		$("#btnAniDog").css({"color": "#fff", "background-color": "#FF7A85"})
+		$("#btnAniDog").css({"color": "#fff", "background-color": "#8EC0E4"})
 		
 	} else if ( "${animal }" == "cat" ) {
-		$("#btnAniCat").css({"color": "#fff", "background-color": "#FF7A85"})
+		$("#btnAniCat").css({"color": "#fff", "background-color": "#8EC0E4"})
 		
 	}
 	
 	// cate_con color css
 	if ( "${category }" == "daily" ) {
-		$("#btnConDaily").css("color", "#FF7A85")
+		$("#btnConDaily").css("color", "#8EC0E4")
 		
 	} else if ( "${category }" == "info" ) {
-		$("#btnConInfo").css("color", "#FF7A85")
+		$("#btnConInfo").css("color", "#8EC0E4")
 	
 	} else if ( "${category }" == "ask" ) {
-		$("#btnConAsk").css("color", "#FF7A85")
+		$("#btnConAsk").css("color", "#8EC0E4")
 			
 	} else if ( "${category }" == "etc" ) {
-		$("#btnConEtc").css("color", "#FF7A85")
+		$("#btnConEtc").css("color", "#8EC0E4")
 		
 	} else {
-		$("#btnConAll").css("color", "#FF7A85")
+		$("#btnConAll").css("color", "#8EC0E4")
 		
 	}
 	
 })
 </script>
+
 
 <!-- 검색 -->
 <script type="text/javascript">
@@ -113,11 +114,19 @@ $(document).ready(function() {
 })
 </script>
 
+
 <style type="text/css">
 span {
 	display: table-cell;
 	vertical-align: middle;
 }
+
+button:focus, button:active { 	
+    outline:none !important;
+    box-shadow:none !important;
+}
+
+/* --------------------------------------- */
 
 .cate-animal  {
 	text-align: center;
@@ -136,87 +145,87 @@ span {
 
 /* --------------------------------------- */
 
-table {
-	table-layout: fixed;
-	padding-top: 10px;
+#category {
+	line-height: 34px;
+}
+
+#btnSearch {
+	background-color:#8EC0E4; 
+	color: #fff;
 }
 
 /* --------------------------------------- */
 
-#btnSearch {
-	background-color:#FF7A85; 
-	color: #fff;
+table {
+	table-layout: fixed;
 }
 
 /* --------------------------------------- */
 
 #btnWrite {
-	background-color: #FF7A85;
+	background-color: #8EC0E4;
 	color: #fff;
-}
-
-button:focus, button:active { 	
-    outline:none !important;
-    box-shadow:none !important;
 }
 </style>
 
+
 <div class="container">
 
-<div class="cate-animal">
-	<button id="btnAniCat" class="btn btn-animal" name="cat">고양이</button>
-	<button id="btnAniDog" class="btn btn-animal" name="dog">강아지</button>
-</div>
+	<div class="cate-animal">
+		<button id="btnAniCat" class="btn btn-animal" name="cat">고양이</button>
+		<button id="btnAniDog" class="btn btn-animal" name="dog">강아지</button>
+	</div>
 
-<hr>
+	<hr>
 
-<div class="cate-content">
-	<button id="btnConAll" class="btn btn-category" name="">#전체</button>
-	<button id="btnConDaily" class="btn btn-category" name="daily">#일상</button>
-	<button id="btnConInfo" class="btn btn-category" name="info">#정보</button>
-	<button id="btnConAsk" class="btn btn-category" name="ask">#질문</button>
-	<button id="btnConEtc" class="btn btn-category" name="etc">#기타</button>
-</div>
+	<div class="cate-content">
+		<button id="btnConAll" class="btn btn-category" name="">#전체</button>
+		<button id="btnConDaily" class="btn btn-category" name="daily">#일상</button>
+		<button id="btnConInfo" class="btn btn-category" name="info">#정보</button>
+		<button id="btnConAsk" class="btn btn-category" name="ask">#질문</button>
+		<button id="btnConEtc" class="btn btn-category" name="etc">#기타</button>
+	</div>
 
-<div class="search">
-<div class="pull-left">
-	<span>
-	<c:if test="${not empty category }">
-		<c:choose>
-			<c:when test="${category eq 'daily' }">일상 </c:when>
-			<c:when test="${category eq 'info' }">정보 </c:when>
-			<c:when test="${category eq 'ask' }">질문 </c:when>
-			<c:when test="${category eq 'etc' }">기타 </c:when>
-		</c:choose>
-		카테고리( ${paging.totalCount } )
-	</c:if>
-	</span>
-</div>
-
-<div class="pull-right">
-	<form action="./list" method="get" class="form-inline">
+	<div class="comm_top">
+		<div class="pull-left">
+			<span id="category">
+			<c:if test="${not empty category }">
+				<c:choose>
+					<c:when test="${category eq 'daily' }">일상 </c:when>
+					<c:when test="${category eq 'info' }">정보 </c:when>
+					<c:when test="${category eq 'ask' }">질문 </c:when>
+					<c:when test="${category eq 'etc' }">기타 </c:when>
+				</c:choose>
+				카테고리( ${paging.totalCount } )
+			</c:if>
+			</span>
+		</div>
 		
-		<input type="hidden" id="hcateAnimal" name="animal">
-		<input type="hidden" id="hcateContent" name="category">
-		
-		<select class="form-control" id="searchType" name="searchType">
-		    <option value="">전체</option>
-		    <option value="commTitle">제목</option>
-		    <option value="commWriterNick">작성자</option>
-		</select>
-		
-		<input type="text" name="keyword" class="form-control" id="keyword" value="${param.keyword }">
-		
-		<button type="button" class="btn" id="btnSearch"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
-		
-	</form>
-</div>
-</div>
+		<div class="pull-right">
+			<form action="./list" method="get" class="form-inline">
+				
+				<input type="hidden" id="hcateAnimal" name="animal">
+				<input type="hidden" id="hcateContent" name="category">
+				
+				<select class="form-control" id="searchType" name="searchType">
+				    <option value="">전체</option>
+				    <option value="commTitle">제목</option>
+				    <option value="commWriterNick">작성자</option>
+				</select>
+				
+				<input type="text" name="keyword" class="form-control" id="keyword" value="${param.keyword }">
+				
+				<button type="button" class="btn" id="btnSearch"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+				
+			</form>
+		</div>
+	</div>
 
-<div class="clearfix" style="padding-bottom: 20px;"></div>
+	<div class="clearfix" style="padding-bottom: 10px;"></div>
 
 
 
+<!-- css 정리 필요 -->
 
 
 <table class="table">

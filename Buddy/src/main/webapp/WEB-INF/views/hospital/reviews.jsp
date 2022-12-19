@@ -15,27 +15,14 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 
 
-
-
-
 <style type="text/css">
 
 
-.flexdiv {
-display: flex;
-    overflow-x: auto;
-
-}
-
+.flexdiv {display: flex;  overflow-x: auto;}
 .reviewList {border-bottom: 1px solid #ccc}
-
 .hospReviewContent {padding-left: 41px;}
-
-
-.staricon {font-size: 15px; /* 이모지 크기 */ }
-.staricongrey {font-size: 15px; /* 이모지 크기 */ 
-				color: transparent; /* 기존 이모지 컬러 제거 */ 
-				text-shadow: 0 0 0 #e6e5e5; /* 새 이모지 색상 부여 */}
+.staricon {font-size: 15px; }
+.staricongrey {font-size: 15px;  color: transparent; text-shadow: 0 0 0 #e6e5e5;}
 
 
 </style>
@@ -50,64 +37,18 @@ display: flex;
 		</div>
 		<div >
 			<div class="flexdiv">
-				<span>${reviewList.usernick }</span>
-				<span><fmt:formatDate value="${reviewList.hospReviewWritedate }" pattern="yy-MM-dd HH:mm:ss"/></span>
-				<span>${reviewList.animal	 }</span>
+			<span>${reviewList.usernick }</span>
+			<span><fmt:formatDate value="${reviewList.hospReviewWritedate }" pattern="yy-MM-dd HH:mm:ss"/></span>
+			<span>${reviewList.animal	 }</span>
 			</div>
 		</div>
 	</div>
-	
 	<div class="hospReviewContent">
 	${reviewList.hospReviewContent 	 }
 	</div>
 </div>
 </c:forEach>
 
- 
-<script type="text/javascript">
-
-function insertRLike(no){
-		console.log("클릭")
-    	// var data;
-    	 var hospNo = ${param.hospNo}
-    	 /* 수정***** */
-    	 var iconid = '#reviewlikeicon'
-    	 console.log(hospNo,hospReviewNo,iconid)
-    	 
-    	 if($(iconid).attr('class') == "glyphicon glyphicon-heart-empty"){
-  	 
-    		 $.ajax({
-					type :"POST"
-					, url : '<c:url value ="/hospital/review/likeup"/>'
-					, data : {"hospNo" : hospNo}		
-					,success : function(data) {
-						$(iconid).attr('class', 'glyphicon glyphicon-heart');
-					
-					}
-					, error: function() {
-						
-					}
-				})   		  
-    	 } else{
-    		 
-    		 $.ajax({
-					type :"POST"
-					, url : '<c:url value ="/hospital/review/likedown"/>'
-					,data : {"hospNo" : hospNo}	
-					,success : function(data) {
-						$(iconid).attr('class', 'glyphicon glyphicon-heart-empty');
-					
-					}, error: function() {
-						
-					}
-				})    		     		 
-    	 }
-    	 
- 	    
-}
-     
- 
-</script>  
 <script type="text/javascript">
 $(document).ready(function() { 
 	

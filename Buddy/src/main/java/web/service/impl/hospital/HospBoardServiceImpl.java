@@ -41,16 +41,13 @@ public class HospBoardServiceImpl implements HospBoardService {
 		paramPaging.setSearchType(searchType);
 		paramPaging.setKeyWord(keyWord);
 		
-		//총 게시글 수 조회하기
 		int totalCount = hospBoardDao.selectCntAll(paramPaging);
 		
-		//페이징 계산
 		HospbPaging hospbPaging = new HospbPaging(totalCount, curPage);
 		
 		return hospbPaging;
 	}
-	
-	
+		
 	
 	@Override
 	public List<HospBoard> list(HospbPaging hospbPaging) {
@@ -59,17 +56,11 @@ public class HospBoardServiceImpl implements HospBoardService {
 		List<HospBoard> boardList = hospBoardDao.selectAll(hospbPaging);							
 		return boardList;
 	}
-	
-	
-	
 
 	@Override
 	public HospBoard view(HospBoard viewBoard) {
 
-		//조회수 증가
 		hospBoardDao.updateHit(viewBoard);
-		
-		//상세보기 조회 결과 리턴
 		return hospBoardDao.selectBoard(viewBoard);
 	}
 
@@ -256,22 +247,17 @@ public class HospBoardServiceImpl implements HospBoardService {
 		
 		int res = 0;
 		
-		if(hospbCmt.getHbCmtBundle() == 0) {
-			
-			res = hospBoardDao.insertCmt(hospbCmt);
-			
-		} else {
-			
-			res = hospBoardDao.insertReCmt(hospbCmt);
-			
+		if(hospbCmt.getHbCmtBundle() == 0) {		
+			res = hospBoardDao.insertCmt(hospbCmt);		
+		} else {	
+			res = hospBoardDao.insertReCmt(hospbCmt);			
 		}
 
 			HospBoard board = new HospBoard();
 			board.setHbno(hospbCmt.getHbno());
 
-			hospBoardDao.cmtUp(board);
+			//hospBoardDao.cmtUp(board);
 	}
-	
 	
 	@Override
 	public void cmtDelete(HospbCmt hospbCmt) {
@@ -280,16 +266,7 @@ public class HospBoardServiceImpl implements HospBoardService {
 		
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	
 	
 	
