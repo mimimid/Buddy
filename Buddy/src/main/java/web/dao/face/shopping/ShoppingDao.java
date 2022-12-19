@@ -118,6 +118,25 @@ public interface ShoppingDao {
 	 * @return
 	 */
 	public AniProduct selectProductByProductNo(AniOrder order);
+	
+	/**
+	 * 주문 시퀀스 번호 가저오기
+	 * @return
+	 */
+	public int selectOrderSeq();
+
+	/**
+	 * 주문내용 입력
+	 * @param order
+	 */
+	public void insertOrder(AniOrder order);
+
+	/**
+	 * 주문번호로 주문정보 조회
+	 * @param order
+	 * @return
+	 */
+	public AniOrder selectOrder(AniOrder order);
 
 	
 	

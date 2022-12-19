@@ -71,6 +71,13 @@ public interface ShoppingService {
 	 */
 	public AniProduct getProduct(AniOrder order);
 
+	/**
+	 * 주문 정보 저장
+	 * @param order
+	 * @return
+	 */
+	public void insertOrder(AniOrder order);
+
 
 
 }

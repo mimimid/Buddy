@@ -2,6 +2,8 @@ package web.service.impl.shopping;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -156,7 +158,32 @@ public class ShoppingServiceImpl implements ShoppingService {
 	@Override
 	public AniProduct getProduct(AniOrder order) {
 		
-		return shoppingDao.selectProductByProductNo(order);
+		AniProduct product = shoppingDao.selectProductByProductNo(order);
+		
+		product.setAmount(order.getAmount());
+		product.setPrice(order.getPrice());
+		product.setProductno(order.getProductno());
+		
+		return product;
+	}
+
+	@Override
+	public void insertOrder(AniOrder order) {
+		
+		//주문번호에 쓰일 시퀀스번호 가저오기
+		int seqno = shoppingDao.selectOrderSeq();
+		Date now = new Date();
+		SimpleDateFormat date = new SimpleDateFormat("yyyyMMdd");
+		String orderDate = date.format(now);
+		String orderno = "b"+orderDate+"_"+seqno;
+		
+//		logger.debug("주문번호 : {}", orderno);
+		
+		order.setOrderno(orderno);
+		
+		shoppingDao.insertOrder(order);
+		
+	
 	}
 
 	

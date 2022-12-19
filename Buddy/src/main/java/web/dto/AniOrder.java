@@ -2,25 +2,29 @@ package web.dto;
 
 public class AniOrder {
 	
-	private int orderno;
+	private String orderno;
 	private int price;
 	private int productno;
 	private int userno;
 	private int amount;
 	private int totalprice;
+	private String productname;
 	private String pimgstored;
-	private String username;
-	private String userphone;
+	private String name; //주문자
+	private String phone; //주문자 휴대폰
 	private String postno;
 	private String address;
 	private String detailaddress;
+	private String recipient; //수령인
+	private String reciphone; //수령인 휴대폰
 	
 	
 	public AniOrder() {}
 
 
-	public AniOrder(int orderno, int price, int productno, int userno, int amount, int totalprice, String pimgstored,
-			String username, String userphone, String postno, String address, String detailaddress) {
+	public AniOrder(String orderno, int price, int productno, int userno, int amount, int totalprice,
+			String productname, String pimgstored, String name, String phone, String postno, String address,
+			String detailaddress, String recipient, String reciphone) {
 		super();
 		this.orderno = orderno;
 		this.price = price;
@@ -28,30 +32,33 @@ public class AniOrder {
 		this.userno = userno;
 		this.amount = amount;
 		this.totalprice = totalprice;
+		this.productname = productname;
 		this.pimgstored = pimgstored;
-		this.username = username;
-		this.userphone = userphone;
+		this.name = name;
+		this.phone = phone;
 		this.postno = postno;
 		this.address = address;
 		this.detailaddress = detailaddress;
+		this.recipient = recipient;
+		this.reciphone = reciphone;
 	}
 
 
 	@Override
 	public String toString() {
 		return "AniOrder [orderno=" + orderno + ", price=" + price + ", productno=" + productno + ", userno=" + userno
-				+ ", amount=" + amount + ", totalprice=" + totalprice + ", pimgstored=" + pimgstored + ", username="
-				+ username + ", userphone=" + userphone + ", postno=" + postno + ", address=" + address
-				+ ", detailaddress=" + detailaddress + "]";
+				+ ", amount=" + amount + ", totalprice=" + totalprice + ", productname=" + productname + ", pimgstored="
+				+ pimgstored + ", name=" + name + ", phone=" + phone + ", postno=" + postno + ", address=" + address
+				+ ", detailaddress=" + detailaddress + ", recipient=" + recipient + ", reciphone=" + reciphone + "]";
 	}
 
 
-	public int getOrderno() {
+	public String getOrderno() {
 		return orderno;
 	}
 
 
-	public void setOrderno(int orderno) {
+	public void setOrderno(String orderno) {
 		this.orderno = orderno;
 	}
 
@@ -106,6 +113,16 @@ public class AniOrder {
 	}
 
 
+	public String getProductname() {
+		return productname;
+	}
+
+
+	public void setProductname(String productname) {
+		this.productname = productname;
+	}
+
+
 	public String getPimgstored() {
 		return pimgstored;
 	}
@@ -116,23 +133,23 @@ public class AniOrder {
 	}
 
 
-	public String getUsername() {
-		return username;
+	public String getName() {
+		return name;
 	}
 
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 
-	public String getUserphone() {
-		return userphone;
+	public String getPhone() {
+		return phone;
 	}
 
 
-	public void setUserphone(String userphone) {
-		this.userphone = userphone;
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 
 
@@ -164,7 +181,33 @@ public class AniOrder {
 	public void setDetailaddress(String detailaddress) {
 		this.detailaddress = detailaddress;
 	}
+
+
+	public String getRecipient() {
+		return recipient;
+	}
+
+
+	public void setRecipient(String recipient) {
+		this.recipient = recipient;
+	}
+
+
+	public String getReciphone() {
+		return reciphone;
+	}
+
+
+	public void setReciphone(String reciphone) {
+		this.reciphone = reciphone;
+	}
+
+
 	
+
+	
+
+
 	
 	
 	

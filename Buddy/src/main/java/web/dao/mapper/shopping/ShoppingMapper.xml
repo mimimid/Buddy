@@ -104,5 +104,15 @@
 		where ani_product.productno = ani_product_img.productno(+) and ani_product.productno = #{productno }
 	</select>
 	
+	<select id="selectOrderSeq" resultType="int">
+		select ani_order_seq.nextval from dual
+	</select>
+	
+	<insert id="insertOrder" parameterType="AniOrder">
+		insert into ani_order (orderno, productname, amount, price, recipient, reciphone, postno, address, detailaddress)
+		values (#{orderno }, #{productname}, #{amount }, #{price }, #{recipient }, #{reciphone }, #{postno }, #{address }, #{detailaddress })
+	</insert>
+	
+	
 
 </mapper>

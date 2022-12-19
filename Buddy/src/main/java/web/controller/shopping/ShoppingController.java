@@ -96,7 +96,7 @@ public class ShoppingController {
 	@PostMapping("/review")
 	public String reviewProc(AniReview review) {
 		
-		logger.debug("ajax 입력값 테스트 {}", review);
+//		logger.debug("ajax 입력값 테스트 {}", review);
 		
 		shoppingService.inputReview(review);
 		
@@ -107,7 +107,7 @@ public class ShoppingController {
 	@GetMapping("/deleteReview")
 	public String reviewDelte(AniReview review) {
 		
-		logger.debug("삭제 리뷰 정보 : {}", review);
+//		logger.debug("삭제 리뷰 정보 : {}", review);
 		shoppingService.deleteReview(review);
 		
 		
@@ -123,19 +123,21 @@ public class ShoppingController {
 		return "redirect:/shopping/list";
 	}
 	
-	@GetMapping("order")
+	@GetMapping("/order")
 	public void order(AniOrder order, Model model) {
 		
 		
 		AniProduct product = shoppingService.getProduct(order);
-		logger.debug("상품정보 확인 : {}", product);
+//		logger.debug("상품정보 확인 : {}", product);
+		
 		
 		model.addAttribute("product", product);
 	}
 	@ResponseBody
-	@RequestMapping("kakao")
-	public String kakaopay() {
+	@RequestMapping("/kakao")
+	public String kakaopay(AniOrder order, Model model) {
 		
+//		logger.debug("결제 정보 : {}", order);
 		try {
 			URL add = new URL("https://kapi.kakao.com/v1/payment/ready");
 			
@@ -146,7 +148,7 @@ public class ShoppingController {
 			conn.setRequestProperty("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
 			conn.setDoOutput(true);
 			
-			String param = "cid=TC0ONETIME&partner_order_id=partner_order_id&partner_user_id=partner_user_id&item_name=item_name&quantity=1&total_amount=1&tax_free_amount=1&approval_url=http://localhost:8888/shopping/success.jsp&cancel_url=http://localhost:8888/shopping/cancel.jsp&fail_url=http://localhost:8888/shopping/fail.jsp";
+			String param = "cid=TC0ONETIME&partner_order_id=partner_order_id&partner_user_id=partner_user_id&item_name="+order.getProductname()+"&quantity="+order.getAmount()+"&total_amount="+order.getPrice()+"&tax_free_amount="+order.getPrice()+"&approval_url=http://localhost:8888/shopping/success&cancel_url=http://localhost:8888/shopping/cancel&fail_url=http://localhost:8888/shopping/fail";
 			
 			OutputStream out = conn.getOutputStream();
 			DataOutputStream data = new DataOutputStream(out);
@@ -159,6 +161,10 @@ public class ShoppingController {
 			InputStream input;
 			if(result==200) {
 				input=conn.getInputStream();
+				shoppingService.insertOrder(order);
+				
+				
+				
 			}else {
 				input=conn.getErrorStream();
 			}
@@ -175,7 +181,21 @@ public class ShoppingController {
 			e.printStackTrace();
 		}
 		
+		
 		return "";
+	}
+	
+	@RequestMapping("/cancel")
+	public void cancel() {
+		
+	}
+	@RequestMapping("/fail")
+	public void fail() {
+		
+	}
+	@RequestMapping("/success")
+	public void success(AniOrder order) {
+
 	}
 	
 	

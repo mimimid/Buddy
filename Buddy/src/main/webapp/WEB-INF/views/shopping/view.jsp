@@ -33,7 +33,7 @@ $(document).ready(function(){
 		type:"get" //응답메소드방식
 		, url:"/shopping/review" //응답페이지
 		, data:{
-			productno: $("#productno").val(),
+			productno: $("#productno").val()
 		} //보낼 데이터
 		, dataType:"html" //응답 타입
 		,success: function(data){ 
@@ -134,7 +134,15 @@ $(document).ready(function(){
  	background-color: #FF7A85; 
  	color: white;
  }
-
+ 
+ #deleteBtn{
+ 	background-color: #FF7A85; 
+ 	color: white;
+ }
+#addcart{
+	background-color: #FF7A85; 
+ 	color: white;
+}
 </style>
 
 <div class="container">
@@ -174,9 +182,9 @@ $(document).ready(function(){
 	<tr>
 		<td colspan="2" style="text-align: center; ">
 			<button type="button" class="btn" id="btnOrder" >주문하기</button>
-			<button type="button" class="btn" >장바구니</button>
+			<button type="button" class="btn" id="addcart">장바구니</button>
 			<c:if test="${userno eq 1 }">
-			<a href="./delete?productno=${product.productno }"><button type="button" class="btn">상품삭제</button></a>
+			<a href="./delete?productno=${product.productno }"><button type="button" class="btn" id="deleteBtn">상품삭제</button></a>
 			</c:if>
 		</td>
 	</tr>
