@@ -54,6 +54,10 @@ $(document).ready(function() {
 		})
 		
 		$("#reptWrite").click(function() {
+			if(${userno != 1}){
+			alert("관리자만 작성 가능합니다.")				
+				return false;
+			}
 			location.href = "/report/reptWrite"
 		})
 })
@@ -79,14 +83,16 @@ td {
     margin-left: 5px;
     border-bottom-style: inset;
  }
- #panel{
+#panel{
 	width:100%;
 	height: 400px;
-	margin-bottom: 40px;
+	margin-bottom: 20px;
+	background-color: #FF7A86;
 }
 #panel_img{
-	width:100%;
-	height: 100%;
+    width: 93%;
+    height: 100%;
+    margin-left: 78px;
 }
 .container{
 	padding-top: 0px;
@@ -101,7 +107,7 @@ td {
 <div class="container">
 
 <div id="panel">
-<img id="panel_img" src="/resources/img/sample_adopt/sample1.jpg" alt="panel">
+<img id="panel_img" src="/resources/img/sample_adopt/panel2.png" alt="panel">
 </div>
 
 <h3 style="margin-bottom: 45px;">회계 보고</h3>
@@ -115,7 +121,8 @@ td {
       <!-- 검색창 -->
       <form class="navbar-form navbar-right" role="search" method="post">
         <div class="form-group">
-          <input id="keyword" name="reptTitle"  type="text" class="form-control" placeholder="">
+          <input id="keyword" name="reptTitle"  type="text" class="form-control" placeholder=""
+          <c:if test="${not empty param.reptTitle }">value="<c:out value="${param.reptTitle }" />"</c:if>>
         </div>
         
         <!-- 검색 버튼 -->

@@ -61,6 +61,28 @@ $(document).ready(function() {
 			alert("아이를 기억하려면 로그인이 필요해요.");
 			return false;
 		}
+		
+		$.ajax({
+		      url: '/adopt/proViewWish',
+		      type: 'POST',
+		      data: { 'aniNo': ${adoptPro.aniNo} },
+		      success: function () {
+		          if (wish == 1) {
+		              $("#star").attr("class", "glyphicon glyphicon-star");
+		              alert("1넘어옴");
+		          } else {
+		              $("#star").attr("class", "glyphicon glyphicon-star-empty");
+		              alert("0넘어옴");
+		          }
+		      }
+		
+		  	})
+		if( ${not empty userno and adoptWish.userno == 1} ) {
+			$("#star").attr("class", "glyphicon glyphicon-star");
+	    }
+	    else if( ${wish == 0} ){
+	    	 $("#star").attr("class", "glyphicon glyphicon-star-empty"); 
+	    }
 	})
 		$("#adoptUpdate").click(function() {
 		location.href = "/adopt/proUpdate?aniNo="+${adoptPro.aniNo}
@@ -68,6 +90,8 @@ $(document).ready(function() {
 		$("#adoptDelete").click(function() {
 		location.href = "/adopt/proDelete?aniNo="+${adoptPro.aniNo}
 	})
+	
+	
 })
 
 </script>
@@ -257,7 +281,8 @@ p{
 }
 #cmtUp{
 	width: 100%;
-    height: 50px;
+    height: 75px;
+    margin-bottom: 5px;
 }
 .data{
 	font-weight: bolder;
@@ -286,17 +311,16 @@ p{
 			${adoptPro.aniName }</a>
 	
 	
-<div class="pull-right">
-<%-- 	<c:if test="${id eq viewBoard.writerId }"> --%>
-		<div class="pull-right">
-		<button id="adoptUpdate" class="btn btnUp">수정</button>
-		<button id="adoptDelete" class="btn btnDel">삭제</button>
-		</div><br>
-<%-- 	</c:if> --%>
-</div>
+	<div class="pull-right">
+		<c:if test="${userno == 1 }">
+				<div class="pull-right">
+				<button id="adoptUpdate" class="btn btnUp">수정</button>
+				<button id="adoptDelete" class="btn btnDel">삭제</button>
+				</div><br>
+		</c:if>
+	</div>
 	</div>
 </div><br>
-
 
 <div class = "row">
 	<div class="col-md-4">
@@ -314,14 +338,14 @@ p{
 		
 		<!-- 찜 -->
 		<div class="btn_wrap">
-		<a href="/adopt/proWish?aniNo=${adoptPro.aniNo}" ><button class="btnStar">
-<%-- 		<c:if test="${wish == 0}"> --%>
-			<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
-<%-- 		</c:if> --%>
+		<a href="/adopt/proViewWish?aniNo=${adoptPro.aniNo}" >
+		<button class="btnStar"> 
+			<span id = "star" class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
 		<c:if test="${wish == 1}">
 			<span class="glyphicon glyphicon-star" aria-hidden="true"></span>
 		</c:if>
-		</button></a>
+		</button>
+		</a>
 		<button class="btnAdopt" >입양하기</button>
 		</div>
 		
@@ -388,7 +412,7 @@ ${adoptPro.aniContent}
 
 <div class="cmt">
 	<input type="text" id="cmtUp" name="" <c:if test=""> placeholder="로그인이 필요합니다"</c:if>>
-	<input type="file" id="" name="" >
+	<input type="file" id="" name="" style="display:inline;">
 	<button class="btn pull-right">작성</button>
 </div>
 </form>

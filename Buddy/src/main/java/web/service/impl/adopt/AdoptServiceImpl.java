@@ -32,9 +32,9 @@ public class AdoptServiceImpl implements AdoptService {
 	@Autowired ServletContext context;
 	
 	@Override
-	public Paging getProPaging(int curPage) {
+	public Paging getProPaging(int curPage, String aniCate) {
 
-		int totalCount = adoptDao.selectProCntAll();
+		int totalCount = adoptDao.selectProCntAll(aniCate);
 		
 		Paging paging = new Paging(totalCount, curPage, 8 );
 		
@@ -42,8 +42,8 @@ public class AdoptServiceImpl implements AdoptService {
 	}
 	
 	@Override
-	public List<Map<String, Object>> proList(Paging paging) {
-		return adoptDao.selectProList(paging);
+	public List<Map<String, Object>> proList(Map<String, Object> map) {
+		return adoptDao.selectProList(map);
 	}
 	
 	@Override
@@ -77,7 +77,7 @@ public class AdoptServiceImpl implements AdoptService {
 	
 	
 	@Override
-	public AdoptPro proWishDetail(int aniNo) {
+	public Map<String, Object> proWishDetail(int aniNo) {
 		return adoptDao.selectProWish(aniNo);
 	}
 	
@@ -152,42 +152,43 @@ public class AdoptServiceImpl implements AdoptService {
 		
 		adoptDao.updatePro(adoptPro);
 		
-		if( fileList.isEmpty() ) {
-			return;
-		}
-		
-		String storedPath = context.getRealPath("upload");
-		File storedFolder = new File( storedPath );
-		if( !storedFolder.exists()) {
-			storedFolder.mkdir();
-		}
-		
-		 if(!fileList.isEmpty()){
-			 
-			for(int i = 0; i < fileList.size() ; i++){
+		fileList.forEach(f->{
+			if(f.getSize() == 0) {
+				logger.debug("첨부없음");
+				return;	
+			}else {
+				String storedPath = context.getRealPath("upload");
+				File storedFolder = new File( storedPath );
+				if( !storedFolder.exists()) {
+					storedFolder.mkdir();
+				}
 				
-			String anifileOrigin = fileList.get(i).getOriginalFilename();
-			String anifileStored = UUID.randomUUID().toString().split("-")[4] + anifileOrigin;
-			
-			File dest = new File( storedFolder, anifileStored );
-			
-			try {
-				fileList.get(i).transferTo(dest);
-			} catch (IllegalStateException | IOException e) {
-				e.printStackTrace();
+				adoptDao.deleteAdoptfile(adoptPro);
+				 
+				for(int i = 0; i < fileList.size() ; i++){
+					
+				String anifileOrigin = fileList.get(i).getOriginalFilename();
+				String anifileStored = UUID.randomUUID().toString().split("-")[4] + anifileOrigin;
+				
+				File dest = new File( storedFolder, anifileStored );
+				
+				try {
+					fileList.get(i).transferTo(dest);
+				} catch (IllegalStateException | IOException e) {
+					e.printStackTrace();
+				}
+				
+				AdoptFile adoptFile = new AdoptFile();
+				adoptFile.setAniNo(adoptPro.getAniNo());
+				adoptFile.setAnifileOrigin(anifileOrigin);
+				adoptFile.setAnifileStored(anifileStored);
+				
+				
+				adoptDao.insertAdoptFile(adoptFile);		
+				
+				}
 			}
-			
-			AdoptFile adoptFile = new AdoptFile();
-			adoptFile.setAniNo(adoptPro.getAniNo());
-			adoptFile.setAnifileOrigin(anifileOrigin);
-			adoptFile.setAnifileStored(anifileStored);
-			
-			adoptDao.deleteAdoptfile(adoptPro);
-			
-			adoptDao.insertAdoptFile(adoptFile);		
-			
-			}
-		 }
+		});
 	}
 	
 	@Override

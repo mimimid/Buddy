@@ -9,11 +9,16 @@
 <mapper namespace="web.dao.face.adopt.AdoptDao">
 	
 	
-	<select id="selectProCntAll" resultType="int">
+	<select id="selectProCntAll" resultType="int" parameterType="String">
 		SELECT count(*) FROM adopt_pro
+		<where>
+		<if test="aniCate != null and !aniCate.equals('')">
+			AND ani_cate = #{aniCate }
+		</if>
+		</where>
 	</select>
 
-	<select id="selectProList" resultType="HashMap" parameterType="Paging">
+	<select id="selectProList" resultType="HashMap" parameterType="HashMap">
 		SELECT * FROM (
 		    SELECT rownum rnum, f.* FROM (
 		        SELECT  c.ani_no , userid, ani_cate, ani_name, ani_age
@@ -30,9 +35,12 @@
 		            ON a.ani_no = b.ani_no)e
 		        WHERE rn = 1)c LEFT OUTER JOIN adopt_wish d
 		        ON c.ani_no = d.ani_no 
+		        <if test="aniCate != null and !aniCate.equals('')">
+					WHERE ani_cate=#{aniCate }
+				</if>
 		    ORDER BY ani_no DESC)f 
 		)list
-		WHERE rnum BETWEEN #{startNo } AND #{endNo }
+		WHERE rnum BETWEEN #{paging.startNo } AND #{paging.endNo }
 	</select>
 	
 	<select id="checkProWish" resultType="int" parameterType="AdoptWish">
@@ -59,11 +67,15 @@
 		WHERE userno = ${userno}
 	</select>
 	
-	<select id="selectProWish" resultType="AdoptPro" parameterType="int">
-		SELECT
-			ani_no , userid, ani_cate, ani_name, ani_age, ani_gender, ani_neutral, ani_content, ani_hit, ani_weight
-		FROM adopt_pro
-		WHERE ani_no=${aniNo} 
+	<select id="selectProWish" resultType="HashMap" parameterType="int">
+		SELECT e.* FROM
+        (SELECT
+			a.ani_no , userid, ani_cate, ani_name, ani_age, ani_gender, ani_neutral, ani_content, ani_hit, ani_weight
+             , anifile_no, anifile_origin, anifile_stored, ROW_NUMBER() OVER(PARTITION BY a.ani_no ORDER BY anifile_no ASC) AS rn
+		FROM adopt_pro a LEFT OUTER JOIN adopt_file b 
+        ON a.ani_no = b.ani_no
+		WHERE a.ani_no=${aniNo })e
+        WHERE rn = 1
 		ORDER BY ani_no DESC
 	</select>
 	

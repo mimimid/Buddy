@@ -399,9 +399,9 @@ function event_click(){
   </div>
 
 </form>
-
-<a href="/adopt/resrchList">관리자)신청서보기</a>
-
+<c:if test="${userno == 1 }">
+<a href="/adopt/resrchList">[관리자]신청서보기</a>
+</c:if>
 
 </div>
 
