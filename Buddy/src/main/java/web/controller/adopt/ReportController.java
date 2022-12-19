@@ -77,7 +77,7 @@ public class ReportController {
 		logger.debug("{}", report);
 		logger.debug("{}", file);
 
-		report.setAdminid((String)session.getAttribute("adminId"));
+		report.setAdminid((String)session.getAttribute("userid"));
 		logger.debug("{}",report);
 		
 		reportService.reptWrite(report, file);
