@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 마이바티스 3 Mapper DTD -->
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="web.dao.face.date.DCommentDao">
+	
+	<select id="selectCntAll" resultType="int" parameterType="DateBoard">
+		SELECT count(*) FROM date_comment
+		WHERE date_no = #{dateNo}
+	</select>
+	
+	<select id="getCommList" resultType="DateComment" parameterType="hashmap">
+		SELECT * FROM (
+		    SELECT rownum rnum, D.* FROM (
+				SELECT cm_no, C.userno, U.userid, U.usernick, date_no, cm_content, write_date, write_date_update 
+		        FROM date_comment C
+		        INNER JOIN ani_user U
+		        ON C.userno = U.userno
+		        WHERE date_no = #{dateNo.dateNo}
+		        ORDER BY cm_no DESC
+		    ) D
+		) BOARD
+		WHERE rnum BETWEEN #{paging.startNo } AND #{paging.endNo }
+	</select>
+	
+	<select id="getUserNo" resultType="int" parameterType="string">
+		SELECT userno FROM ani_user
+		WHERE userid = #{id}
+	</select>
+	
+	<insert id="insertComm" parameterType="DateComment">
+		INSERT INTO date_comment ( cm_no, userno, date_no, cm_content )
+		VALUES ( date_comment_seq.nextval, #{userno}, #{dateNo}, #{cmContent} )
+	</insert>
+	
+	<update id="updateByCmNo" parameterType="DateComment">
+		UPDATE date_comment
+		SET cm_content = #{cmContent}
+		WHERE cm_no = #{cmNo}
+	</update>
+	
+	<delete id="delectByCmNo" parameterType="DateComment">
+		DELETE date_comment
+		WHERE cm_no = #{cmNo}
+	</delete>
+	
+</mapper>

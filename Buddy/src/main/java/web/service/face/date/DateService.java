@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import web.dto.DateBoard;
+import web.dto.DateComment;
 import web.util.Paging;
 
 @Service
@@ -56,7 +57,22 @@ public interface DateService {
 	 * @return 조회된 상세 게시글 객체
 	 */
 	public DateBoard view(DateBoard viewDate);
-	
-	
+
+	/**
+	 * 데이트게시판의 댓글수 업데이트
+	 * 
+	 * @param viewDate - 상세 조회한 게시글 번호 객체
+	 */
+	public void updateCommCount(DateBoard viewDate);
+
+	/**
+	 * 데이트게시판의 좋아요수 업데이트
+	 * 
+	 * @param viewDate - 상세 조회한 게시글 번호 객체
+	 */
+	public void updateLikeCount(DateBoard viewDate);
+
+
+
 
 }
