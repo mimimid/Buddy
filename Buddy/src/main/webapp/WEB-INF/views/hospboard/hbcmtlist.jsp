@@ -4,8 +4,6 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-
-
 <!-- jQuery 2.2.4 -->
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
 
@@ -14,16 +12,54 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 
+
+
+
+<style>
+
+tr {
+	border: 1px solid #ccc;
+}
+
+#comment-list-wrap { width: 650px;}
+
+</style>
+
+
+<div id="comment-list-wrap">
+
+<table class="table">
+<c:forEach items="${cmtList }" var="cmtList" varStatus="status">
+	
+	<tr>
+		<td rowspan="4"><span style="background-color:#fad703">${cmtList.userid }</span></td>
+	</tr>
+	<tr class="replyContextBox" >
+		<td><fmt:formatDate value="${cmtList.hbCmtWritedate }" pattern="yy-MM-dd HH:mm:ss"/></td>
+		<td> 
+		<a class="cmtUpdate"  style="color: #d9534f"href=#>수정</a>
+		| <a class="cmtdel" style="color: red" href="/hospboard/hbcmtdelete?hbCmtNo=${cmtList.hbCmtNo }&hbno=${cmtList.hbno }">삭제</a>
+		</td>
+	</tr>
+	<tr class="replyContextBox">
+		<td  colspan="4">${cmtList.hbCmtContent }<br></td>
+	</tr>
+	<tr class="replyContextBox" >
+		<td  colspan="4">
+		<button type="button"  id="rereplyWriteBtn${cmtList.hbCmtNo }" onclick="rereplyWrite(${cmtList.hbCmtNo })" >답글</button>
+		</td>
+	</tr>
+	
+</c:forEach>	
+</table>
+</div>
 <script type="text/javascript">
  
 $(document).ready(function() {
-	
  
 	$(".cmtdel").click(function() {
-		console.log("댓글 삭제 클릭")
 		
 		$("#listReply").load( $(this).attr("href") )	
-
 		return false; 
 	})
  	
@@ -37,7 +73,7 @@ $(document).ready(function() {
 		console.log(btnid)
 		
 		var hbCmtBundle = $(btnid).prev().val();
-		console.log("모댓글 번호"+hbCmtBundle);
+		console.log(hbCmtBundle);
 		
 		var html = '';
 		
@@ -66,9 +102,7 @@ $(document).ready(function() {
 				
 				var hbCmtContent = $("#recmtcomment").val(); 
 				var hbno = ${param.hbno };
-				//var hbCmtBundle = hbCmtBundle;
-				
-				
+						
 				var param={ "hbCmtContent": hbCmtContent, "hbno": hbno, "hbCmtBundle": hbCmtBundle};
 			
 				$.ajax({
@@ -80,15 +114,13 @@ $(document).ready(function() {
 						console.log("AJAX 성공")
 						
 						$("#listReply").html( data )
-					//	$("#listReply").load( $(this).attr("href") )
 						
 					}
 					, error: function() {
 						console.log("AJAX 실패")
 					}
 				})
-			}	//else 끝	
-	 		
+			} 		
 	 		
 		}) 	
 		
@@ -96,41 +128,4 @@ $(document).ready(function() {
 	
 })
 </script>
-
-
-<style>
-
-tr {
-	border: 1px solid #ccc;
-}
-</style>
-
-
-<div style="width: 800px;" >
-<table class="table">
-<c:forEach items="${cmtList }" var="cmtList" varStatus="status">
-	
-	<tr>
-		<td rowspan="4"><span style="background-color:#fad703">${cmtList.userid }</span></td>
-	</tr>
-	<tr class="replyContextBox" >
-		<td><fmt:formatDate value="${cmtList.hbCmtWritedate }" pattern="yy-MM-dd HH:mm:ss"/></td>
-		<td> 
-		<a class="cmtUpdate"  style="color: #d9534f"href=#>수정</a>
-		| <a class="cmtdel" style="color: red" href="/hospboard/hbcmtdelete?hbCmtNo=${cmtList.hbCmtNo }&hbno=${cmtList.hbno }">삭제</a>
-		</td>
-	</tr>
-	<tr class="replyContextBox">
-		<td  colspan="4">${cmtList.hbCmtContent }<br></td>
-	</tr>
-	<tr class="replyContextBox" >
-		<td  colspan="4">
-		<input type="hidden" value="${cmtList.hbCmtNo }">
-		<button type="button"  id="rereplyWriteBtn${cmtList.hbCmtNo }" onclick="rereplyWrite(${cmtList.hbCmtNo })" >답글</button>
-		</td>
-	</tr>
-	
-</c:forEach>	
-</table>
-</div>
 <br><br>

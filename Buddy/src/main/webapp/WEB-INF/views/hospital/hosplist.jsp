@@ -47,9 +47,7 @@
 
 <hr>
 <div>
-<button id="hosplikelistbtn"class="btn" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-   관심 병원 목록 <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
-</button>
+
 <div class="collapse" id="collapseExample">
   <div class="well">
     ...
@@ -103,12 +101,7 @@
     	</a>
    	  </div>
       <div class="caption">
-        <h3>
-        	<a style="color: black;" href="./hospview?hospNo=${hospList.hospNo }">${hospList.hospName }</a>
-        	<c:if test="${hospList.hosp24 == 1 }">
-		  	<span class="label label-danger" style="font-size: 11px;">  24시간</span>
-		  	</c:if>
-        </h3>
+        <h3><a style="color: black;" href="./hospview?hospNo=${hospList.hospNo }">${hospList.hospName }</a></h3>
         
         <p><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> ${hospList.hospAddress }</p>
         <span>평가 ${hospList.hospRate } | </span>
@@ -123,7 +116,9 @@
 </div> <!-- hospitalList 끝 -->
 
 
-<button id="btnWrite" class="btn btn-primary pull-left">글쓰기</button>
+	<c:if test="${not empty login  && grade eq '관리자' }">
+	<button id="btnWrite" class="btn pull-left" style="background: gold;">신규 등록</button>
+	</c:if>
 <span class="pull-right">total : ${paging.totalCount }</span>
 
 <div class="clearfix"></div>
