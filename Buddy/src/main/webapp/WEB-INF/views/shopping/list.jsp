@@ -7,11 +7,13 @@
 
 
 
+
+
 <style>
-table{
+ table{ 
 	width: 1000px;
-	margin: 0 auto;
-}
+ 	margin: 0 auto; 
+ }
 
 
 
@@ -27,17 +29,14 @@ th, td {
 }
 
 img{
-	height: 130px;
-	width: 130px;
+	height: 150px;
+	width: 150px;
 }
 </style>
 
 <div class="container">
-<h1 style="text-align: center;">Shopping</h1> 
-<c:if test="${grade eq '관리자' }">
-<a href="./input" style="float: right;" ><button type="button" class="btn btn-success">상품 입력</button></a>
-</c:if>
-<hr>
+<img src="/resources/img/main/slider01.png" alt="slide01" style="width:100%; height: 400px;">
+
 
 <table>
 <c:forEach items="${list }" var="product" begin="0" end="4">
@@ -59,6 +58,11 @@ img{
 	</tr>
 </c:forEach>
 </table>
+<div>
+<c:if test="${grade eq '관리자' }">
+<a href="./input" style="float: right;" ><button type="button" class="btn btn-success">상품 입력</button></a>
+</c:if>
+</div>
 
 <c:import url="/WEB-INF/views/layout/shopPaging.jsp" />
 </div>
