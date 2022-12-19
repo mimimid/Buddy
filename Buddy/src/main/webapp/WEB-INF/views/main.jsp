@@ -1,17 +1,41 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
-<%@	taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <c:import url="./layout/header.jsp" />
 
 <style type="text/css">
+table {
+	table-layout: fixed;
+}
 
+td, tr {
+	height: 50px;
+	
+	line-height: 50px !important;
+}
+
+#rlist {
+	padding-top: 70px;
+	padding-right: 40px;
+}
+
+#plist {
+	padding-top: 70px;
+	padding-left: 40px;
+}
+
+button:focus, button:active { 	
+    outline:none !important;
+    box-shadow:none !important;
+}
 </style>
 
 <script type="text/javascript">
 $(document).ready(function() {
-
+	
 })
 </script>
 
@@ -31,17 +55,17 @@ $(document).ready(function() {
 			<!-- 추후 슬라이더 이미지 변경 필요... -->
 			<!-- Slide 1 -->
 			<div class="item active" data-interval="2000">
-			<img src="./resources/img/main/slide01.png" alt="slide01" style="width:100%; height: 400px;">
+			<img src="./resources/img/main/slider01.png" alt="slide01" style="width:100%; height: 400px;">
 			</div>
 			
 			<!-- Slide 2 -->
 			<div class="item">
-			<img src="./resources/img/main/slide02.png" alt="slide02" style="width:100%; height: 400px;">
+			<img src="./resources/img/main/slider02.png" alt="slide02" style="width:100%; height: 400px;">
 			</div>
 			
 			<!-- Slide 3 -->
 			<div class="item">
-			<img src="./resources/img/main/slide03.png" alt="slide03" style="width:100%; height: 400px;">
+			<img src="./resources/img/main/slider03.png" alt="slide03" style="width:100%; height: 400px;">
 			</div>
 		
 		</div>
@@ -61,14 +85,81 @@ $(document).ready(function() {
 
 <div class="container">
 
-<!-- 최신글, 인기글 리스트 제작 필요... -->
+<div class="col-md-6 pull-left" id="rlist">
+	<div class="rlist-top">
+		<span style="font-size: 25px;">최신글 </span>
+		<a href="/comm/list">더보기</a>
+	</div>
+	<hr>
+	<table class="table table-striped table-hover table-condensed">
+	<thead>
+		<tr>
+			<th style="width: 10%;"></th>
+			<th style="width: 10%;">제목</th>
+			<th style="width: 10%;">작성자</th>
+			<th style="width: 10%;">조회수</th>
+			<th style="width: 10%;">작성일</th>
+		</tr>
+	</thead>
+	
+	<tbody>
+	<c:forEach items="${rlist }" var="rlist">
+		<tr>
+			<td>
+				<c:choose>
+					<c:when test="${rlist.cateContent eq 'daily' }">#일상</c:when>
+					<c:when test="${rlist.cateContent eq 'info' }">#정보</c:when>
+					<c:when test="${rlist.cateContent eq 'ask' }">#질문</c:when>
+					<c:when test="${rlist.cateContent eq 'etc' }">#기타</c:when>
+				</c:choose>
+			</td>
+			<td><a href="/comm/view?commNo=${rlist.commNo }">${rlist.commTitle }</a></td>
+			<td>${rlist.commWriterNick }</td>
+			<td>${rlist.commHit }</td>
+			<td><fmt:formatDate value="${rlist.commWritedate }" pattern="yyyy-MM-dd"/></td>
+		</tr>
+	</c:forEach>
+	</tbody>
+	</table>
+</div>
 
-<h1>메인 화면1</h1>
-<h1>메인 화면2</h1>
-<h1>메인 화면3</h1>
-<h1>메인 화면4</h1>
-<h1>메인 화면5</h1>
-<h1>메인 화면6</h1>
+<div class="col-md-6 pull-right" id="plist">
+	<div class="plist-top">
+		<span style="font-size: 25px;">인기글 </span>
+		<a href="/comm/list">더보기</a>
+	</div>
+	<hr>
+	<table class="table table-striped table-hover table-condensed">
+	<thead>
+		<tr>
+			<th style="width: 10%;"></th>
+			<th style="width: 10%;">제목</th>
+			<th style="width: 10%;">작성자</th>
+			<th style="width: 10%;">좋아요</th>
+			<th style="width: 10%;">작성일</th>
+		</tr>
+	</thead>
+	
+	<tbody>
+	<c:forEach items="${plist }" var="plist">
+		<tr>
+			<td>
+				<c:choose>
+					<c:when test="${plist.cateContent eq 'daily' }">#일상</c:when>
+					<c:when test="${plist.cateContent eq 'info' }">#정보</c:when>
+					<c:when test="${plist.cateContent eq 'ask' }">#질문</c:when>
+					<c:when test="${plist.cateContent eq 'etc' }">#기타</c:when>
+				</c:choose>
+			</td>
+			<td><a href="/comm/view?commNo=${plist.commNo }">${plist.commTitle }</a></td>
+			<td>${plist.commWriterNick }</td>
+			<td>${plist.commLikeCnt }</td>
+			<td><fmt:formatDate value="${plist.commWritedate }" pattern="yyyy-MM-dd"/></td>
+		</tr>
+	</c:forEach>
+	</tbody>
+	</table>
+</div>
 
 </div><!-- .container -->
 

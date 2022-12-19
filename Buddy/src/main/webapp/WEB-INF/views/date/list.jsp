@@ -4,20 +4,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
     
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Buddy</title>
-
-<script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
-
-<!-- 합쳐지고 최소화된 최신 CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-<!-- 부가적인 테마 -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
-<!-- 합쳐지고 최소화된 최신 자바스크립트 -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+<c:import url="../layout/header.jsp" />
 
 <!-- 웹글꼴 -->
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
@@ -41,12 +28,6 @@ $(document).ready(function () {
 	})
 })
 </script>
-
-</head>
-<body>
-
-<h1>헤더부분</h1>
-<hr>
 
 <!-- 데이트게시판 메인 시작 -->
 <div class="container">
@@ -170,8 +151,4 @@ $(document).ready(function () {
 
 </div><!-- .container END -->
 
-<hr>
-<h1>푸터부분</h1>
-
-</body>
-</html>
+<c:import url="../layout/footer.jsp" />

@@ -36,8 +36,6 @@ $(document).ready(function() {
 		var btnid = '#rereplyWriteBtn'+ reNum
 		console.log(btnid)
 		
-		$(btnid).hide();
-		
 		var hbCmtBundle = $(btnid).prev().val();
 		console.log("모댓글 번호"+hbCmtBundle);
 		
@@ -123,18 +121,13 @@ tr {
 		</td>
 	</tr>
 	<tr class="replyContextBox">
-		<td  colspan="4">${cmtList.hbCmtContent }<br>댓번 : ${cmtList.hbCmtNo }&nbsp;번들: ${cmtList.hbCmtBundle }</td>
+		<td  colspan="4">${cmtList.hbCmtContent }<br></td>
 	</tr>
 	<tr class="replyContextBox" >
 		<td  colspan="4">
 		<input type="hidden" value="${cmtList.hbCmtNo }">
 		<button type="button"  id="rereplyWriteBtn${cmtList.hbCmtNo }" onclick="rereplyWrite(${cmtList.hbCmtNo })" >답글</button>
 		</td>
-	</tr>
-	<tr class="replyupdateBox" style="display: none;">
-		<td><input type="text" value="${cmtList.hbCmtContent }"></td>
-		<td><button id="updateWriteBtn${cmtList.hbCmtNo }" onclick="replyUpdate(${cmtList.hbCmtNo })">수정</button></td>
-		<td><button id="updateCancleBtn">취소</button></td>
 	</tr>
 	
 </c:forEach>	

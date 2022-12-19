@@ -32,15 +32,15 @@
 			ORDER BY write_date DESC
 		</if>
 		<if test="sort == 'COMMENT'">
-			ORDER BY date_no DESC
+			ORDER BY comm_count DESC
 		</if>
 		<if test="sort == 'LIKE'">
-			ORDER BY date_no DESC
+			ORDER BY like_count DESC
 		</if>
 	</sql>
 	
 	<sql id="selectDate">
-		SELECT date_no, adminno, D.date_cate, C.date_cate_name, title, content, loc, hit, write_date
+		SELECT date_no, adminno, D.date_cate, C.date_cate_name, title, content, loc, hit, write_date, comm_count, like_count
 		FROM date_board D
 		INNER JOIN date_cate C
 		ON D.date_cate = C.date_cate_no
@@ -83,13 +83,16 @@
 		WHERE date_no = #{dateNo }
 	</select>
 	
+	<update id="updateCommCount" parameterType="DateBoard">
+		UPDATE date_board B
+		SET B.comm_count = ( SELECT count(*) FROM date_comment WHERE date_no = #{dateNo} )
+		WHERE B.date_no = #{dateNo}
+	</update>
 	
-	
-	
-	
-	
-	
-	
-	
+	<update id="updateLikeCount" parameterType="DateBoard">
+		UPDATE date_board B
+		SET B.like_count = ( SELECT count(*) FROM date_like WHERE date_no = #{dateNo} )
+		WHERE B.date_no = #{dateNo}
+	</update>
 	
 </mapper>

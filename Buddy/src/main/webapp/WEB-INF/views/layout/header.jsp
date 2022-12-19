@@ -17,12 +17,22 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barrio&display=swap" rel="stylesheet">
+
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Sharp|Material+Icons+Two+Tone|Material+Icons+Outlined" rel="stylesheet">
+
 <style type="text/css">
+@import url('https://fonts.googleapis.com/css2?family=Barrio&display=swap');
+
 html, body {
     margin: 0;
     padding: 0;
     height: 100%;
 }
+
+
 
 .container {
 	min-height: 600px;
@@ -41,27 +51,18 @@ html, body {
 	display: inline-block;
 	
 	width: 25%;
-	height: 100px;
+	height: 120px;
 	
-	line-height: 100px;
+	line-height: 160px;
 }
 
 .header-logo {
 	display: inline-block;
 	
 	width: 50%;
-	height: 100px;
+	height: 120px;
 	
-	line-height: 100px;
-}
-
-.header-logo > a {
-	color: #FF7A85;
-	
-	font-size: 50px;
-	font-weight: bold;
-	
-	text-decoration: none;
+	line-height: 120px;
 }
 
 #btnLogin, #btnJoin, #btnLogout {
@@ -76,6 +77,11 @@ html, body {
 	text-decoration: none;
 }
 
+button:focus, button:active { 	
+    outline:none !important;
+    box-shadow:none !important;
+}
+
 /* --------------------------------------- */
 
 .nav {
@@ -85,6 +91,20 @@ html, body {
 
 .navbar-collapse {
 	text-align: center;
+}
+
+#navbar-nav > li > a {
+	color: #777;
+	
+	font-size: 22px;
+	font-weight: bold;
+	
+	margin: 0 15px;
+}
+
+#navbar-nav > li > a:hover, 
+#navbar-nav > li > a:focus {
+	color: #FF7A85;
 }
 
 .dropdown:hover > .dropdown-menu {
@@ -105,50 +125,43 @@ html, body {
 	line-height: 35px;
 }
 
-#navbar-nav > li > a {
-	color: #777;
-	
-	font-size: 22px;
-	font-weight: bold;
-	
-	margin: 0 15px;
-}
-
-#navbar-nav > li > a:hover, 
-#navbar-nav > li > a:focus {
-	color: #FF7A85;
-}
-
 .dropdown-menu > li > a:hover {
 	color: #fff;
 	background: #FF7A85;
+}
+
+#btnUser > ul {
+	right: 100px;
+	float: right;
 }
 
 /* --------------------------------------- */
 
 a.top {
   position: fixed;
-  right: 100px;
+  right: 85px;
   bottom: 150px;
-  display: none;
 }
 
-a.top > span {
+a.top:hover {
+	text-decoration: none;
+}
+
+a.top > #top-icon {
+	display: block;
 	font-size: 40px;
+	color: #FF7A85;
+}
+
+a.top > #top-text {
+	display: block;
+	font-size: 20px;
 	color: #FF7A85;
 }
 </style>
 
 <script type="text/javascript">
 $(document).ready(function() {
-	$(window).scroll(function() {
-		if( $(this).scrollTop() > 150 ) {
-			$(".top").fadeIn()
-		} else {
-			$(".top").fadeOut()
-		}
-	})
-	
 	$(".top").click(function() {
 		$("html, body").animate( { scrollTop : 0 }, 400 )
 		return false
@@ -167,10 +180,8 @@ $(document).ready(function() {
 		<div class="header-left"></div>
 		
 		<div class="header-logo">
-		
-			<!-- 로고 디자인 or 이미지로 변경 필요 -->
 			<a href="/">
-			  <img src="../resources/img/main/logo.png" width="50"> BUDDY
+			  <img src="../resources/img/main/buddy.png" height="110">
 			</a>
 		</div>
 		
@@ -181,9 +192,15 @@ $(document).ready(function() {
 					<button class="btn btn-default" id="btnJoin"><a href="/user/join">회원가입</a></button>
 				</c:when>
 				<c:when test="${not empty login }">
-					
-					<!-- 마이페이지 로직 구현 필요 -->
-					<strong style="padding-right: 7px;">${usernick }님</strong>
+					<div class="btn-group" id="btnUser">
+						<span class="btn glyphicon glyphicon-user" data-toggle="dropdown" aria-hidden="true"> ${nick }님</span>
+						<ul class="dropdown-menu" role="menu">
+							<li><a href="#">마이페이지</a></li>
+							<li><a href="#">기억한 아이</a></li>
+							<li><a href="#">장바구니</a></li>
+							<li><a href="#">쪽지</a></li>
+						</ul>
+					</div>
 					<button class="btn btn-default" id="btnLogout"><a href="/user/logout">로그아웃</a></button>
 				</c:when>
 			</c:choose>
@@ -194,17 +211,16 @@ $(document).ready(function() {
 		<nav class="navbar navbar-default" style="margin: 0; background: #fff;">
 			<div class="container-fluid">
 			
-			<!-- Collect the nav links, forms, and other content for toggling -->
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav" id="navbar-nav">
 					
 					<li><a href="/notice/listPage">BUDDY</a></li>
 					
 					<li class="dropdown">
-						<a href="/comm/list">커뮤니티</a>
+						<a href="/comm/list?animal=cat">커뮤니티</a>
 						<ul class="dropdown-menu" role="menu">
-							<li><a href="/comm/cat">고양이</a></li>
-							<li><a href="/omm/dog">강아지</a></li>
+							<li><a href="/comm/list?animal=cat">고양이</a></li>
+							<li><a href="/comm/list?animal=dog">강아지</a></li>
 						</ul>
 					</li>
 					
@@ -255,9 +271,7 @@ $(document).ready(function() {
 	
 </header>
 
-
-<!-- footer 쪽에 안나오게 하고싶은데...ㅠㅠ -->
-
 <a class="top">
-	<span class="glyphicon glyphicon-circle-arrow-up"></span>
+	<span class="glyphicon glyphicon-circle-arrow-up" id="top-icon"></span>
+	<span id="top-text">TOP</span>
 </a>

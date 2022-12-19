@@ -2,6 +2,9 @@ package web.controller.date;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import web.dto.DateBoard;
+import web.dto.DateComment;
 import web.service.face.date.DateService;
 import web.util.Paging;
 
@@ -82,10 +86,20 @@ public class DateController {
 	
 	//게시글 상세보기
 	@RequestMapping("/date/view")
-	public void dateView(DateBoard viewDate, Model model) {
+	public void dateView(
+			DateBoard viewDate
+			, Model model
+			) {
 		
 		//게시글 조회
 		viewDate = dateService.view(viewDate);
+		
+		//댓글수 업데이트
+		dateService.updateCommCount(viewDate);
+
+		//좋아요수 업데이트
+		dateService.updateLikeCount(viewDate);
+		
 		model.addAttribute("viewDate", viewDate);
 		
 	}

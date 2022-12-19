@@ -35,9 +35,7 @@ img{
 </style>
 
 <div class="container">
-<h1 style="text-align: center;">Shopping</h1> 
-<hr>
-
+<img src="/resources/img/main/slider01.png" alt="slide01" style="width:100%; height: 400px;">
 
 
 <table>
