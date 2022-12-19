@@ -73,6 +73,7 @@ function up(cmNo) {
 function lst() {
 	console.log("취소클릭")
 // 	$('#commList').load('${path}/date/view?dateNo=');
+	
 
 }
 
