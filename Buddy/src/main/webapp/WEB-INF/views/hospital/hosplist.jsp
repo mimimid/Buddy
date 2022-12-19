@@ -116,7 +116,9 @@
 </div> <!-- hospitalList 끝 -->
 
 
-<button id="btnWrite" class="btn btn-primary pull-left">글쓰기</button>
+	<c:if test="${not empty login  && grade eq '관리자' }">
+	<button id="btnWrite" class="btn pull-left" style="background: gold;">신규 등록</button>
+	</c:if>
 <span class="pull-right">total : ${paging.totalCount }</span>
 
 <div class="clearfix"></div>

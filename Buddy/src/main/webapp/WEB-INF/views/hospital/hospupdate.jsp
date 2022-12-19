@@ -66,7 +66,7 @@
 	<input class="btn" type="button" onclick="sample6_execDaumPostcode()" value="주소 찾기"><br>
 	<input type="text" id="top_address" placeholder="도로명 주소" class="form-control">
 	<input type="text" id="detailAddress" placeholder="상세주소" class="form-control" onkeyup="addAddress()" >
-	<input type="text" id="hospAddress" name="hospAddress" placeholder="전체 주소" class="form-control" value="${updateHosp.hospAddress }" >
+	<input type="text" id="hospAddress" name="hospAddress"class="form-control" value="${updateHosp.hospAddress }"  style="display: none">
 </div>
 
 <div class="form-group">
@@ -84,19 +84,19 @@
 	<label>평일 진료시간</label>
  	<input type="time" id="hosp_weekday_open" value="09:00">
  	<input type="time" id="hosp_weekday_close" value="13:00" onchange="timeadd()">
- 	<input type="text" id="hosp_weekday" name="hospWeekday" value="${updateHosp.hospWeekday }"><br>
+ 	<input type="text" id="hosp_weekday" style="display: none" name="hospWeekday" value="${updateHosp.hospWeekday }"><br>
 	<label>토요일</label>
  	<input type="time" id="hosp_sat_open" >
  	<input type="time" id="hosp_sat_close" onchange="timeadd()">
- 	<input type="text" id="hosp_sat" name="hospSat" value="${updateHosp.hospSat }"><br>
+ 	<input type="text" id="hosp_sat"  style="display: none" name="hospSat" value="${updateHosp.hospSat }"><br>
 	<label>일요일</label>
  	<input type="time" id="hosp_sun_open">
  	<input type="time" id="hosp_sun_close" onchange="timeadd()">
- 	<input type="text" id="hosp_sun" name="hospSun" value="${updateHosp.hospSun }"><br>
+ 	<input type="text" id="hosp_sun" style="display: none" name="hospSun" value="${updateHosp.hospSun }"><br>
 	<label>점심시간</label>
  	<input type="time" id="hosp_lunchhour_open">
  	<input type="time" id="hosp_lunchhour_close"onchange="timeadd()">
- 	<input type="text" id="hosp_lunchhour" name="hospLunchhour" value="${updateHosp.hospLunchhour }"><br>
+ 	<input type="text" id="hosp_lunchhour" style="display: none" name="hospLunchhour" value="${updateHosp.hospLunchhour }"><br>
  	
 </div>
 
