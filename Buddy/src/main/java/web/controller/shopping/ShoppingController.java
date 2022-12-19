@@ -1,5 +1,16 @@
 package web.controller.shopping;
 
+import java.io.BufferedReader;
+import java.io.DataOutput;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.HashMap;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -11,8 +22,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import web.dto.AniOrder;
 import web.dto.AniProduct;
 import web.dto.AniReview;
 import web.service.face.shopping.ShoppingService;
@@ -48,8 +61,8 @@ public class ShoppingController {
 	
 	@PostMapping("/input")
 	public String inputProc(AniProduct product, MultipartFile img) {
-		logger.debug("입력받은 내용 : {}", product);
-		logger.debug("입력받은 이미지 : {}", img);
+//		logger.debug("입력받은 내용 : {}", product);
+//		logger.debug("입력받은 이미지 : {}", img);
 		
 		shoppingService.input(product, img);
 		
@@ -64,14 +77,129 @@ public class ShoppingController {
 		AniProduct product = shoppingService.view(productno);
 //		logger.debug("상품 상세정보 : {}", product);
 		
-		//리뷰 조회
-		AniReview review = shoppingService.viewReview(productno);
-//		logger.debug("리뷰 상세정보 : {}", review);
 		
 		model.addAttribute("product", product);
-		model.addAttribute("review", review);
 		
 	
 	}
+	
+	@GetMapping("/review")
+	public void review(int productno, Model model) {
+		List<AniReview> review = shoppingService.viewReview(productno);
+		
+//		logger.debug("리뷰 내역 : {}", review);
+		model.addAttribute("review", review);
+		
+	}
+	
+	@ResponseBody
+	@PostMapping("/review")
+	public String reviewProc(AniReview review) {
+		
+//		logger.debug("ajax 입력값 테스트 {}", review);
+		
+		shoppingService.inputReview(review);
+		
+		return "";
+			
+	}
+	
+	@GetMapping("/deleteReview")
+	public String reviewDelte(AniReview review) {
+		
+//		logger.debug("삭제 리뷰 정보 : {}", review);
+		shoppingService.deleteReview(review);
+		
+		
+		return "redirect:/shopping/view?productno="+review.getProductno();
+		
+	}
+	
+	@GetMapping("/delete")
+	public String delete(int productno) {
+		
+		shoppingService.deleteProduct(productno);
+//		logger.debug("삭제할 상품번호 : {} ", productno);
+		return "redirect:/shopping/list";
+	}
+	
+	@GetMapping("/order")
+	public void order(AniOrder order, Model model) {
+		
+		
+		AniProduct product = shoppingService.getProduct(order);
+//		logger.debug("상품정보 확인 : {}", product);
+		
+		
+		model.addAttribute("product", product);
+	}
+	@ResponseBody
+	@RequestMapping("/kakao")
+	public String kakaopay(AniOrder order, Model model) {
+		
+//		logger.debug("결제 정보 : {}", order);
+		try {
+			URL add = new URL("https://kapi.kakao.com/v1/payment/ready");
+			
+			HttpURLConnection conn = (HttpURLConnection)add.openConnection();
+			
+			conn.setRequestMethod("POST");
+			conn.setRequestProperty("Authorization", "KakaoAK 7e64369997a318b483b424bda8b8e504");
+			conn.setRequestProperty("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+			conn.setDoOutput(true);
+			
+			String param = "cid=TC0ONETIME&partner_order_id=partner_order_id&partner_user_id=partner_user_id&item_name="+order.getProductname()+"&quantity="+order.getAmount()+"&total_amount="+order.getPrice()+"&tax_free_amount="+order.getPrice()+"&approval_url=http://localhost:8888/shopping/success&cancel_url=http://localhost:8888/shopping/cancel&fail_url=http://localhost:8888/shopping/fail";
+			
+			OutputStream out = conn.getOutputStream();
+			DataOutputStream data = new DataOutputStream(out);
+			
+			data.writeBytes(param);
+			data.close();
+			
+			int result = conn.getResponseCode();
+			
+			InputStream input;
+			if(result==200) {
+				input=conn.getInputStream();
+				shoppingService.insertOrder(order);
+				
+				
+				
+			}else {
+				input=conn.getErrorStream();
+			}
+			
+			InputStreamReader inputreader = new InputStreamReader(input);
+			BufferedReader breader = new BufferedReader(inputreader);
+			return breader.readLine();
+			
+		} catch (MalformedURLException e) {
+			
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		return "";
+	}
+	
+	@RequestMapping("/cancel")
+	public void cancel() {
+		
+	}
+	@RequestMapping("/fail")
+	public void fail() {
+		
+	}
+	@RequestMapping("/success")
+	public void success(AniOrder order) {
+
+	}
+	
+	
+	
+	
 
 }

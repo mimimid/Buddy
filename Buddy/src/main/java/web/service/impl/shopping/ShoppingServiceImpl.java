@@ -2,6 +2,8 @@ package web.service.impl.shopping;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import web.dao.face.shopping.ShoppingDao;
+import web.dto.AniOrder;
 import web.dto.AniProduct;
 import web.dto.AniProductImg;
 import web.dto.AniReview;
@@ -50,9 +53,15 @@ public class ShoppingServiceImpl implements ShoppingService {
 
 	@Override
 	public void input(AniProduct product, MultipartFile img) {
+		//상품 번호 가저오기
+		int productno = shoppingDao.selectSeq();
+		
+		product.setProductno(productno);
+		
 		//게시글 처리			
 		shoppingDao.insertProduct(product);
-				
+		
+//		logger.debug("productno는  : {}", productno);
 		//--------------------------------------------
 				
 		//첨부파일 처리
@@ -88,7 +97,7 @@ public class ShoppingServiceImpl implements ShoppingService {
 				
 		//첨부파일 정보 DB 기록
 		AniProductImg productImg = new AniProductImg();
-		productImg.setProductno( shoppingDao.selectProductNoByProductName(product));
+		productImg.setProductno( product.getProductno());
 		productImg.setPimgorigin(originName);
 		productImg.setPimgstored(storedName);
 				
@@ -103,11 +112,82 @@ public class ShoppingServiceImpl implements ShoppingService {
 	}
 
 	@Override
-	public AniReview viewReview(int productno) {
+	public List<AniReview> viewReview(int productno) {
 		
 		return shoppingDao.selectReviewByProductno(productno);
 	}
 
+	@Override
+	public void inputReview(AniReview review) {
+		
+		String usernick = shoppingDao.selectUserNickByUserNo(review);
+		
+		
+		review.setUsernick(usernick);
+		
+		shoppingDao.insertReview(review);
+		
+		shoppingDao.updateReviewCountIncrease(review);
+		
+		
+	}
+
+	@Override
+	public void deleteReview(AniReview review) {
+		
+		shoppingDao.updateReviewCountReduce(review);
+		
+		shoppingDao.deleteReview(review);
+		
+	}
+
+	@Override
+	public void deleteProduct(int productno) {
+		
+		//상품 리뷰 삭제
+		shoppingDao.deleteReviewByProductno(productno);
+		
+		//이미지 삭제
+		shoppingDao.deleteImgByProductno(productno);
+		
+		//상품 삭제
+		shoppingDao.deleteProdcutByProductno(productno);
+		
+	}
+
+	@Override
+	public AniProduct getProduct(AniOrder order) {
+		
+		AniProduct product = shoppingDao.selectProductByProductNo(order);
+		
+		product.setAmount(order.getAmount());
+		product.setPrice(order.getPrice());
+		product.setProductno(order.getProductno());
+		
+		return product;
+	}
+
+	@Override
+	public void insertOrder(AniOrder order) {
+		
+		//주문번호에 쓰일 시퀀스번호 가저오기
+		int seqno = shoppingDao.selectOrderSeq();
+		Date now = new Date();
+		SimpleDateFormat date = new SimpleDateFormat("yyyyMMdd");
+		String orderDate = date.format(now);
+		String orderno = "b"+orderDate+"_"+seqno;
+		
+//		logger.debug("주문번호 : {}", orderno);
+		
+		order.setOrderno(orderno);
+		
+		shoppingDao.insertOrder(order);
+		
+	
+	}
+
+	
+	
 	
 
 }
