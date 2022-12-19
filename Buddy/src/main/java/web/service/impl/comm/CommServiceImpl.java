@@ -32,6 +32,8 @@ public class CommServiceImpl implements CommService {
 	
 	@Autowired ServletContext context;
 	
+	//----- 게시판 ---------------------------------------------------------
+	
 	@Override
 	public Paging getPaging(int curPage, String animal, String category, String searchType, String keyword) {
 		
@@ -237,6 +239,11 @@ public class CommServiceImpl implements CommService {
 	}
 	
 	@Override
+	public CommBoard likecnt(CommLike like) {
+		return commDao.selectLikeCnt(like);
+	}
+	
+	@Override
 	public void likeDown(CommLike like) {
 		
 		int res = 0;
@@ -251,10 +258,6 @@ public class CommServiceImpl implements CommService {
 		}
 	}
 	
-	@Override
-	public CommBoard likecnt(CommLike like) {
-		return commDao.selectLikeCnt(like);
-	}
 	
 	//----- 댓글 ---------------------------------------------------------
 	

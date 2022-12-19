@@ -10,25 +10,25 @@
 	<select id="selectCntAll" resultType="int" parameterType="hashmap">
 		SELECT count(*) FROM comm_board
 		<where>
-		<if test="animal != null and !animal.equals('')">
-			AND cate_animal LIKE #{animal }
-		</if>
-		<if test="category != null and !category.equals('')">
-			AND cate_content LIKE #{category }
-		</if>
-		<if test="keyword != null and !keyword.equals('')">
-			AND ( comm_title LIKE '%' || #{keyword } || '%' OR comm_writer_nick LIKE '%' || #{keyword } || '%' )
-		</if>
-		<if test="searchType != null and searchType.equals('commTitle')">
-			<if test="keyword != null and !keyword.equals('')">
-				AND ( comm_title LIKE '%' || #{keyword } || '%' )
+			<if test="animal != null and !animal.equals('')">
+				AND cate_animal LIKE #{animal }
 			</if>
-		</if>
-		<if test="searchType != null and searchType.equals('commWriterNick')">
-			<if test="keyword != null and !keyword.equals('')">
-				AND ( comm_writer_nick LIKE '%' || #{keyword } || '%' )
+			<if test="category != null and !category.equals('')">
+				AND cate_content LIKE #{category }
 			</if>
-		</if>
+			<if test="keyword != null and !keyword.equals('')">
+				AND ( comm_title LIKE '%' || #{keyword } || '%' OR comm_writer_nick LIKE '%' || #{keyword } || '%' )
+			</if>
+			<if test="searchType != null and searchType.equals('commTitle')">
+				<if test="keyword != null and !keyword.equals('')">
+					AND ( comm_title LIKE '%' || #{keyword } || '%' )
+				</if>
+			</if>
+			<if test="searchType != null and searchType.equals('commWriterNick')">
+				<if test="keyword != null and !keyword.equals('')">
+					AND ( comm_writer_nick LIKE '%' || #{keyword } || '%' )
+				</if>
+			</if>
 		</where>
 	</select>
 	
@@ -140,6 +140,8 @@
 	
 	
 	
+	
+	
 	<select id="findLike" resultType="int" parameterType="CommLike">
 		SELECT count(*) FROM comm_like 
 		WHERE comm_no = #{commNo } AND userno = #{userno }
@@ -156,6 +158,11 @@
 		WHERE comm_no = #{commNo }
 	</update>
 	
+	<select id="selectLikeCnt" resultType="CommBoard" parameterType="CommLike">
+		SELECT comm_like_cnt FROM comm_board
+		WHERE comm_no = #{commNo }
+	</select>
+	
 	<delete id="likeDown" parameterType="CommLike">
 	  	DELETE comm_like
 	  	WHERE comm_no = #{commNo } AND userno = #{userno } 
@@ -166,12 +173,6 @@
 		SET comm_like_cnt = comm_like_cnt - 1
 		WHERE comm_no = #{commNo }
 	</update>
-	
-	<select id="selectLikeCnt" resultType="CommBoard" parameterType="CommLike">
-		SELECT comm_like_cnt FROM comm_board
-		WHERE comm_no = #{commNo }
-	</select>
-	
 	
 	
 	

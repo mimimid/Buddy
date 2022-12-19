@@ -18,12 +18,12 @@ td, tr {
 }
 
 #rlist {
-	padding-top: 70px;
+	padding-top: 40px;
 	padding-right: 40px;
 }
 
 #plist {
-	padding-top: 70px;
+	padding-top: 40px;
 	padding-left: 40px;
 }
 

@@ -13,6 +13,8 @@ import web.util.Paging;
 
 public interface CommService {
 
+	//----- 게시판 ---------------------------------------------------------
+	
 	/**
 	 * 게시글 목록을 위한 페이징 객체를 생성한다
 	 * 
@@ -96,7 +98,7 @@ public interface CommService {
 	 * 
 	 * @param viewBoard - 게시글 정보 객체
 	 * @param userno - 회원 정보 객체
-	 * @return 좋아요 여부
+	 * @return 좋아요 여부 (좋아요 O - 1, 좋아요 X - 0)
 	 */
 	public int findLike(CommBoard viewBoard, int userno);
 	
@@ -106,6 +108,14 @@ public interface CommService {
 	 * @param like - 회원 정보 객체
 	 */
 	public void likeUp(CommLike like);
+	
+	/**
+	 * 게시글 번호를 통한 좋아요수 조회
+	 * 
+	 * @param like - 게시글 정보 객체
+	 * @return 좋아요 수 반환
+	 */
+	public CommBoard likecnt(CommLike like);
 
 	/**
 	 * 회원 번호를 통한 좋아요 삭제
@@ -150,7 +160,7 @@ public interface CommService {
 
 	public List<CommBoard> plist();
 
-	public CommBoard likecnt(CommLike like);
+	
 
 	
 

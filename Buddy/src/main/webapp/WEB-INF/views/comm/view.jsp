@@ -8,6 +8,7 @@
 
 <script type="text/javascript">
 $(document).ready(function() {
+	
 	$("#btnList").click(function() {
 		location.href = "/comm/list"
 	})
@@ -58,28 +59,28 @@ $(document).ready(function() {
 	
 	// cate_ani color css
 	if( "${viewBoard.cateAnimal }" == "dog" ) {
-		$("#btnAniDog").css({"color": "#fff", "background-color": "#FF7A85"})
+		$("#btnAniDog").css({"color": "#fff", "background-color": "#8EC0E4"})
 		
 	} else if ( "${viewBoard.cateAnimal }" == "cat" ) {
-		$("#btnAniCat").css({"color": "#fff", "background-color": "#FF7A85"})
+		$("#btnAniCat").css({"color": "#fff", "background-color": "#8EC0E4"})
 		
 	}
 	
 	// cate_con color css
 	if ( "${viewBoard.cateContent }" == "daily" ) {
-		$("#btnConDaily").css("color", "#FF7A85")
+		$("#btnConDaily").css("color", "#8EC0E4")
 		
 	} else if ( "${viewBoard.cateContent }" == "info" ) {
-		$("#btnConInfo").css("color", "#FF7A85")
+		$("#btnConInfo").css("color", "#8EC0E4")
 	
 	} else if ( "${viewBoard.cateContent }" == "ask" ) {
-		$("#btnConAsk").css("color", "#FF7A85")
+		$("#btnConAsk").css("color", "#8EC0E4")
 			
 	} else if ( "${viewBoard.cateContent }" == "etc" ) {
-		$("#btnConEtc").css("color", "#FF7A85")
+		$("#btnConEtc").css("color", "#8EC0E4")
 		
 	} else {
-		$("#btnConAll").css("color", "#FF7A85")
+		$("#btnConAll").css("color", "#8EC0E4")
 		
 	}
 })
@@ -183,21 +184,7 @@ $(document).ready(function(){
 	
 	$("#btnReport").click(function() {
 		
-		$.ajax({
-			type: "post"
-			, url: "/comm/report"
-			, data: { "commNo": "${viewBoard.commNo }" }
-			, dataType: "html"
-			, success: function(res) {
-				console.log("AJAX 성공")
-				
-				window.open("./report")
-				
-			}
-			, error: function() {
-				console.log("AJAX 실패")
-			}
-		})
+		window.open("./report?commNo=${viewBoard.commNo }","신고하기","width=800, height=600")
 		
 	})
 		
@@ -289,7 +276,7 @@ a.btn-heart:hover {
 }
 
 .view-title {
-	color: green;
+	color: #FF7A85;
 }
 
 .view-nick {
@@ -305,6 +292,21 @@ a.btn-heart:hover {
 
 #likeCntFirst, #likeCnt {
 	display: inline-block;
+}
+
+#btnList {
+	background-color: #969696;
+	color: #fff;
+}
+
+#btnUpdate {
+	background-color: #8EC0E4;
+	color: #fff;
+}
+
+#btnDelete {
+	background-color: #FF7A85;
+	color: #fff;
 }
 </style>
 
@@ -338,6 +340,8 @@ a.btn-heart:hover {
 	<div class="view-hit">
 		<span><fmt:formatDate value="${viewBoard.commWritedate }" pattern="yyyy-MM-dd" /></span>
 		<span class="material-icons-outlined">visibility</span>&nbsp;&nbsp;${viewBoard.commHit }
+		<button id="btnReport" class="btn btn-report">신고</button>
+		<input type="hidden" id="userno" name="userno" value="${userno }">
 	</div>
 	
 	<hr>
@@ -377,12 +381,11 @@ a.btn-heart:hover {
 	<br>
 	
 	<div class="text-center">
-		<button id="btnList" class="btn btn-default">목록</button>
-		<button id="btnReport" class="btn btn-danger">신고</button>
+		<button id="btnList" class="btn btn-list">목록</button>
 		
 		<c:if test="${userno eq viewBoard.userno }">
-			<button id="btnUpdate" class="btn btn-primary">수정</button>
-			<button id="btnDelete" class="btn btn-danger">삭제</button>
+			<button id="btnUpdate" class="btn btn-write">수정</button>
+			<button id="btnDelete" class="btn btn-delete">삭제</button>
 		</c:if>
 	</div>
 
