@@ -31,6 +31,23 @@ function updateContents() {
 }
 </script>
 
+<style type="text/css">
+button:focus, button:active { 	
+    outline:none !important;
+    box-shadow:none !important;
+}
+
+#btnWrite {
+	background-color: #8EC0E4;
+	color: #fff;
+}
+
+#btnCancel {
+	background-color: #FF7A85;
+	color: #fff;
+}
+</style>
+
 <div class="container">
 
 <form action="./write" method="post" enctype="multipart/form-data">
@@ -78,8 +95,8 @@ function updateContents() {
 </form>
 
 <div class="text-center">
-	<button class="btn btn-primary" id="btnWrite">작성</button>
-	<button class="btn btn-danger" id="btnCancel">취소</button>
+	<button class="btn btn-write" id="btnWrite">작성</button>
+	<button class="btn btn-cancel" id="btnCancel">취소</button>
 </div>
 
 <!-- 스마트 에디터 스킨 적용 -->

@@ -124,7 +124,6 @@ public class CommController {
 		model.addAttribute("downFile", commFile);
 		
 		return "downCommBoard";
-		
 	}
 	
 	@GetMapping("/update")
@@ -240,47 +239,22 @@ public class CommController {
 	//----- 신고 ---------------------------------------------------------
 	
 	@GetMapping("/report")
-	public void report() {}
+	public String report(CommBoard commBoard, Model model) {
+		logger.debug("{}", commBoard);
+		
+		model.addAttribute("commBoard", commBoard);
+		
+		return "/comm/report";
+	}
 	
 	@PostMapping("/report")
-	public String reportProcess(CommReport commReport, HttpSession session) {
-		logger.debug("{}", commReport);
-		
-		// 작성자 정보 추가
-		commReport.setUserno( (int) session.getAttribute("userno") );
+	public String reportProcess(CommReport commReport) {
 		logger.debug("{}", commReport);
 		
 		// 게시글, 첨부파일 처리
 		commService.report(commReport);
 		
-		return "redirect:/comm/list";
+		return "/comm/reportSuccess";
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 }
