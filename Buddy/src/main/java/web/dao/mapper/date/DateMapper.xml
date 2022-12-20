@@ -95,4 +95,9 @@
 		WHERE B.date_no = #{dateNo}
 	</update>
 	
+	<insert id="insertReport" parameterType="DateReport">
+		INSERT INTO date_report ( d_report_no, userno, date_no, date_report_content )
+		VALUES ( date_report_seq.nextval, #{userno}, #{dateNo}, #{dateReportContent} )
+	</insert>
+	
 </mapper>

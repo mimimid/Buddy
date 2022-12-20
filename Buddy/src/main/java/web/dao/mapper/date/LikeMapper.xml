@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 마이바티스 3 Mapper DTD -->
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="web.dao.face.date.LikeDao">
+	
+	<select id="selectLike" resultType="int" parameterType="DateLike">
+		SELECT count(*) FROM date_like
+		WHERE date_no = #{dateNo} AND userno = #{userno}
+	</select>
+	
+	<insert id="insertLike" parameterType="DateLike">
+		INSERT INTO date_like ( d_like_no, userno, date_no, d_like_ck )
+		VALUES ( date_like_seq.nextval, #{userno}, #{dateNo}, 1 )
+	</insert>
+	
+	<update id="likeCntUp" parameterType="DateBoard">
+		UPDATE date_board B
+		SET B.like_count = ( SELECT count(*) FROM date_like WHERE date_no = #{dateNo} )
+		WHERE B.date_no = #{dateNo}
+	</update>
+	
+	<select id="selectLikeCntByDateNo" resultType="DateBoard" parameterType="DateLike">
+		SELECT like_count FROM date_board
+		WHERE date_no = #{dateNo}
+	</select>
+	
+	<delete id="deleteLike" parameterType="DateLike">
+		DELETE date_like
+		WHERE date_no = #{dateNo}
+		AND userno = #{userno}
+	</delete>
+	
+	<update id="likeCntDown" parameterType="DateBoard">
+		UPDATE date_board
+		SET like_count = like_count - 1
+		WHERE date_no = #{dateNo }		
+	</update>
+	
+	
+</mapper>
