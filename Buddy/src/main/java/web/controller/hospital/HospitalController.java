@@ -1,18 +1,10 @@
 package web.controller.hospital;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
+
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -122,33 +114,24 @@ public class HospitalController {
 	
 	@PostMapping("/hospwrite")
 	public String writeProc(Hospital hospital, MultipartFile file, HttpSession session) {
-		logger.debug("작성글 : {}",hospital);
-		logger.debug("파일 : {}",file);
-		
-		
-		//작성자 정보 추가
+	
 		hospital.setAdminno((int) session.getAttribute("userno"));
 		hospital.setAdminid((String) session.getAttribute("userid"));
 		logger.debug("{}", hospital);
 		
-		//게시글 작성, 첨부파일 처리
 		hospitalService.write(hospital, file);
-		
-		
+			
 		return "redirect:/hospital/hosplist";
 	}
 	
-	
-	//병원 글수정
+
 	@GetMapping("/hospupdate")
 	public String hospUpdate(Hospital hospital, Model model) {
-		logger.debug("글번호 : {}", hospital);
-		
+
 		hospital = hospitalService.view(hospital);
 		
 		HospitalPic hospPic = hospitalService.getAttachPic(hospital);
 		
-		//모델값 전달
 		model.addAttribute("updateHosp", hospital);
 		model.addAttribute("hospPic", hospPic);
 		
@@ -165,7 +148,6 @@ public class HospitalController {
 		return "redirect:/hospital/hospview?hospNo="+hospital.getHospNo();
 	}
 	
-	// 병원 글삭제
 	@RequestMapping("/hospdelete")
 	public String hospDelete (Hospital hospital) {
 		
@@ -211,65 +193,6 @@ public class HospitalController {
 		return "redirect:/hospital/reviews?hospNo="+hospReview.getHospNo();
 	}
 	
-	
-	
-//	@PostMapping("/review/likeup")
-//	public @ResponseBody void reviewLikeUp( HospitalReviewLike reviewLike, HttpSession session) {
-//		
-//		reviewLike.setUserno((int) session.getAttribute("userno"));
-//	
-//		
-//	}
-//	
-//	
-//	@PostMapping("/review/likedown")
-//	public @ResponseBody void reviewLikeDown( HospitalReviewLike reviewLike, HttpSession session) {
-//		
-//		reviewLike.setUserno((int) session.getAttribute("userno"));
-//		
-//		hospitalService.reviewLikeDown(reviewLike);
-//		
-//	}
-	
 
-	
-	
-	@GetMapping("/hospApi")
-	public void hospApi() throws IOException {
-		
-		StringBuilder urlBuilder = new StringBuilder("http://openapi.seoul.go.kr:8088"); /*URL*/
-		urlBuilder.append("/" + URLEncoder.encode("sample","UTF-8") ); /*인증키(sample사용시에는 호출시 제한됩니다.)*/
-		urlBuilder.append("/" + URLEncoder.encode("xml","UTF-8") ); /*요청파일타입 */
-		urlBuilder.append("/" + URLEncoder.encode("CardSubwayStatsNew","UTF-8")); /*서비스명 (대소문자 구분 필수입니다.)*/
-		urlBuilder.append("/" + URLEncoder.encode("1","UTF-8")); /*요청시작위치(sample인증키 사용시 5이내 숫자)*/
-		urlBuilder.append("/" + URLEncoder.encode("5","UTF-8")); 
-		/*요청종료위치(sample인증키 사용시 5이상 숫자 선택 안 됨)*/
-		// 상위 5개는 필수적으로 순서바꾸지 않고 호출해야 합니다.
-		urlBuilder.append("/" + URLEncoder.encode("20220301","UTF-8")); /* 서비스별추가 요청인자들*/
-		URL url = new URL(urlBuilder.toString());
-		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-		conn.setRequestMethod("GET");
-		conn.setRequestProperty("Content-type", "application/xml");
-		System.out.println("Response code: " + conn.getResponseCode()); /* 연결자체에 대한 확인이 필요하므로 추가합니다.*/
-		BufferedReader rd;// 서비스코드가 정상이면 200~300사이의 숫자가 나옵니다.
-		
-		if(conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
-			rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-			} else {
-			rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
-		}
-		
-		StringBuilder sb = new StringBuilder();
-		String line;
-		while ((line = rd.readLine()) != null) {
-			sb.append(line);
-		}
-		
-		rd.close();
-		conn.disconnect();
-		System.out.println(sb.toString());
-			
-	}
-	
 	
 }

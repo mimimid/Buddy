@@ -55,6 +55,8 @@ public class CommentController {
 			, HttpSession session
 			, DateComment comm) {
 		
+		ModelAndView mav = new ModelAndView();
+
 		//작성자 아이디
 //		System.out.println(session.getAttribute("id"));
 		String id = (String) session.getAttribute("id");
@@ -64,7 +66,7 @@ public class CommentController {
 		comm.setUserno(userno);
 		dCommentService.commWrite(comm);
 		
-		ModelAndView mav = new ModelAndView();
+		mav.setViewName("redirect:/date/view?dateNo=" + dateNo);
 		
 		return mav;
 		

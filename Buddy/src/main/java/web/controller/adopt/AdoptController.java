@@ -39,18 +39,24 @@ public class AdoptController {
 	@RequestMapping("/pro")
 	public void AdoptPro(
 			@RequestParam(defaultValue = "0") int curPage
+			, String aniCate
 			, Model model ) {
 		
-		Paging paging = adoptService.getProPaging(curPage);
+		Paging paging = adoptService.getProPaging(curPage, aniCate);
 		logger.debug("{}", paging);
 		model.addAttribute("paging", paging);
 		
+		Map<String, Object> map = new HashMap<>();
+		map.put("aniCate", aniCate);
+		map.put("paging", paging);
+		
+		logger.debug("map: {}", map);
 		
 		
-		
-		List<Map<String, Object>> list = adoptService.proList(paging);
+		List<Map<String, Object>> list = adoptService.proList(map);
 		for( Map<String, Object> a : list )	logger.debug("{}", a);
 		model.addAttribute("list", list);
+		model.addAttribute("aniCate", aniCate);
 		
 	}
 
@@ -66,13 +72,6 @@ public class AdoptController {
 		logger.debug("adoptWish : {}", adoptWish);
 		
 		int wish = adoptService.proWish(adoptWish);
-		model.addAttribute("wish", wish);
-		
-		//pro에서다시
-//		List<AdoptWish> adoptWishList = adoptService.proWishList();
-//		logger.debug("adoptWishList: {}", adoptWishList );
-//		
-//		model.addAttribute("adoptWishList", adoptWishList);
 		
 		return "redirect:/adopt/pro";
 		
@@ -90,10 +89,10 @@ public class AdoptController {
 		
 		List<AdoptWish> adoptWishList = adoptService.wishList(userno);
 		
-		List<AdoptPro> proWishList =new ArrayList<AdoptPro>();
+		List<Map<String, Object>> proWishList =new ArrayList<Map<String, Object>>();
 		for(AdoptWish wish:adoptWishList)
 		{
-			AdoptPro list = adoptService.proWishDetail(wish.getAniNo());
+			Map<String, Object> list = adoptService.proWishDetail(wish.getAniNo());
 			proWishList.add(list);
 		}
 		model.addAttribute("proWishList", proWishList);
@@ -183,6 +182,7 @@ public class AdoptController {
 	@PostMapping("/proUpdate")
 	public String proUpdateProcess(AdoptPro adoptPro, List<MultipartFile> fileList) {
 		logger.debug("{}", adoptPro);
+		for(MultipartFile f : fileList) logger.debug("파일리스트{}", f);
 		
 		adoptService.proUpdate(adoptPro, fileList);
 		
@@ -197,9 +197,19 @@ public class AdoptController {
 		return "redirect:/adopt/pro";
 	}
 	
-	@PostMapping("/pro")
-	public void AdoptPro_ajax() {
+	@RequestMapping("/proViewWish")
+	public String AdoptPro_ajax(AdoptPro adoptPro, HttpSession session, Model model) {
+		AdoptWish adoptWish = new AdoptWish();
 		
+		adoptWish.setUserno( (int)session.getAttribute("userno"));
+		
+		adoptWish.setAniNo(adoptPro.getAniNo());
+		
+		logger.debug("adoptWish : {}", adoptWish);
+		
+		int wish = adoptService.proWish(adoptWish);
+		
+		return "redirect:/adopt/proView?aniNo="+ adoptPro.getAniNo();
 	}
 	
 	

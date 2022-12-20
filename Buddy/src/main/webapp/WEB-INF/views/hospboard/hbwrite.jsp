@@ -12,60 +12,6 @@
 <script type="text/javascript" src="/resources/se2/js/service/HuskyEZCreator.js"></script>
 
 
-<script type="text/javascript">
-$(document).ready(function() {
-	
-	//작성버튼
-	$("#btnWrite").click(function() {
-		
-		//스마트 에디터에 작성된 내용을 #content에 반영
-		updateContents();
-		
-		$("form").submit();
-	})
-
-	
-	$("#upload").change(function( e ) {
-		console.log("#upload change")
- 
-		var files = e.target.files;
-		
-		if( !files[0].type.includes( "image") ) {
-		
-			return false;
-			
-		}
-		
-		//---------------------------
-		
-		var reader = new FileReader();
-
-
-		reader.onload = function( ev ) {
-			console.log( ev.target.result )
-			console.log( this.result ) //ev.target.result와 같은 식
-
-			$("#preview").html(
-				$("<img>").attr( {
-					"src": ev.target.result
-					,"width" : 200
-				})
-			)
-		}
-		
-		//선택된 파일을 DataURL 형식으로 읽어들이기
-		reader.readAsDataURL( files[0])
-		
-	})	
-				
-})
-
-
-function updateContents() {
-	//스마트 에디터에 작성된 내용을 #content에 반영한다
-	oEditors.getById["hbcontent"].exec("UPDATE_CONTENTS_FIELD", [])
-}
-</script>
 
 <style type="text/css">
 
@@ -91,12 +37,12 @@ select option[value=""][disabled] {
  	<input type="checkbox" id="hbtop" name="hbtop" value="1">
  	<label for="hbtop"> 이 게시물을 상단에 고정</label>
 </div>
-
+<%-- 
 <div class="form-group">
  	<label for="userno">작성자</label>
  	<input type="text" name="userno" value="${userno }" class="form-control" readonly="readonly">
 </div>
-
+ --%>
 <div class="form-group">
  	<label for="hbtitle">제목</label>
  	<input type="text" id="hbtitle" name="hbtitle" class="form-control">
@@ -144,6 +90,55 @@ select option[value=""][disabled] {
 
 
 
+<script type="text/javascript">
+$(document).ready(function() {
+
+	$("#btnWrite").click(function() {
+		
+		//스마트 에디터에 작성된 내용을 #content에 반영
+		updateContents();
+		
+		$("form").submit();
+	})
+
+	
+	$("#upload").change(function( e ) {
+		console.log("#upload change")
+ 
+		var files = e.target.files;
+		
+		if( !files[0].type.includes( "image") ) {
+		
+			return false;
+			
+		}
+	
+		var reader = new FileReader();
+
+
+		reader.onload = function( ev ) {
+			console.log( ev.target.result )
+			console.log( this.result ) //ev.target.result와 같은 식
+
+			$("#preview").html(
+				$("<img>").attr( {
+					"src": ev.target.result
+					,"width" : 200
+				})
+			)
+		}
+		
+		reader.readAsDataURL( files[0])
+		
+	})	
+				
+})
+
+
+function updateContents() {
+	oEditors.getById["hbcontent"].exec("UPDATE_CONTENTS_FIELD", [])
+}
+</script>
 
 <!-- 스마트 에디터 스킨 적용 -->
 <script type="text/javascript">

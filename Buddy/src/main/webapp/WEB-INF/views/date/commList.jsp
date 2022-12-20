@@ -73,6 +73,7 @@ function up(cmNo) {
 function lst() {
 	console.log("취소클릭")
 // 	$('#commList').load('${path}/date/view?dateNo=');
+	
 
 }
 
@@ -87,7 +88,7 @@ function commDelete(cmNo,dateNo) {
 			, success: function(result) {
 				console.log("AJAX 성공")
 				alert("댓글을 삭제하였습니다.")
-				cmList();
+				location.reload();
 				
 			}
 			, error: function() {

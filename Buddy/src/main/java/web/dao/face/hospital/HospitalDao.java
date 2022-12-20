@@ -12,40 +12,19 @@ import web.dto.Hospital;
 
 public interface HospitalDao {
 
-	
-	/**
-	 * 총 게시글 수 카운트
-	 * 
-	 * @param paramPaging
-	 * @return
-	 */
+
 	public int selectCntAll(HospitalPaging paramPaging);
 
-	/**
-	 * 페이징을 적용하여 게시글 목록 조회
-	 * 
-	 * @param hospitalPaging - 페이징 정보 객체
-	 * @return 페이징이 적용된 게시글 목록
-	 */
 	public List<Hospital> selectAll (HospitalPaging hospitalPaging);
 
-	/**
-	 * 병원 번호를 이용하여 병원 상세 조회
-	 * 
-	 * @param viewHospital 병원 정보
-	 */
 	public Hospital selectHospital(Hospital viewHospital);
-
 	public HospitalPic selectHospPicByHospNo(Hospital viewHospital);
 
 	public void insertHospital(Hospital hospital);
 	public void insertPic(HospitalPic hospitalPic);
 
-	
 	public int likeUp(HospitalLike like);
 	public int likeDown(HospitalLike like);
-
-	public void insertApiData(Hospital hospital);
 
 	public List<HospitalReview> selectAllReview(int hospNo);
 

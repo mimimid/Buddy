@@ -173,6 +173,7 @@ h4{
 	padding-left: 15px;
 	font-size: 18px;
 }
+<<<<<<< HEAD
 
 #delivery{
 	font-size: 16px;
@@ -185,6 +186,8 @@ h4{
 }
 
 
+=======
+>>>>>>> branch 'main' of https://github.com/mimimid/Buddy
 </style>
 
 <div class="container">

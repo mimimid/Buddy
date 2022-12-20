@@ -55,7 +55,7 @@ function updateContents() {
 <form id="frm" action="/report/reptWrite" method="post" enctype="multipart/form-data">
 <div class="form-group">
 	<label for="adminid">작성자</label>
-	<input type="text" id="adminid" value="${nick }" class="form-control" readonly="readonly">
+	<input type="text" id="adminid" name="adminid" value="${nick }" class="form-control" readonly="readonly">
 </div>
 
 <div class="form-group">

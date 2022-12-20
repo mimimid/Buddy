@@ -12,19 +12,20 @@ import web.util.Paging;
 public interface AdoptDao {
 
 	/**
-	 * 전체 게시글 수를 조회한다
+	 * 카테고리별 전체 게시글 수를 조회한다
+	 * @param aniCate - 카테고리 정보 객체
 	 * 
 	 * @return 총 게시글 수
 	 */
-	public int selectProCntAll();
+	public int selectProCntAll(String aniCate);
 
 	/**
-	 * 페이징을 적용하여 입양프로필 목록 조회
+	 * 페이징을 적용하여 카테고리별 입양프로필 목록 조회
 	 * 
-	 * @param paging - 페이징 정보 객체
+	 * @param map - 페이징 정보 객체 , 카테고리 정보 객체
 	 * @return 페이징이 적용된 입양프로필 목록
 	 */
-	public List<Map<String, Object>> selectProList(Paging paging);
+	public List<Map<String, Object>> selectProList(Map<String, Object> map);
 
 	/**
 	 * 찜하기 여부 체크
@@ -69,7 +70,7 @@ public interface AdoptDao {
 	 * @param aniNo 입양프로필 번호
 	 * @return
 	 */
-	public AdoptPro selectProWish(int aniNo);
+	public Map<String, Object> selectProWish(int aniNo);
 
 	/**
 	 * 회원이 찜한 입양프로필 개수 조회
