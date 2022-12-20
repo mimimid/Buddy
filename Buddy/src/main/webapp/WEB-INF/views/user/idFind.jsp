@@ -51,13 +51,21 @@ $(document).ready(function() {
 	width: 350px;
 	
 	margin: 0 auto;
+}
 
+#btnFind{
+	background-color: #FF7A85;
+	color: white;
+}
+#btnLogin{
+	background-color: #FF7A85;
+	color: white;
 }
 
 </style>
 
 <div class="container">
-<h1 style="text-align: center;">ID Find</h1>
+<h1 style="text-align: center;">아이디 찾기</h1>
 <hr>
 
 <form action="./idFind" method="post" class="form-horizontal">
@@ -71,8 +79,8 @@ $(document).ready(function() {
 		
 		<div id="result"></div>
 <div style="text-align: center;">
-<button type="button" class="btn btn-primary" id="btnFind">아이디 찾기</button>
-<a href="./login"><button type="button" class="btn btn-success">로그인으로</button></a>
+<button type="button" class="btn" id="btnFind">아이디 찾기</button>
+<a href="./login" style="color: white;"><button type="button" class="btn" id="btnLogin">로그인으로</button></a>
 </div>
 </div>
 </form>

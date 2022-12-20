@@ -10,6 +10,7 @@
 $(document).ready(function() {
 
 	$("#kakao").click(function(){
+	if($('#name').val() !== "" && $('#phone').val() !== "" && $('#recipient').val() !== "" && $('#reciphone').val() !== "" && $('#postno').val() !== "" && $('#address').val() !== ""){
 		
 	$.ajax({
 		 url:"/shopping/kakao" //응답페이지
@@ -38,6 +39,10 @@ $(document).ready(function() {
 			console.log("AJAX 실패")
 		}
 	})
+} else{
+	
+	alert('필수 정보를 입력해주세요.');
+}
 })
 	
 })
@@ -110,11 +115,27 @@ $(document).ready(function(){
 });
 </script>
 
+<script type="text/javascript">
+$(document).ready(function(){
+	$('#delMemo').change(function(){
+		if($('#delMemo').val() === 'self'){
+			
+			$('#selfInput').attr('type', 'text');
+		} else{
+			
+			$('#selfInput').attr('type', 'hidden');
+			
+		}
+			
+	})
+})
+</script>
+
 
 <style type="text/css">
 #pimg{
-	width: 80px;
-	height: 80px;
+	width: 100px;
+	height: 100px;
 }
 
 #orderForm{
@@ -138,7 +159,6 @@ h4{
 
 #productInfo{
 	background-color: white;
-	padding: 15px;
 }
 
 #postno{
@@ -153,18 +173,30 @@ h4{
 	padding-left: 15px;
 	font-size: 18px;
 }
+
+#delivery{
+	font-size: 16px;
+	font-weight: bold;
+}
+
+#btnDaumPost{
+	background-color: #FF7A85;
+	color: white;
+}
+
+
 </style>
 
 <div class="container">
 
-<h1 style="text-align: center;">결제하기</h1>
+<h1 style="text-align: center;">결제</h1>
 <hr>
 
 
 <div id="orderForm">
 
 <div id="productInfo">
-<h4>주문상품 정보</h4>
+<h4>주문 상품 정보</h4>
 <table>
 	<tr>
 		<td rowspan="3">
@@ -186,24 +218,39 @@ h4{
 		</td>
 	</tr>
 </table>
-</div>
+</div><br><br>
 
 <div id="buyerInfo">
 	<h4>주문자 정보</h4>
-	<input type="text" placeholder="이름" id="name" class="form-control"><br>
-	<input type="text" placeholder="연락처" id="phone" class="form-control">
+	<input type="text" placeholder="이름(필수)" id="name" class="form-control"><br>
+	<input type="text" placeholder="연락처(필수)" id="phone" class="form-control"><br>
 </div>
 
 <div id="deliveryInfo">
 	<h4>배송 정보</h4>
-	<input type="checkbox" id="same">주문자 정보와 동일<br>
-	<input type="text" placeholder="수령인" id="recipient" class="form-control"><br>
-	<input type="text" placeholder="연락처" id="reciphone" class="form-control"><br>
-	<input type="text" name="postno" id="postno" placeholder="우편번호"  required="required" class="form-control">
-	<button type="button" class="btn btn-success" id="btnDaumPost" onclick="btnDaumPost">주소 찾기</button><br><br>
-	<input type="text" name="address" id="address" placeholder="주소" class="form-control"><br>
+	<input type="checkbox" id="same">주문자 정보와 동일<br><br>
+	<input type="text" placeholder="수령인(필수)" id="recipient" class="form-control"><br>
+	<input type="text" placeholder="연락처(필수)" id="reciphone" class="form-control"><br>
+	<input type="text" name="postno" id="postno" placeholder="우편번호(필수)"  required="required" class="form-control">
+	<button type="button" class="btn" id="btnDaumPost" onclick="btnDaumPost">주소 찾기</button><br><br>
+	<input type="text" name="address" id="address" placeholder="주소(필수)" class="form-control"><br>
 	<input type="text" name="detailaddress" id="detailaddress" placeholder="상세주소" class="form-control">
-</div>
+</div><br><br>
+
+<div>
+	<h4>배송메모</h4>
+	<div id="delivery">
+		<select id="delMemo" class="form-control">
+			<option>배송메모를 선택해주세요.</option>
+			<option>배송 전에 미리 연락주세요.</option>
+			<option>부재시 경비실에 맡겨주세요.</option>
+			<option>부재시 전화나 문자 남겨주세요.</option>
+			<option value="self">직접입력</option>
+		</select><br>
+		<input id="selfInput" type="hidden" placeholder="배송메모를 입력해주세요." class="form-control">
+	</div>
+</div><br><br>
+
 
 <button style="width: 400px; margin: 0 auto;" type="button" id="kakao">결제하기<img src="/resources/img/shopping/kakaopay.png"></button>
 </div>
