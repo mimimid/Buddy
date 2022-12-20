@@ -58,7 +58,7 @@ $(document).ready(function() {
 	color: #878787;
 }
 
-#like_buddy {
+#like_hospital {
 	background: #ff7a85;
 	color: #fff;
 }
@@ -112,7 +112,7 @@ $(document).ready(function() {
 			<a id="order" href="/mypage/order" class="text-gray-dark _fade_link">주문 <span class="hidden-xs">조회</span></a>
 		</li>
 		<li class="on">
-			<a id="like_buddy" href="/mypage/like_buddy" class="text-gray-dark _fade_link">찜한 아이</a>
+			<a id="like_hospital" href="/mypage/like_hospital" class="text-gray-dark _fade_link">좋아요한 병원</a>
 		</li>
 		<li class="on">
 			<a id="qna" href="/mypage/qna" class="text-gray-dark _fade_link">1:1 문의</a>
