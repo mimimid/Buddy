@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import web.dto.AniUser;
 import web.service.face.mypage.MypageService;
 
 @Controller
@@ -42,8 +43,17 @@ public class MypageController {
 	
 	//정보수정
 	@PostMapping("/mypage/userUpdate")
-	public void userInfoUpdate() {
+	public String userInfoUpdateProc(AniUser user, HttpSession session) {
+		int userno = (int) session.getAttribute("userno");
+		user.setUserno(userno);
+		logger.info("{}", user);
 		
+		//회원정보수정
+		mypageService.updateUser(user);
+		
+		session.invalidate();
+		
+		return "redirect:/user/login";
 		
 	}
 	

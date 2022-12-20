@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import web.dao.face.mypage.MypageDao;
+import web.dto.AniUser;
 import web.service.face.mypage.MypageService;
 
 @Service
@@ -17,6 +18,11 @@ public class MypageServiceImpl implements MypageService {
 	@Override
 	public void deleteUser(int userno) {
 		mypageDao.deleteByUserno(userno);
+	}
+	
+	@Override
+	public void updateUser(AniUser user) {
+		mypageDao.updateByUserno(user);
 	}
 
 }
