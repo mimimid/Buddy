@@ -61,7 +61,7 @@ a {
 
 <div class="container">
 
-<h1 style="text-align: center;">Login</h1>
+<h1 style="text-align: center;">로그인</h1>
 <hr>
 
 <div id="login">

@@ -6,10 +6,10 @@
 
 <c:choose>
 	<c:when test="${chresult }">
-		<p style="color: red;">중복 아이디가 존재합니다</p>
+		<p style="color: red;">중복 아이디가 존재합니다.</p>
 	</c:when>
 	<c:otherwise>
-		<p style="color: blue;">사용가능한 아이디 입니다.</p>
+		<p style="color: blue;">중복 아이디가 없습니다.</p>
 <!-- 		<input type="hidden" id="checkedId" name="checkedId" value="checked"> -->
 	</c:otherwise>
 </c:choose> 
