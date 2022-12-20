@@ -10,6 +10,10 @@
 		WHERE userno = #{userno}
 	</delete>
 	
-	
+	<update id="updateByUserno" parameterType="AniUser">
+		UPDATE ani_user
+		SET username = #{username}, usernick = #{usernick}, phone = #{phone}
+		WHERE userno = #{userno}
+	</update>
 
 </mapper>
