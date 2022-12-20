@@ -110,10 +110,10 @@ $(document).ready(function() {
 <h3>${reptView.reptTitle}</h3>
 <div  class="clearfix">
 	<div style="float:left; margin-right:10px; width:70px;">
-	<img id="logoPro" alt="logo" src="/resources/img/sample_adopt/noImg.jpg"></div>
+	<img id="logoPro" alt="logo" src="/resources/img/buddy.png"></div>
 	<div style="width: 1030px; height: 70px; " class="pull-right">
 	<div style="margin: 15px 0px 5px 0px;"><span>Buddy</span></div>
-	<span>${reptView.adminid}아이디</span>
+	<span>${reptView.adminid}</span>
 	<div class="pull-right">
 	<a href="/" style="text-decoration: none; color: black;"><span class="glyphicon glyphicon-home" aria-hidden="true">Home</span></a>
 	<span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
@@ -125,12 +125,12 @@ $(document).ready(function() {
 	</div>
 </div><br>
 <hr style="margin-top: 0px;">
-<%-- 	<c:if test="${id eq viewBoard.writerId }"> --%>
+	<c:if test="${userno == 1 }">
 		<div class="pull-right">
 		<button id="reptUpdate" class="btn btnUp">수정</button>
 		<button id="reptDelete" class="btn btnDel" >삭제</button>
 		</div><br>
-<%-- 	</c:if> --%>
+	</c:if>
 <div id="reptContent" style="width: 100%; margin: 80px 0px;">
 	${reptView.reptContent}
 </div>

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import web.dto.AniOrder;
 import web.dto.AniProduct;
 import web.dto.AniReview;
 import web.util.Paging;
@@ -43,8 +44,40 @@ public interface ShoppingService {
 	 * @param productno
 	 * @return
 	 */
-	public AniReview viewReview(int productno);
+	public List<AniReview> viewReview(int productno);
 
+	/**
+	 * 리뷰 작성
+	 * @param review
+	 */
+	public void inputReview(AniReview review);
+
+	/**
+	 * 리뷰 삭제
+	 * @param review
+	 */
+	public void deleteReview(AniReview review);
+
+	/**
+	 * 상품 삭제
+	 * @param productno
+	 */
+	public void deleteProduct(int productno);
 	
+	/**
+	 * 상품 번호로 상품이미지 상품명
+	 * @param order
+	 * @return
+	 */
+	public AniProduct getProduct(AniOrder order);
+
+	/**
+	 * 주문 정보 저장
+	 * @param order
+	 * @return
+	 */
+	public void insertOrder(AniOrder order);
+
+
 
 }

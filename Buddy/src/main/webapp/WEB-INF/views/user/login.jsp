@@ -52,6 +52,11 @@ a {
 	width: 350px;
 	margin: 0 auto;
 }
+#loginBtn{
+	background-color: #FF7A85;
+	color: white;
+	font-weight: bold;
+}
 </style>
 
 <div class="container">
@@ -88,7 +93,7 @@ a {
 
 <div class="form-group">
 	<div style="text-align: center;">
-		<button type="button" id="loginBtn" class="btn btn-primary form-control">로그인</button>
+		<button type="button" id="loginBtn" class="btn form-control">로그인</button>
 	</div>
 </div>
 

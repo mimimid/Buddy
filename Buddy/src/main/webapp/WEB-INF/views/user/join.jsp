@@ -254,7 +254,7 @@ $(document).ready(function() {
 	<div class="form-group">
 		<label for="postno">주소</label><br>
 		<input type="text" name="postno" id="postno" placeholder="우편번호" class="form-control" required="required">
-		<button type="button" class="btn btn-success" id="btnDaumPost" onclick="btnDaumPost">우편번호 찾기</button><br>
+		<button type="button" class="btn btn-success" id="btnDaumPost" onclick="btnDaumPost">주소 찾기</button><br>
 		<input type="text" name="address" id="address" placeholder="주소" class="form-control">
 		<input type="text" name="detailaddress" id="detailaddress" placeholder="상세주소" class="form-control">
 	</div>

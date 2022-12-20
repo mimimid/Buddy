@@ -53,7 +53,7 @@ public class UserController {
 			session.setAttribute("name", userInfo.getUsername());
 			session.setAttribute("gender", userInfo.getGender());
 			session.setAttribute("grade", userInfo.getGrade());
-			session.setAttribute("img", userInfo.getImgorigin());
+			session.setAttribute("img", userInfo.getImgstored());
 			
 			return "redirect:/";  
 		}else {

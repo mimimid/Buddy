@@ -76,9 +76,6 @@ public class ReportController {
 	public String writeProcess(Report report, MultipartFile file, HttpSession session) {
 		logger.debug("{}", report);
 		logger.debug("{}", file);
-
-		report.setAdminid((String)session.getAttribute("userid"));
-		logger.debug("{}",report);
 		
 		reportService.reptWrite(report, file);
 		

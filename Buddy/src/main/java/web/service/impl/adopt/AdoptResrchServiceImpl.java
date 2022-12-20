@@ -76,7 +76,7 @@ public class AdoptResrchServiceImpl implements AdoptResrchService {
 		int totalCount = adoptResrchDao.selectResrchCntAll();
 		
 		//페이징 계산
-		Paging paging = new Paging(totalCount, curPage, 15, 5);
+		Paging paging = new Paging(totalCount, curPage, 10, 5);
 		
 		return paging;
 	}

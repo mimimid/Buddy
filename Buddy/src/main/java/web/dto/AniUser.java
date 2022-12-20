@@ -11,19 +11,19 @@ public class AniUser {
 	private String birth;
 	private String phone;
 	private String usernick;
-	private String postno;
 	private String gender;
 	private String email;
+	private String postno;
 	private String address;
 	private String detailaddress;
 	private String grade;
-	private String imgorigin;
+	private String imgstored;
 	
 	public AniUser() {}
 
 	public AniUser(int userno, String userid, String userpw, String username, String birth, String phone,
 			String usernick, String postno, String gender, String email, String address, String detailaddress,
-			String grade, String imgorigin) {
+			String grade, String imgstored) {
 		super();
 		this.userno = userno;
 		this.userid = userid;
@@ -38,7 +38,7 @@ public class AniUser {
 		this.address = address;
 		this.detailaddress = detailaddress;
 		this.grade = grade;
-		this.imgorigin = imgorigin;
+		this.imgstored = imgstored;
 	}
 
 	@Override
@@ -46,7 +46,7 @@ public class AniUser {
 		return "AniUser [userno=" + userno + ", userid=" + userid + ", userpw=" + userpw + ", username=" + username
 				+ ", birth=" + birth + ", phone=" + phone + ", usernick=" + usernick + ", postno=" + postno
 				+ ", gender=" + gender + ", email=" + email + ", address=" + address + ", detailaddress="
-				+ detailaddress + ", grade=" + grade + ", imgorigin=" + imgorigin + "]";
+				+ detailaddress + ", grade=" + grade + ", imgstored=" + imgstored + "]";
 	}
 
 	public int getUserno() {
@@ -153,13 +153,15 @@ public class AniUser {
 		this.grade = grade;
 	}
 
-	public String getImgorigin() {
-		return imgorigin;
+	public String getImgstored() {
+		return imgstored;
 	}
 
-	public void setImgorigin(String imgorigin) {
-		this.imgorigin = imgorigin;
+	public void setImgstored(String imgstored) {
+		this.imgstored = imgstored;
 	}
+
+	
 
 	
 	

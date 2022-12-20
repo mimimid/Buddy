@@ -10,35 +10,16 @@
 
 <style type="text/css">
 
-.stars fieldset{ display: inline-block; /* 하위 별점 이미지들이 있는 영역만 자리를 차지함.*/ 
-				direction: rtl; /* 이모지 순서 반전 */  
-				border: 0; /* 필드셋 테두리 제거 */ }
-.stars input[type=radio]{ display: none; /* 라디오박스 감춤 */ }
-.stars input[type=radio]:checked ~ label{ text-shadow: 0 0 0 #ffd54c; /* 마우스 클릭 체크 */ }
-.stars label{ 	font-size: 23px; /* 이모지 크기 */  
-				color: transparent; /* 기존 이모지 컬러 제거 */ 
-				text-shadow: 0 0 0 #e6e5e5; /* 새 이모지 색상 부여 */ }
-.stars label:hover{ text-shadow: 0 0 0 #ffd54c; /* 마우스 호버 */}
-.stars label:hover ~ label{ text-shadow: 0 0 0 #ffd54c; /* 마우스 호버 뒤에오는 이모지들 */ }
-
-
-
-.img-wrapper {
-    position: relative;
-    width: 700px;
-    height: 300px;
-}
-.img-wrapper img {
-    transform: translate(50, 50);
-    width: 100%;
-    height: 100%;
-    margin: auto;
-}
-
+.stars fieldset{ display: inline-block;direction: rtl;border: 0;}
+.stars input[type=radio]{ display: none; }
+.stars input[type=radio]:checked ~ label{ text-shadow: 0 0 0 #ffd54c;  }
+.stars label{ font-size: 23px; color: transparent;text-shadow: 0 0 0 #e6e5e5;  }
+.stars label:hover{ text-shadow: 0 0 0 #ffd54c;}
+.stars label:hover ~ label{ text-shadow: 0 0 0 #ffd54c; }
+.img-wrapper { position: relative; width: 700px; height: 300px;}
+.img-wrapper img { transform: translate(50, 50); width: 100%; height: 100%; margin: auto;}
 .content-main { max-width: 700px; }
-
 .btn-menu { padding-bottom: 10px; }
-
 #bookmarkBtn { margin-top: 20px;, margin-bottom: 10px; }
 
 
@@ -51,8 +32,6 @@
 
 <h1>병원 상세 정보</h1>
 <hr>
-<br>
-
 
 
 <div class="content-main center-block">
@@ -144,13 +123,10 @@
 	  
   </div>
 </div>
-<br><br>
-
+<br>
 
 <div>
-
 	<div  class="form-inline"> 
-	
 		<div class="starSelect animalSelect"> 
 			<div class = "stars">
 				<span>별점을 매겨주세요</span>
@@ -162,20 +138,13 @@
 			        <input type="radio" name="rating" value="1" id="rate5"><label for="rate5">⭐</label>
 			    </fieldset>
 			</div>
-		</div>
-		
-		<div>
-			<textarea class="form-control" id="reviewcomment" placeholder="병원 이용 후기를 남겨주세요"></textarea>
-		</div>
-		
+		</div>	
+		<div><textarea class="form-control" id="reviewcomment" placeholder="병원 이용 후기를 남겨주세요"></textarea></div>
 		<div>
 		<button class="btn" type="button" id="btnReview" style="background-color:#104138; color: white;">리뷰 작성</button>
-		</div>
-		
+		</div>		
 	</div>
-
 <br>
-
 
 <!-- 리뷰 목록 -->
 <div id="listReview"></div>
@@ -184,23 +153,18 @@
 
 
 
-<br>
-
-
-<!-- 지도 표시 -->
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=1535da80f4e7ad62353326cdefd07c10&libraries=services"></script>
 <script>
-var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+var mapContainer = document.getElementById('map'),
     mapOption = {
-        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-        level: 3 // 지도의 확대 레벨
+        center: new kakao.maps.LatLng(33.450701, 126.570667), 
+        level: 3 
     };  
 
 var map = new kakao.maps.Map(mapContainer, mapOption); 
 
 var geocoder = new kakao.maps.services.Geocoder();
 geocoder.addressSearch('${viewHospital.hospAddress}', function(result, status) {
-
      if (status === kakao.maps.services.Status.OK) {
 
         var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
@@ -209,12 +173,10 @@ geocoder.addressSearch('${viewHospital.hospAddress}', function(result, status) {
             map: map,
             position: coords
         });
-
         var infowindow = new kakao.maps.InfoWindow({
             content: '<div style="width:150px;text-align:center;padding:6px 0;"></div>'
         });
         infowindow.open(map, marker);
-
         map.setCenter(coords);
     } 
 });    
@@ -229,7 +191,6 @@ $(document).ready(function() {
 	})
 
 	$("#btnDelete").click(function() {
-		
 		var result = confirm("정말 삭제 하시겠습니까?");
 		if (result) {
 			location.href = "/hospital/hospdelete?hospNo=${viewHospital.hospNo }"
@@ -237,10 +198,8 @@ $(document).ready(function() {
 		   else {
 		     return false
 		   }
-
 	})
 	
-			
 	$('#bookmarkBtn').click(function() {
 		
 		if( true ){
@@ -250,13 +209,10 @@ $(document).ready(function() {
 				, data : {"hospNo" : hospNo}		
 				,success : function(data) {
 					$('#bookmarkBtn').css('color', '#acacac',  'background-color', 'white','border', '1px solid #959595');
-	
 				}
 				, error: function() {
-			
 				}
 			})
-			
 		}else {
 			
 			$.ajax({
@@ -264,23 +220,18 @@ $(document).ready(function() {
 				, url : '<c:url value ="/hospital/hospview/likeup"/>'
 				,data : {"hospNo" : hospNo}		
 				,success : function(data) {
-					$('#bookmarkBtn').css('color', 'red');
-					
+					$('#bookmarkBtn').css('color', 'red');			
 				}, error: function() {
-				
 				}
 			})
-			
 		}
 	}) 
-	
 
 	var isAjaxing = false;
 	
 	$("#btnReview").click(function() {
 		
 		if(isAjaxing){
-			alert("처리중입니다. 잠시만 기다려주세요")
 			return;
 		}
 		isAjaxing = true;
@@ -297,22 +248,17 @@ $(document).ready(function() {
 				$("#reviewcomment").focus()
 				
 		}else {
-				
 			var hospReviewContent  = $("#reviewcomment").val(); 
-
 			$.ajax({
 				type: "post"	
 				, url: "/hospital/reviewwrite"	
 				, data: { "hospReviewContent": hospReviewContent}
 				, dataType: "html"	
 				, success: function( data ) {
-					console.log("AJAX 성공")
 					$("#listReview").html( data )
-			
 					setTimeout(function(){ isAjaxing = false;},1000);
 				}
 				, error: function() {
-					console.log("AJAX 실패")
 					setTimeout(function(){ isAjaxing = false;},1000);
 				}
 			})

@@ -64,6 +64,11 @@ label{
 	border: 1px dotted darkgray;
     border-radius: 0.5em;
 }
+.fileWrap{
+	width: 800px;
+    margin: 30px auto;
+    height: 600px;
+}
 </style>
 <script type="text/javascript">
 $(document).ready(function() {
@@ -110,11 +115,6 @@ function event_click(){
 		document.getElementById("aniName").focus();
 		return false;
 	}
-//     var fileCheck = document.getElementById("profile").value;
-//     if(!fileCheck){
-//         alert("프로필을 첨부해주십시오.");
-//         return false;
-//     }
 }
 
 function checkInputNum(){

@@ -8,9 +8,7 @@
 <c:import url="../layout/header.jsp" />
 <style type="text/css">
 
-#navbar-nav {
-    float: none;
-}
+#navbar-nav { float: none;}
 
 
 </style>
@@ -73,32 +71,112 @@
 <div class="text-center">
 	<button id="btnList" class="btn btn-primary">목록</button>
 	
-<%-- 	<c:if test="${userno eq viewBoard.userno }"> --%>
+<c:if test="${userno eq viewBoard.userno }">
 		<button id="btnUpdate" class="btn btn-primary">수정</button>
 		<button id="btnDelete" class="btn btn-danger">삭제</button>
-<%-- 	</c:if> --%>
+</c:if>
 	
 </div>
 <br>
 
 
 
-<!-- 댓글 부분 -->
+
 
 <div>
 
 
 
-<!-- 댓글 작성 -->
+
+
+<div class="form-inline">
+
+	<textarea class="form-control" id="cmtcomment" 
+		style="resize: none; margin-right: 12px;" cols="80"
+		placeholder="댓글을 작성해주세요"></textarea>
+	<button class="btn" type="button" id="btnReply" style="background-color:#104138; color: white;">댓글쓰기</button>
+
+</div>
+<br>
+
+
+
+<div id="listReply"></div>
+
+</div>
+
+
+
+<script type="text/javascript">
+$(document).ready(function() {
+
+	
+	$("#btnList").click(function() {
+		location.href = "/hospboard/hblist"
+	})
+
+	
+	$("#btnUpdate").click(function() {
+		location.href = "/hospboard/hbupdate?hbno=${viewBoard.hbno }"
+	})
+
+	
+	$("#btnDelete").click(function() {
+		var result = confirm("정말 삭제 하시겠습니까?");
+		if (result) {
+		      location.href = "/hospboard/hbdelete?hbno=${viewBoard.hbno }"
+		   }
+		   else {
+		     return false
+		   }
+	})
+
+	var likeval = ${like};
+
+		
+	if( likeval == 1 ){
+		
+		$('.heartbtn').click(function() {
+			
+			if( likeval ){
+				$.ajax({
+					type :"POST"
+					, url : '<c:url value ="/hospboard//hbview/likedown"/>'
+					, data : {"hbno" : ${param.hbno}}		
+					,success : function(data) {
+						$('#likeicon').attr('class', 'glyphicon glyphicon-heart-empty');
+
+					}
+					, error: function() {
+					}
+				})
+				
+			}else {
+				
+				$.ajax({
+					type :"POST"
+					, url : '<c:url value ="/hospboard//hbview/likeup"/>'
+					,data : {"hbno" : ${param.hbno}}		
+					,success : function(data) {
+						$('#likeicon').attr('class', 'glyphicon glyphicon-heart');
+					}, error: function() {
+					}
+				})
+				
+			}
+		})
+
+
+})
+</script>
+
 <script type="text/javascript">
 $(document).ready(function(){
-	
 	
 	$("#btnReply").click(function() {
 		
 		if( $("#cmtcomment").val() == "" ) {
 				alert('댓글을 입력해주세요!');
- 
 				$("input").eq(0).focus()
 				
 			}  else {
@@ -124,95 +202,6 @@ $(document).ready(function(){
 	
 })
 </script>
-
-
-<div class="form-inline">
-
-	<textarea class="form-control" id="cmtcomment" 
-		style="resize: none; margin-right: 12px;" cols="80"
-		placeholder="댓글을 작성해주세요"></textarea>
-	<button class="btn" type="button" id="btnReply" style="background-color:#104138; color: white;">댓글쓰기</button>
-
-</div>
-<br>
-
-
-
-
-<div id="listReply"></div>
-
-</div>
-
-
-
-<script type="text/javascript">
-$(document).ready(function() {
-	
-	
-	$("#btnList").click(function() {
-		location.href = "/hospboard/hblist"
-	})
-
-	
-	$("#btnUpdate").click(function() {
-		location.href = "/hospboard/hbupdate?hbno=${viewBoard.hbno }"
-	})
-
-	
-	$("#btnDelete").click(function() {
-		var result = confirm("정말 삭제 하시겠습니까?");
-		if (result) {
-		      location.href = "/hospboard/hbdelete?hbno=${viewBoard.hbno }"
-		   }
-		   else {
-		     return false
-		   }
-	})
-	
- 
-	
-	var likeval = ${like};
-
-		
-	if( likeval == 1 ){
-		
-		$('.heartbtn').click(function() {
-			
-			if( likeval ){
-				$.ajax({
-					type :"POST"
-					, url : '<c:url value ="/hospboard//hbview/likedown"/>'
-					, data : {"hbno" : ${param.hbno}}		
-					,success : function(data) {
-						$('#likeicon').attr('class', 'glyphicon glyphicon-heart-empty');
-
-					}
-					, error: function() {
-						console.log("좋아요 취소 실패")
-					}
-				})// 아작스 끝
-				
-			}else {
-				
-				$.ajax({
-					type :"POST"
-					, url : '<c:url value ="/hospboard//hbview/likeup"/>'
-					,data : {"hbno" : ${param.hbno}}		
-					,success : function(data) {
-						$('#likeicon').attr('class', 'glyphicon glyphicon-heart');
-					}, error: function() {
-						console.log("좋아요 실패")
-					}
-				})
-				
-			}
-		})
-		
-		
-
-})
-</script>
-
 <script type="text/javascript">
 $(document).ready(function(){
 		

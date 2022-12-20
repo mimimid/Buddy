@@ -11,24 +11,13 @@
 <!-- 스마트 에디터 2 로드 -->
 <script type="text/javascript" src="/resources/se2/js/service/HuskyEZCreator.js"></script>
 
-
 <style type="text/css">
 
-#originFile, #newFile {
-	display: none;
-}
+#originFile, #newFile {display: none;}
 
+.through {text-decoration: line-through;}
 
-.through {
-	text-decoration: line-through;
-}
-
-
-#deleteFile {
-	font-weight: bold;
-	color: red;
-	cursor: pointer;
-}
+#deleteFile {font-weight: bold;color: red;cursor: pointer;}
 
 </style>
 
@@ -49,7 +38,7 @@
 <input type="hidden" name="hbno" value="${param.hbno}">
 
 <div class="form-group">
- 	<input type="checkbox" id="hbtop" name="hbtop" value="1">
+ 	<input type="checkbox" id="hbtop" name="hbtop">
  	<label for="hbtop"> 이 게시물을 상단에 고정</label>
 </div>
 
@@ -115,28 +104,17 @@
 <script type="text/javascript">
 $(document).ready(function() {
 	
-	var dog = '강아지';
 	var animal = '${updateBoard.animal}';
 	
 	if(dog == animal) {
-		console.log("'강아지가 맞음'");
 		$('input:radio[name=animal]:input[value="강아지"]').attr("checked", true);
 	} else {
 		$('input:radio[name=animal]:input[value="고양이"]').attr("checked", true);
 	}
-	
-	
-	if(${updateBoard.hbtop} == 1) {
-		$("#hbtop").attr("checked", "on")
-	}
-	
-	
-	console.log('기존 카테고리 : ${updateBoard.hbcategory}');
+
 	$("#hbcategory").val("${updateBoard.hbcategory}").prop("selected", true);
 	
-	
-	
-	//작성버튼
+
 	$("#btnUpdate").click(function() {
 		
 		//스마트 에디터에 작성된 내용을 #content에 반영
