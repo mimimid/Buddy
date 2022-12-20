@@ -60,7 +60,6 @@ function up(cmNo) {
 			console.log("AJAX 성공")
 			alert("댓글을 수정하였습니다.")
 			cmList();
-			
 		}
 		, error: function() {
 			console.log("AJAX 실패")

@@ -47,4 +47,9 @@
 		WHERE cm_no = #{cmNo}
 	</delete>
 	
+	<select id="selectDatenoByCmNo" resultType="int" parameterType="DateComment">
+		SELECT date_no FROM date_comment
+		WHERE cm_no = #{cmNo}
+	</select>
+	
 </mapper>

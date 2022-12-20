@@ -57,4 +57,9 @@ public class DCommentServiceImpl implements DCommentService {
 		dCommentDao.delectByCmNo(cmNo);
 	}
 	
+	@Override
+	public int selectDateno(DateComment comm) {
+		return dCommentDao.selectDatenoByCmNo(comm);
+	}
+	
 }

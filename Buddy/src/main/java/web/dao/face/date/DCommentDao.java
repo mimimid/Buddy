@@ -54,7 +54,6 @@ public interface DCommentDao {
 	 */
 	public void delectByCmNo(DateComment cmNo);
 
-	
-
+	public int selectDatenoByCmNo(DateComment comm);
 
 }
