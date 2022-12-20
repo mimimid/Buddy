@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import web.dto.DateBoard;
 import web.dto.DateComment;
+import web.dto.DateReport;
 import web.util.Paging;
 
 @Service
@@ -71,6 +72,13 @@ public interface DateService {
 	 * @param viewDate - 상세 조회한 게시글 번호 객체
 	 */
 	public void updateLikeCount(DateBoard viewDate);
+
+	/**
+	 * 해당 게시글의 신고를 한 유저 정보 업데이트
+	 * 
+	 * @param report - 게시글번호, 유저번호, 신고내용
+	 */
+	public void report(DateReport report);
 
 
 

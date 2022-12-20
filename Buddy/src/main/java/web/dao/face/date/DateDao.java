@@ -5,6 +5,7 @@ import java.util.List;
 
 import web.dto.DateBoard;
 import web.dto.DateComment;
+import web.dto.DateReport;
 import web.util.Paging;
 
 public interface DateDao {
@@ -70,6 +71,13 @@ public interface DateDao {
 	 * @param viewDate - 조회하려는 게시글 번호
 	 */
 	public void updateLikeCount(DateBoard viewDate);
+
+	/**
+	 * 신고 내용 입력
+	 * 
+	 * @param report - 게시글번호, 유저번호, 신고내용
+	 */
+	public void insertReport(DateReport report);
 
 
 

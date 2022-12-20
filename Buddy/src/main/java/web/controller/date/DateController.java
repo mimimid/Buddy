@@ -2,7 +2,6 @@ package web.controller.date;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -10,12 +9,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import web.dto.DateBoard;
-import web.dto.DateComment;
+import web.dto.DateReport;
 import web.service.face.date.DateService;
+import web.service.face.date.LikeService;
 import web.util.Paging;
 
 @Controller
@@ -24,6 +26,7 @@ public class DateController {
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@Autowired DateService dateService;
+	@Autowired LikeService likeService;
 	
 	//데이트게시판 메인
 	@RequestMapping("/date/main")
@@ -89,6 +92,7 @@ public class DateController {
 	public void dateView(
 			DateBoard viewDate
 			, Model model
+			, HttpSession session
 			) {
 		
 		//게시글 조회
@@ -100,9 +104,39 @@ public class DateController {
 		//좋아요수 업데이트
 		dateService.updateLikeCount(viewDate);
 		
+		int like = 0;
+		
+		//좋아요 체크
+		if( session.getAttribute("login") != null ) {
+			
+			int userno = (int) session.getAttribute("userno");
+			
+			like = likeService.ckLike(viewDate, userno);
+			
+		}
+		
+		model.addAttribute("like", like);
 		model.addAttribute("viewDate", viewDate);
 		
 	}
-
+	
+	//신고처리
+	@PostMapping("/date/report")
+	public String dateReport(HttpSession session, DateReport report) {
+		
+		//유저아이디
+		int userno = (int) session.getAttribute("userno");
+		report.setUserno(userno);
+		
+		logger.info("{}", report);
+		
+		//신고접수처리
+		dateService.report(report);
+		
+		int dateNo = report.getDateNo();
+		
+		return "redirect:/date/view?dateNo="+dateNo;
+		
+	}
 	
 }
