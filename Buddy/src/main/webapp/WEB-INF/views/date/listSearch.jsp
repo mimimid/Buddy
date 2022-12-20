@@ -30,11 +30,6 @@ $(document).ready(function () {
 </head>
 <body>
 
-<h1>헤더부분</h1>
-<hr>
-
-<i class="fi fi-br-a"></i>
-
 <!-- 데이트게시판 메인 시작 -->
 <div class="container">
 
@@ -93,11 +88,6 @@ $(document).ready(function () {
 <div class="text-center">
 	<ul class="pagination pagination-sm">
 
-	<%-- 첫 페이지로 이동 --%>
-<%-- 	<c:if test="${paging.curPage ne 1 }"> --%>
-<%-- 		<li><a href="/date/listSearch?keywoard=${keywoard }">&larr; 처음</a></li>	 --%>
-<%-- 	</c:if> --%>
-	
 	<%-- 이전 페이징 리스트로 이동 --%>
 	<c:choose>
 	<c:when test="${paging.startPage ne 1 }">
@@ -142,11 +132,6 @@ $(document).ready(function () {
 	</c:when>
 	</c:choose>
 
-	<%-- 끝 페이지로 이동 --%>
-<%-- 	<c:if test="${paging.curPage ne paging.totalPage }"> --%>
-<%-- 		<li><a href="/date/listSearch?keywoard=${keywoard }&curPage=${paging.totalPage }">끝 &rarr;</a></li>	 --%>
-<%-- 	</c:if> --%>
-	
 	</ul>
 </div>
 
