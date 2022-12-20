@@ -7,9 +7,7 @@
 
 <script type="text/javascript">
 $(document).ready(function() {
-	
-	
-	
+
 })
 </script>
 
@@ -60,20 +58,9 @@ $(document).ready(function() {
 	color: #878787;
 }
 
-/* --------회원탈퇴 모달 CSS ------------ */
-#exampleModalLabel {
-	font-weight: bold;
-	color: #ff7a85
-}
-
-#modalY {
-	background-color: #f0f0f0;
-	color: #000;
-}
-
-#btnNo {
-    background-color: #ff7a85;
-    color: #fff;
+#qna {
+	background: #ff7a85;
+	color: #fff;
 }
 
 </style>
@@ -88,80 +75,20 @@ $(document).ready(function() {
 		<li class="on">
 			<a id="order" href="/mypage/order" class="text-gray-dark _fade_link">주문 <span class="hidden-xs">조회</span></a>
 		</li>
-		<li class="on">
+		<li class="">
 			<a id="like_buddy" href="/mypage/like_buddy" class="text-gray-dark _fade_link">찜한 아이</a>
 		</li>
-		<li class="on">
+		<li class="">
 			<a id="qna" href="/mypage/qna" class="text-gray-dark _fade_link">1:1 문의</a>
 		</li>
-		<li class="on">
-			<a href="javascript:;" onclick="userUpdate()" class="text-gray-dark _fade_link">정보 수정</a>
+		<li>
+			<a href="javascript:;" onclick="SITE_MEMBER.editProfile('L3Nob3BfbXlwYWdl');" class="text-gray-dark _fade_link">정보 수정</a>
 		</li>
-		<li class="on">
-			<a id="deleteBtn" href="javascript:" class="text-gray-dark _fade_link">회원탈퇴</a>
+		<li>
+			<a href="javascript:" onclick="userDelete()" class="text-gray-dark _fade_link">회원탈퇴</a>
 		</li>
 	</ul>
 </div><!-- 마이페이지 메뉴바 END -->
-
-<!-- 회원탈퇴모달 -->
-<div class="modal fade" id="userDeleteModal" tabindex="-1">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h3 class="modal-title text-center" id="exampleModalLabel">회원탈퇴</h3>
-			</div>
-			<div id="deleteModelContant" class="modal-body">
-			<p>가입된 회원정보가 모두 삭제됩니다. 작성하신 게시물은 삭제되지 않습니다.</p>
-			<p>회원 탈퇴를 진행하시겠습니까?</p>
-			</div>
-			<div class="modal-footer">
-				<a class="btn" id="modalY" href="javascript:" onclick="userDelete()">예</a>
-				<button id="btnNo" class="btn" type="button" data-dismiss="modal">아니요</button>
-			</div>
-		</div>
-	</div>
-</div>
-
-<!-- 정보수정함수 -->
-<script type="text/javascript">
-function userUpdate() {
-	console.log("정보수정클릭")
-	
-}
-</script>
-
-<!-- 회원탈퇴함수 -->
-<script type="text/javascript">
-$('#deleteBtn').click(function(e){
-	e.preventDefault();
-	$('#userDeleteModal').modal("show");
-});
-
-function userDelete() {
-	console.log("탈퇴클릭")
-	
-	$.ajax({
-		type: "post"
-		, url: "${path}/mypage/userDelete"
-		, data: {}
-		, dataType: "html"
-		, success: function() {
-			console.log("AJAX 성공")
-			
-			alert("회원탈퇴 되었습니다.")
-			$('#userDeleteModal').modal("hide");
-			
-			
-			
-		}
-		, error: function() {
-			console.log("AJAX 실패")
-			alert("회원탈퇴가 실패 되었습니다.")
-		}
-	})
-	
-}
-</script>
 
 <!-- 마이페이지 내용 -->
 <div class="col-md-10 col-sm-12">
@@ -191,7 +118,7 @@ function userDelete() {
 <!-- 메뉴 이름 -->
 <div id="menu_name">
 	<div class="page-header">
-		<h3>주문 조회 <span id="badgeIcon" class="badge bg-secondary">0</span></h3>
+		<h3>1:1 문의게시판 <span id="badgeIcon" class="badge bg-secondary">0</span></h3>
 	</div>
 </div>
 
