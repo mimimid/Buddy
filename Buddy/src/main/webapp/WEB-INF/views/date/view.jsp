@@ -217,7 +217,7 @@ function fn_comment() {
 	<h3>${viewDate.title } <small><i class="fi fi-rs-marker"></i> ${viewDate.loc }</small></h3>
 	<div class="media">
 		<div class="media-left media-middle">
-			<img class="media-object img-circle" src="/resources/img/date/userImg.png" alt="..." style="width: 40px; height: 40px; margin-bottom: 10px;">
+			<img class="media-object" src="/resources/img/date/user.png" alt="..." style="width: 40px; height: 40px; margin-bottom: 10px;">
 		</div>
 		<div class="media-body" style="font-color: #ccc;">
 			<h4 class="media-heading">관리자</h4>

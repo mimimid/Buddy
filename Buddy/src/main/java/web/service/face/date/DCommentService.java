@@ -55,5 +55,6 @@ public interface DCommentService {
 	 */
 	public void deleteComm(DateComment cmNo);
 
+	public int selectDateno(DateComment comm);
 
 }

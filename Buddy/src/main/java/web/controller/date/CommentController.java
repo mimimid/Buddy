@@ -84,7 +84,10 @@ public class CommentController {
 		System.out.println(comm);
 		dCommentService.updateComm(comm);
 		
-		mav.setViewName("redirect:/date/view?dateNo=" + comm.getDateNo());
+		//게시글 번호 찾기
+		int dateNo = dCommentService.selectDateno(comm);
+		
+		mav.setViewName("redirect:/date/view?dateNo=" + dateNo);
 		
 		return mav;
 	}
