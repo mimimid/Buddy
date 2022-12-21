@@ -107,9 +107,6 @@ $(document).ready(function() {
 			<a id="order" href="/mypage/order" class="text-gray-dark _fade_link">주문 <span class="hidden-xs">조회</span></a>
 		</li>
 		<li class="on">
-			<a id="like_hospital" href="/mypage/like_hospital" class="text-gray-dark _fade_link">좋아요한 병원</a>
-		</li>
-		<li class="on">
 			<a id="qna" href="/mypage/qna" class="text-gray-dark _fade_link">1:1 문의</a>
 		</li>
 		<li class="on">
@@ -266,10 +263,6 @@ function userDelete() {
 </div>
 <div id="user_media" class="media-body">
 <h3 id="user_name" class="media-heading">${name }님 안녕하세요.</h3>
-<div>
-<span>봉사 : </span>
-<span>후원 : </span>
-</div>
 </div>
 </div><!-- 회원창 END -->
 
