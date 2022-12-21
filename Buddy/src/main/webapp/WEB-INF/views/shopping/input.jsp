@@ -56,7 +56,7 @@ label{
 <c:import url="../layout/header.jsp" />
 
 <div class="container">
-<h1 style="text-align: center;">Input Product</h1>
+<h1 style="text-align: center;">상품 입력</h1>
 <hr>
 
 <form action="./input" method="post" enctype="multipart/form-data">

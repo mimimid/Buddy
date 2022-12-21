@@ -180,14 +180,14 @@ $(document).ready(function() {
 
       //아이디 공백 확인
       if($("#userid").val() === ""){
-        alert("아이디 입력바람");
+        alert("아이디 입력바랍니다.");
         $("#userid").focus();
         return false;
       }
            
       //아이디 유효성검사
       if(!getCheck.test($("#userid").val())){
-        alert("형식에 맞게 입력해주세요");
+        alert("형식에 맞게 입력해주세요(4~12자의 영문 대소문자와 숫자)");
         $("#userid").val("");
         $("#userid").focus();
         return false;
@@ -195,7 +195,7 @@ $(document).ready(function() {
 
       //비밀번호 공백 확인
       if($("#userpw").val() === ""){
-        alert("패스워드 입력바람");
+        alert("패스워드 입력바랍니다.");
         $("#userpw").focus();
         return false;
       }
@@ -211,7 +211,7 @@ $(document).ready(function() {
       
       //비밀번호 유효성검사
       if(!getCheck.test($("#userpw").val())){
-        alert("형식에 맞게 입력해주세요");
+        alert("형식에 맞게 입력해주세요.");
         $("#userpw").val("");
         $("#userpw").focus();
         return false;
@@ -249,7 +249,7 @@ $(document).ready(function() {
       }
 
       //이름 유효성 검사
-      if(!getCheck.test($("#username").val())){
+      if(!getName.test($("#username").val())){
         alert("이름형식에 맞게 입력해주세요")
         $("#username").val("");
         $("#username").focus();

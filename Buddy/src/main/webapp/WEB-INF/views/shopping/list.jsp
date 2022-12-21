@@ -28,7 +28,7 @@ th, td {
 	margin: 10px;
 }
 
-img{
+.pimg{
 	height: 150px;
 	width: 150px;
 }
@@ -41,8 +41,8 @@ img{
 <table>
 <c:forEach items="${list }" var="product" begin="0" end="4">
 	<tr>
-		<td><a href="/shopping/view?productno=${product.productno }"><img alt="임시" src="<%=request.getContextPath() %>/upload/${product.pimgstored }"></a></td>
-		<th><a href="/shopping/view?productno=${product.productno }">${product.productname }</a></th>
+		<td><a href="/shopping/view?productno=${product.productno }"><img class="pimg" alt="상품이미지가 없습니다" src="<%=request.getContextPath() %>/upload/${product.pimgstored }"></a></td>
+		<th><a href="/shopping/view?productno=${product.productno }" style="color: black;">${product.productname }</a></th>
 		<td style="color: red;">(${product.reviewcount })</td>
 		<td><fmt:formatNumber value="${product.price }" pattern="###,###.###원"/></td>
 	</tr>
@@ -51,8 +51,8 @@ img{
 <table>
 <c:forEach items="${list }" var="product" begin="5" end="10">
 	<tr>
-		<td><a href="/shopping/view?productno=${product.productno }"><img alt="임시" src="<%=request.getContextPath() %>/upload/${product.pimgstored }"></a></td>
-		<th><a href="/shopping/view?productno=${product.productno }">${product.productname }</a></th>
+		<td><a href="/shopping/view?productno=${product.productno }"><img class="pimg" alt="상품이미지가 없습니다" src="<%=request.getContextPath() %>/upload/${product.pimgstored }"></a></td>
+		<th><a href="/shopping/view?productno=${product.productno }" style="color: black;">${product.productname }</a></th>
 		<td style="color: red;">(${product.reviewcount })</td>
 		<td><fmt:formatNumber value="${product.price }" pattern="###,###.###원"/></td>
 	</tr>
