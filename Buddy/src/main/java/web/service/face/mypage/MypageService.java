@@ -48,8 +48,11 @@ public interface MypageService {
 	 */
 	public int listCnt(int userno);
 
-	public QnaBoard view(QnaBoard viewBoard);
-
+	/**
+	 * 문의 게시글 등록
+	 * 
+	 * @param board - 유저번호, 게시글 작성 정보
+	 */
 	public void write(QnaBoard board);
 
 

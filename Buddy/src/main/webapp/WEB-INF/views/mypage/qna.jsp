@@ -199,28 +199,34 @@ function userUpdate() {
 	var usernick = $("#usernick").val()
 	var phone = $("#phone").val()
 	
-	console.log(username, usernick, phone);
+	if( username == "" || usernick == "" || phone == "" ) {
+		alert("이름, 닉네임, 전화번호를 정확히 기재해주세요.")
 	
-	$.ajax({
-		type: "post"
-		, url: "${path}/mypage/userUpdate"
-		, data: { 
-			"username" : username,
-			"usernick" : usernick,
-			"phone" : phone }
-		, dataType: "html"
-		, success: function(result) {
-			console.log("AJAX 성공")
-			alert("회원 수정이 되었습니다. 다시 로그인해 주세요.")
-			$('#userUpdateModal').modal("hide");
-			location.href = "/user/login";
-			
-		}
-		, error: function() {
-			console.log("AJAX 실패")
-			alert("회원 수정이 실패 되었습니다.")
-		}
-	})
+		console.log(username, usernick, phone);
+	
+	} else {
+		
+		$.ajax({
+			type: "post"
+			, url: "${path}/mypage/userUpdate"
+			, data: { 
+				"username" : username,
+				"usernick" : usernick,
+				"phone" : phone }
+			, dataType: "html"
+			, success: function(result) {
+				console.log("AJAX 성공")
+				alert("회원 수정이 되었습니다. 다시 로그인해 주세요.")
+				$('#userUpdateModal').modal("hide");
+				location.href = "/user/login";
+				
+			}
+			, error: function() {
+				console.log("AJAX 실패")
+				alert("회원 수정이 실패 되었습니다.")
+			}
+		})
+	}
 	
 }
 </script>
@@ -432,28 +438,28 @@ function qnaNoModel(qnaNo) {
 	
 	<%-- 이전 페이지로 가기 --%>
 	<c:if test="${paging.curPage > 1 }">
-		<li><a href="/mypage/qna&curPage=${paging.curPage - 1 }"><i class="fi fi-br-angle-left"></i></a></li>
+		<li><a href="/mypage/qna?curPage=${paging.curPage - 1 }"><i class="fi fi-br-angle-left"></i></a></li>
 	</c:if>
 	
 	<%-- 페이징 리스트 --%>
 	<c:forEach begin="${paging.startPage }" end="${paging.endPage }" var="i">
 	<c:if test="${paging.curPage eq i }">
-		<li class="active juaFont"><a href="/mypage/qna&curPage=${i }">${i }</a></li>
+		<li class="active juaFont"><a href="/mypage/qna?curPage=${i }">${i }</a></li>
 	</c:if>
 	<c:if test="${paging.curPage ne i }">
-		<li class="juaFont"><a href="/mypage/qna&curPage=${i }">${i }</a></li>
+		<li class="juaFont"><a href="/mypage/qna?curPage=${i }">${i }</a></li>
 	</c:if>
 	</c:forEach>
 	
 	<%-- 다음 페이지로 가기 --%>
 	<c:if test="${paging.curPage < paging.totalPage }">
-		<li><a href="/mypage/qna&curPage=${paging.curPage + 1 }"><i class="fi fi-br-angle-right"></i></a></li>
+		<li><a href="/mypage/qna?curPage=${paging.curPage + 1 }"><i class="fi fi-br-angle-right"></i></a></li>
 	</c:if>
 	
 	<%-- 다음 페이징 리스트로 이동 --%>
 	<c:choose>
 	<c:when test="${paging.endPage ne paging.totalPage }">
-		<li><a href="/mypage/qna&curPage=${paging.startPage + paging.pageCount }"><i class="fi fi-br-angle-double-right"></i></a></li>
+		<li><a href="/mypage/qna?curPage=${paging.startPage + paging.pageCount }"><i class="fi fi-br-angle-double-right"></i></a></li>
 	</c:when>
 	<c:when test="${paging.endPage eq paging.totalPage }">
 		<li class="disabled"><a><i class="fi fi-br-angle-double-right"></i></a></li>

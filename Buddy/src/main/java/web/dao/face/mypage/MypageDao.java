@@ -38,8 +38,11 @@ public interface MypageDao {
 	 */
 	public List<QnaBoard> selectListByUserno(HashMap<String, Object> map);
 
-	public QnaBoard selectBoard(QnaBoard viewBoard);
-
+	/**
+	 * 문의 게시글 등록
+	 * 
+	 * @param board - 게시글 정보 객체
+	 */
 	public void insertBoard(QnaBoard board);
 	
 	

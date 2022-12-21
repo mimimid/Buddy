@@ -54,11 +54,6 @@ public class MypageServiceImpl implements MypageService {
 	}
 	
 	@Override
-	public QnaBoard view(QnaBoard viewBoard) {
-		return mypageDao.selectBoard(viewBoard);
-	}
-	
-	@Override
 	public void write(QnaBoard board) {
 		mypageDao.insertBoard(board);
 	}
