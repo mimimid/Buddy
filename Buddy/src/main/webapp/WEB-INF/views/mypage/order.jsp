@@ -177,28 +177,34 @@ function userUpdate() {
 	var usernick = $("#usernick").val()
 	var phone = $("#phone").val()
 	
-	console.log(username, usernick, phone);
+	if( username == "" || usernick == "" || phone == "" ) {
+		alert("이름, 닉네임, 전화번호를 정확히 기재해주세요.")
 	
-	$.ajax({
-		type: "post"
-		, url: "${path}/mypage/userUpdate"
-		, data: { 
-			"username" : username,
-			"usernick" : usernick,
-			"phone" : phone }
-		, dataType: "html"
-		, success: function(result) {
-			console.log("AJAX 성공")
-			alert("회원 수정이 되었습니다. 다시 로그인해 주세요.")
-			$('#userUpdateModal').modal("hide");
-			location.href = "/user/login";
-			
-		}
-		, error: function() {
-			console.log("AJAX 실패")
-			alert("회원 수정이 실패 되었습니다.")
-		}
-	})
+		console.log(username, usernick, phone);
+	
+	} else {
+		
+		$.ajax({
+			type: "post"
+			, url: "${path}/mypage/userUpdate"
+			, data: { 
+				"username" : username,
+				"usernick" : usernick,
+				"phone" : phone }
+			, dataType: "html"
+			, success: function(result) {
+				console.log("AJAX 성공")
+				alert("회원 수정이 되었습니다. 다시 로그인해 주세요.")
+				$('#userUpdateModal').modal("hide");
+				location.href = "/user/login";
+				
+			}
+			, error: function() {
+				console.log("AJAX 실패")
+				alert("회원 수정이 실패 되었습니다.")
+			}
+		})
+	}
 	
 }
 </script>

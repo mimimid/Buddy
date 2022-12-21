@@ -54,6 +54,12 @@ public interface DCommentDao {
 	 */
 	public void delectByCmNo(DateComment cmNo);
 
+	/**
+	 * 댓글 번호에 맞는 게시글 번호 조회
+	 * 
+	 * @param comm - 댓글 번호
+	 * @return int dateNo - 게시글 번호
+	 */
 	public int selectDatenoByCmNo(DateComment comm);
 
 }

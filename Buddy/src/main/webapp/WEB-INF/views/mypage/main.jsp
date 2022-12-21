@@ -172,7 +172,27 @@ function userUpdate() {
 	var usernick = $("#usernick").val()
 	var phone = $("#phone").val()
 	
-	console.log(username, usernick, phone);
+	//빈칸체크
+	//이름
+	if( username === "" ) {
+		alert("이름을 입력해주세요.")
+		$("#username").focus()
+		return false
+	}
+	
+	//닉네임
+	if( usernick === "" ) {
+		alert("닉네임을 입력해주세요.")
+		$("#usernick").focus()
+		return false
+	}
+	
+	//핸드폰
+	if( phone === "" ) {
+		alert("연락처를 입력해주세요.")
+		$("#phone").focus()
+		return false
+	}
 	
 	$.ajax({
 		type: "post"
@@ -194,8 +214,8 @@ function userUpdate() {
 			alert("회원 수정이 실패 되었습니다.")
 		}
 	})
-	
 }
+
 </script>
 
 <!-- 회원탈퇴모달 -->

@@ -49,12 +49,18 @@ public interface DCommentService {
 	public void updateComm(DateComment comm);
 
 	/**
+	 * 댓글 수정이 이루어진 게시글 번호 조회
+	 * 
+	 *  @param comm - 댓글 번호 객체
+	 * @return dateNo - 게시글 번호
+	 */
+	public int selectDateno(DateComment comm);
+
+	/**
 	 * 댓글 삭제
 	 * 
 	 * @param cmNo - 삭제할 댓글 정보
 	 */
 	public void deleteComm(DateComment cmNo);
-
-	public int selectDateno(DateComment comm);
 
 }

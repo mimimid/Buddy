@@ -35,14 +35,6 @@
 		WHERE rnum BETWEEN #{paging.startNo } AND #{paging.endNo }
 	</select>
 	
-	<select id="selectBoard" resultType="QnaBoard" parameterType="QnaBoard">
-		SELECT qna_no, userno, Q.qna_cate_no, C.qna_cate_name, qna_title, qna_content, Q.qna_ck_no, qna_write_date
-		FROM qna_board Q
-		INNER JOIN qna_cate C
-		ON C.qna_cate_no = Q.qna_cate_no
-		WHERE qna_no = #{qnaNo}
-	</select>
-	
 	<insert id="insertBoard" parameterType="QnaBoard">
 		INSERT INTO qna_board ( qna_no, userno, qna_cate_no, qna_title, qna_content )
 		VALUES ( qna_board_seq.nextval, #{userno}, #{qnaCateNo}, #{qnaTitle}, #{qnaContent} )
