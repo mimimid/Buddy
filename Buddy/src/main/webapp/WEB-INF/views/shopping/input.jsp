@@ -46,7 +46,10 @@ label{
 .form-group{
 	margin: 10px auto;
 }
-
+.btn{
+	background-color: #FF7A85;
+	color: white; 
+}
 
 </style>
 
@@ -101,8 +104,8 @@ label{
 
 </form>
 <div class="text-center">
-	<button id="btnWrite" class="btn btn-primary">작성</button>
-	<button id="btnCancel" class="btn btn-danger">취소</button>
+	<button id="btnWrite" class="btn">작성</button>
+	<button id="btnCancel" class="btn">취소</button>
 </div>
 
 

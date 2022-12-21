@@ -166,6 +166,119 @@ $(document).ready(function() {
 </script>
 
 
+
+
+<!-- 유효성 검사 -->
+ <script type="text/javascript">
+    function checks(){
+    	
+	  var getPhone = RegExp(/^(?:(010-\d{4})|(01[1|6|7|8|9]-\d{3,4}))-(\d{4})$/);
+      var getMail = RegExp(/^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/);
+      var getCheck= RegExp(/^[a-zA-Z0-9]{4,12}$/);
+      var getName= RegExp(/^[가-힣]+$/);
+      var fmt = RegExp(/^\d{6}[1234]\d{6}$/); //형식 설정
+
+      //아이디 공백 확인
+      if($("#userid").val() === ""){
+        alert("아이디 입력바람");
+        $("#userid").focus();
+        return false;
+      }
+           
+      //아이디 유효성검사
+      if(!getCheck.test($("#userid").val())){
+        alert("형식에 맞게 입력해주세요");
+        $("#userid").val("");
+        $("#userid").focus();
+        return false;
+      }
+
+      //비밀번호 공백 확인
+      if($("#userpw").val() === ""){
+        alert("패스워드 입력바람");
+        $("#userpw").focus();
+        return false;
+      }
+           
+
+      //아이디 비밀번호 같음 확인
+      if($("#userid").val() === $("#userpw").val()){
+        alert("아이디와 비밀번호가 같습니다");
+        $("#userpw").val("");
+        $("#userpw").focus();
+        return false;
+      }
+      
+      //비밀번호 유효성검사
+      if(!getCheck.test($("#userpw").val())){
+        alert("형식에 맞게 입력해주세요");
+        $("#userpw").val("");
+        $("#userpw").focus();
+        return false;
+      }
+           
+      //비밀번호 확인란 공백 확인
+      if($("#userpwch").val() === ""){
+        alert("패스워드 확인란을 입력해주세요");
+        $("#uerpwch").focus();
+        return false;
+      }
+           
+   
+          
+      //이메일 공백 확인
+      if($("#email").val() === ""){
+        alert("이메일을 입력해주세요");
+        $("#email").focus();
+        return false;
+      }
+           
+      //이메일 유효성 검사
+      if(!getMail.test($("#email").val())){
+        alert("이메일형식에 맞게 입력해주세요")
+        $("#email").val("");
+        $("#email").focus();
+        return false;
+      }
+           
+      //이름 공백 검사
+      if($("#username").val() === ""){
+        alert("이름을 입력해주세요");
+        $("#username").focus();
+        return false;
+      }
+
+      //이름 유효성 검사
+      if(!getCheck.test($("#username").val())){
+        alert("이름형식에 맞게 입력해주세요")
+        $("#username").val("");
+        $("#username").focus();
+        return false;
+      }
+           
+      //휴대폰 공백 확인
+      if($("#phone").val() === ""){
+        alert("전화번호 입력바람");
+        $("#phone").focus();
+        return false;
+      }
+           
+      //휴대폰 유효성검사
+      if(!getPhone.test($("#phone").val())){
+        alert("형식에 맞게 입력해주세요");
+        $("#phone").val("");
+        $("#phone").focus();
+        return false;
+      }
+
+        return true;
+    }
+
+ 
+  
+    </script>
+
+
 <style type="text/css">
 #joinform {
 	width: 450px;
@@ -192,7 +305,21 @@ $(document).ready(function() {
 	display: inline-block;
 	float: right;
 }
-
+.basic{
+	background-color: #FF7A85;
+	color: white;
+}
+#join{
+	background-color: #FF7A85;
+	color: white;
+}
+#cancelA{
+	color: white;
+}
+#cancel{
+	background-color: #FF7A85;
+	
+}
 
 </style>
 
@@ -200,10 +327,10 @@ $(document).ready(function() {
 
 <div class="container">
 
-<h1 style="text-align: center;">Join</h1>
+<h1 style="text-align: center;">회원가입</h1>
 <hr>
 
-<form action="./join" method="post" enctype="multipart/form-data" >
+<form action="./join" method="post" enctype="multipart/form-data" onsubmit="return checks()">
 	<div id = "joinform" >
 	<div class="form-group" style="text-align: center;">
 		<label for="img" style="color: blue;" >프로필 사진 추가</label><br>
@@ -212,24 +339,24 @@ $(document).ready(function() {
 	</div>
 	<div class="form-group">
 		<label for="userid">아이디</label><br>
-		<input type="text" name="userid" id="userid" placeholder="아이디를 입력하세요." class="form-control" required="required">
-		<button type="button" class="btn btn-success" id="idCheck">중복확인</button>
+		<input type="text" name="userid" id="userid" placeholder="4~12자의 영문 대소문자와 숫자로 입력" class="form-control">
+		<button type="button" class="btn basic" id="idCheck">중복확인</button>
 		<span id="result"></span>
 	</div>
 	<div class="form-group">
 		<label for="userpw">비밀번호</label>
-		<input type="password" name="userpw" id="userpw" placeholder="비밀번호를 입력하세요." class="form-control" required="required">
+		<input type="password" name="userpw" id="userpw" placeholder="4~12자의 영문 대소문자와 숫자로 입력" class="form-control">
 	</div>
 	<div class="form-group">
 		<label for="userpwch">비밀번호 확인</label>
-		<input type="password" name="userpwch" id="userpwch" placeholder="비밀번호 확인" class="form-control" required="required">
+		<input type="password" name="userpwch" id="userpwch" placeholder="비밀번호 확인" class="form-control" >
 		<div class="pwckSuccess" id="pwchSuccess" style="color: blue;">비밀번호가 일치합니다.</div>
 		<div class="pwckFaild" id="pwchFaild" style="color: red;">비밀번호가 일치하지 않습니다.</div>
 		
 	</div>
 	<div class="form-group">
 		<label for="username">이름</label>
-		<input type="text" name="username" id="username" placeholder="이름을 입력하세요." class="form-control" required="required">
+		<input type="text" name="username" id="username" placeholder="이름을 입력하세요." class="form-control" >
 	</div>
 	<div class="form-group">
 		<label for="usernick">닉네임</label>
@@ -254,17 +381,17 @@ $(document).ready(function() {
 	<div class="form-group">
 		<label for="postno">주소</label><br>
 		<input type="text" name="postno" id="postno" placeholder="우편번호" class="form-control" required="required">
-		<button type="button" class="btn btn-success" id="btnDaumPost" onclick="btnDaumPost">주소 찾기</button><br>
-		<input type="text" name="address" id="address" placeholder="주소" class="form-control">
-		<input type="text" name="detailaddress" id="detailaddress" placeholder="상세주소" class="form-control">
+		<button type="button" class="btn basic" id="btnDaumPost" onclick="btnDaumPost">주소 찾기</button><br><br>
+		<input type="text" name="address" id="address" placeholder="주소" class="form-control"><br>
+		<input type="text" name="detailaddress" id="detailaddress" placeholder="상세주소" class="form-control"><br>
 	</div>
 	<div class="form-group">
 		<label for="birth">생년월일</label>
 		<input type="date" name="birth" id="birth" class="form-control">
 	</div>
 	<div style="text-align: center;">
-	<button class="btn btn-primary" id="join" name="join">회원가입</button>
-	<a href="./login"><button type="button" class="btn btn-danger">취소</button></a>
+	<button class="btn" id="join" name="join" >회원가입</button>
+	<a href="./login" id="cancelA"><button type="button" class="btn" id="cancel">취소</button></a>
 	</div>
 	</div>
 </form>

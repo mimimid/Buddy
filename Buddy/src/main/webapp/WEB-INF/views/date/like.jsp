@@ -1,0 +1,1 @@
+${likeCnt.likeCount }

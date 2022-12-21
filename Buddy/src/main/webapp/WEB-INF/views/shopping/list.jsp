@@ -60,7 +60,7 @@ img{
 </table>
 <div>
 <c:if test="${grade eq '관리자' }">
-<a href="./input" style="float: right;" ><button type="button" class="btn btn-success">상품 입력</button></a>
+<a href="./input" style="float: right; color: white;" ><button type="button" class="btn" style="background-color: #FF7A85;">상품 입력</button></a>
 </c:if>
 </div>
 
