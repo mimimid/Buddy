@@ -14,6 +14,9 @@
 
 <!-- 아이콘 CSS -->
 <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-bold-rounded/css/uicons-bold-rounded.css'>
+<link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+<link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-solid-rounded/css/uicons-solid-rounded.css'>
+<link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-regular-straight/css/uicons-regular-straight.css'>
 
 <script type="text/javascript">
 $(document).ready(function () {
@@ -22,8 +25,6 @@ $(document).ready(function () {
 	})
 	
 	$("#btnSearch").click(function() {
-// 		console.log("검색클릭")
-// 		console.log($('#inputSearch').val())
 		location.href="/date/listSearch?keywoard=" + $('#inputSearch').val()
 	})
 })
@@ -35,7 +36,7 @@ $(document).ready(function () {
 <div class="row">
 	<div class="text-center">
 		<a href="/date/main" class="thumbnail">
-			<img src="https://cdn.imweb.me/thumbnail/20220422/0be5230e57bb5.png" alt="...">
+			<img src="/resources/img/main/slider01.png" alt="...">
 		</a>
 	</div>
 <div class="text-center">
