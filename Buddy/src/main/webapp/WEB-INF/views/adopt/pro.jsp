@@ -154,9 +154,9 @@ $(document).ready(function(){
 <h3 style="margin-bottom: 40px;">평생 가족을 찾습니다!</h3>
 
 <!-- 찜목록 -->
-<a href="/adopt/proWishList" ><button class="btnStar">
-<span class="glyphicon glyphicon-star" aria-hidden="true"></span>
-</button></a>
+<!-- <a href="/adopt/proWishList" ><button class="btnStar"> -->
+<!-- <span class="glyphicon glyphicon-star" aria-hidden="true"></span> -->
+<!-- </button></a> -->
 
 <div class="pull-right">
 		<span id="menuMu">입양</span>
@@ -187,7 +187,7 @@ $(document).ready(function(){
 	 <c:if test="${pro.ANI_CATE eq '입양완료'}"> style="background-color: darkgray;" </c:if>>
 	<p>안녕하세요!</p>
 	<p>저는 <span class="data">${pro.ANI_NAME}</span>입니다.</p>
-	<a href="/adopt/proView?aniNo=${pro.ANI_NO}">
+	<a href="/adopt/proView?aniNo=${pro.ANI_NO}&rnum=${pro.RNUM}">
 		<img src="/adopt/adoptDown?anifileNo=${pro.ANIFILE_NO}" alt="입양프로필" class="img_style img-circle" onerror="this.src='/resources/img/sample_adopt/noImg.jpg'">
 	</a>
 	<p>저는 약 <span class="data">${pro.ANI_AGE}</span>살이에요.</p>

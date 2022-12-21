@@ -106,6 +106,7 @@
 			anifile_no, ani_no, anifile_origin, anifile_stored
 		FROM adopt_file
 		WHERE anifile_no = #{anifileNo }
+		ORDER BY anifile_no
 	</select>
 	
 	<update id="updateAdoptHit" parameterType="AdoptPro">
@@ -114,12 +115,14 @@
 		WHERE ani_no = #{aniNo}
 	</update>
 
-	<select id="selectAdoptView" resultType="AdoptPro" parameterType="AdoptPro">
+	<select id="selectAdoptView" resultType="HashMap" parameterType="AdoptPro">
 		SELECT
-			ani_no , userid, ani_cate, ani_name, ani_age
+			a.ani_no , userid, ani_cate, ani_name, ani_age
 			, ani_gender, ani_neutral, ani_content, ani_hit, ani_weight
-		FROM adopt_pro
-		WHERE ani_no = #{aniNo}
+            , userno
+		FROM adopt_pro a LEFT OUTER JOIN adopt_wish b 
+        ON a.ani_no = b.ani_no 
+		WHERE a.ani_no = #{aniNo}
 	</select>
 	
 	<select id="selectAdoptFile" resultType="AdoptFile" parameterType="AdoptPro">
@@ -127,6 +130,7 @@
 			anifile_no, ani_no, anifile_origin, anifile_stored
 		FROM adopt_file
 		WHERE ani_no = #{aniNo}
+		ORDER BY anifile_no
 	</select>
 	
 	<update id="updatePro" parameterType="AdoptPro">
@@ -148,4 +152,40 @@
 		DELETE adopt_pro
 		WHERE ani_no = #{aniNo}
 	</delete>
+	
+	<select id="selectRnumView" resultType="HashMap" parameterType="int">
+		SELECT * FROM (
+			SELECT rownum rnum, a.* FROM (
+				SELECT
+					ani_no , ani_cate, ani_name
+				FROM adopt_pro
+				ORDER BY ani_no DESC
+			) a
+		) adopt
+		WHERE rnum IN( ${rnum} - 1 , ${rnum} + 1)
+	</select>
+	
+	<insert id="insertCmt" parameterType="AdoptCmt">
+		INSERT INTO adopt_cmt (procmt_no, userno, ani_no, procmt_content
+			, procmt_group, procmt_sorts, procmt_depth)
+		VALUES (adopt_cmt_seq.nextval, #{userno}, #{aniNo}, #{procmtContent}
+			 ,adopt_cmt_seq.currval, 0, 0)
+	</insert>
+	
+	<select id="selectAdoptCmtView" resultType="AdoptCmt" parameterType="AdoptPro">
+		SELECT
+			procmt_no, userno, ani_no, procmt_content, procmt_date
+			,procmt_group, procmt_sorts, procmt_depth
+		FROM adopt_cmt
+		WHERE ani_no = #{aniNo}
+		ORDER BY procmt_group DESC, procmt_sorts ASC
+	</select>
+	
+	<select id="selectCmtCntAll" resultType="int" parameterType="AdoptPro">
+		SELECT count(*) FROM adopt_cmt
+		WHERE ani_no = #{aniNo}
+	</select>
+	
+	
+	
 </mapper>
