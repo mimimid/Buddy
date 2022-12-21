@@ -20,6 +20,22 @@
 
 <script type="text/javascript">
 $(document).ready(function () {
+	
+	//카테고리버튼CSS
+	if( ${viewDate.dateCate eq 1} ) {
+		console.log("카페")
+		$("#cafe").css({"color": "#fff", "background-color": "#ff7a85"})
+	} else if ( ${viewDate.dateCate eq 2} ) {
+		console.log("호텔")
+		$("#hotel").css({"color": "#fff", "background-color": "#ff7a85"})
+	}  else if ( ${viewDate.dateCate eq 3} ) {
+		console.log("훈련소")
+		$("#training").css({"color": "#fff", "background-color": "#ff7a85"})
+	} else {
+		console.log("여행")
+		$("#trip").css({"color": "#fff", "background-color": "#ff7a85"})		
+	}
+	
 	var dateNo = ${viewDate.dateNo }
 	console.log(dateNo)
 	
@@ -191,6 +207,44 @@ function fn_comment() {
 
 }
 
+div#categoryBtn>a>button, span.searchBtn>button, #btnList {
+    background-color: #f0f0f0;
+    color: #000;
+}
+
+div#categoryBtn>a>button:hover, div#arrayBtn>button, span.searchBtn>button:hover {
+    background-color: #ff7a85;
+    color: #fff;
+}
+
+#dateContent {
+	margin-top: 50px;
+	margin-bottom: 50px;
+}
+
+#like_comm {
+	font-size: 18px;
+}
+
+div#like_comm>a {
+	color: #ff7a85;
+}
+
+#exampleModalLabel {
+	font-weight: bold;
+	color: #ff7a85
+}
+
+#modalY {
+	background-color: #f0f0f0;
+	color: #000;
+}
+
+#btnNo {
+    background-color: #ff7a85;
+    color: #fff;
+}
+
 </style>
 
 <!-- 데이트게시판 메인 시작 -->
@@ -199,14 +253,14 @@ function fn_comment() {
 <div class="row container-fluid">
 	<div class="text-center">
 		<a href="/date/main" class="thumbnail">
-			<img src="https://cdn.imweb.me/thumbnail/20220422/0be5230e57bb5.png" alt="..." style="width:100%;">
+			<img src="/resources/img/main/slider01.png" alt="...">
 		</a>
 	</div>
-<div class="text-center">
-	<a href="/date/list?category=1"><button type="button" id="cafe" class="btn btn-default">카페</button></a>
-	<a href="/date/list?category=2"><button type="button" id="hotel" class="btn btn-default">호텔</button></a>
-	<a href="/date/list?category=3"><button type="button" id="training" class="btn btn-default">훈련소</button></a>
-	<a href="/date/list?category=4"><button type="button" id="trip" class="btn btn-default">여행지</button></a>
+<div id="categoryBtn" class="text-center">
+	<a href="/date/list?category=1"><button type="button" id="cafe" class="btn">카페</button></a>
+	<a href="/date/list?category=2"><button type="button" id="hotel" class="btn">호텔</button></a>
+	<a href="/date/list?category=3"><button type="button" id="training" class="btn">훈련소</button></a>
+	<a href="/date/list?category=4"><button type="button" id="trip" class="btn">여행지</button></a>
 </div>
 </div>
 <hr>
@@ -217,7 +271,7 @@ function fn_comment() {
 	<h3>${viewDate.title } <small><i class="fi fi-rs-marker"></i> ${viewDate.loc }</small></h3>
 	<div class="media">
 		<div class="media-left media-middle">
-			<img class="media-object" src="/resources/img/date/user.png" alt="..." style="width: 40px; height: 40px; margin-bottom: 10px;">
+			<img class="media-object img-circle" src="/resources/img/date/userImg.png" alt="..." style="width: 40px; height: 40px; margin-bottom: 10px;">
 		</div>
 		<div class="media-body" style="font-color: #ccc;">
 			<h4 class="media-heading">관리자</h4>
@@ -228,26 +282,21 @@ function fn_comment() {
 </div>
 
 <!-- 신고창 -->
-<div class="modal fade" id="report_model" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="report_model" tabindex="-1">
 	<div class="modal-dialog" role="document">
-	<div class="modal-content">
-		<div class="modal-header">
-			<h5 class="modal-title" id="exampleModalLabel">신고</h5>
-			<button class="close" type="button" data-dismiss="modal" aria-label="Close">
-				<span aria-hidden="true">X</span>
-			</button>
-		</div>
-		
-		<div class="modal-body no-padding-top no-padding-bottom">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h3 class="modal-title text-center" id="exampleModalLabel">신고</h3>
+			</div>
+			<div class="modal-body">
 			<textarea id="dateReportContent" class="form-control" name="dateReportContent" rows="4" placeholder="신고사유(필수)" style="height: 181px; width: 559px;"></textarea>
 			<span class="text-gray">신고해주신 내용은 관리자 검토 후 내부 운영정책에 의해 조치가 진행됩니다.</span>
+			</div>
+			<div class="modal-footer">
+				<a class="btn" id="modalY" href="#" onclick="report(${viewDate.dateNo})">신고하기</a>
+				<button id="btnNo" class="btn" type="button" data-dismiss="modal">취소</button>
+			</div>
 		</div>
-		
-		<div class="modal-footer">
-			<a class="btn" id="modalY" href="#" onclick="report(${viewDate.dateNo})">신고하기</a>
-			<button class="btn" type="button" data-dismiss="modal">취소</button>
-		</div>
-	</div>
 	</div>
 </div>
 
@@ -300,14 +349,15 @@ function report(dateNo) {
 </script>
 
 
-<div class="text-center">
-<div>
+<div class="container-fluid">
+<div id="dateContent" class="text-center">
 	<span>${viewDate.content }</span>
 </div>
 </div>
 
 <!-- 하트, 댓글 갯수 표시 -->
-<div class="t-icons">
+<div class="row">
+<div id="like_comm" class="t-icons col-sm-3">
 	<a class="btn-like">
 		<i class="fi fi-sr-heart" id="like"></i>
 		<i class="fi fi-rr-heart" id="disLike" style="display: none;"></i>
@@ -318,10 +368,9 @@ function report(dateNo) {
 </div>
 
 <!-- 목록버튼 -->
-<div class="text-center">
-	<button id="btnList" class="btn btn-outline">목록으로</button>
-	<button id="btnUpdate" class="btn" style="background-color: #8EC0E4;">수정하기</button>
-	<button id="btnDelete" class="btn" style="background-color: #ea9999;">삭제하기</button>
+<div class="col-sm-1 col-md-offset-10">
+	<button id="btnList" class="btn">목록</button>
+</div>
 </div>
 
 <!-- 댓글입력창 -->

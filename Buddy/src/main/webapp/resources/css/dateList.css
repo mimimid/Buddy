@@ -2,10 +2,7 @@
 
 /*---- 검색창CSS ----*/
 #inputSearch {
-	border-top-width: 0;
-	border-left-width: 0;
-	border-right-width: 0;
-	border-bottom-width: 1;
+	border-color: #f0f0f0;
 }
 
 #ex {

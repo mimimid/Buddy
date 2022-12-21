@@ -20,15 +20,83 @@
 
 <script type="text/javascript">
 $(document).ready(function () {
-	$("#inputSearch").click(function() {
-		
+	$("#btnSearch").click(function() {
+		if( $("#inputSearch").val() == "" ) {
+			alert("찾을 장소를 입력해주세요.")
+		} else {
+			location.href="/date/listSearch?keywoard=" + $('#inputSearch').val()
+		}
 	})
 	
-	$("#btnSearch").click(function() {
-		location.href="/date/listSearch?keywoard=" + $('#inputSearch').val()
-	})
+	//카테고리버튼CSS
+	if( ${category eq 1} ) {
+		console.log("카페")
+		$("#cafe").css({"color": "#fff", "background-color": "#ff7a85"})
+	} else if ( ${category eq 2} ) {
+		console.log("호텔")
+		$("#hotel").css({"color": "#fff", "background-color": "#ff7a85"})
+	}  else if ( ${category eq 3} ) {
+		console.log("훈련소")
+		$("#training").css({"color": "#fff", "background-color": "#ff7a85"})
+	} else {
+		console.log("여행")
+		$("#trip").css({"color": "#fff", "background-color": "#ff7a85"})		
+	}
+	
 })
+
 </script>
+
+<style type="text/css">
+#list_content {
+    padding: 5px;
+    border-radius: 0.4em;
+    border: 2px solid #ccc;
+}
+
+div.container-fluid>div:hover {
+	cursor: pointer;
+}
+
+div#categoryBtn>a>button, span.searchBtn>button {
+    background-color: #f0f0f0;
+    color: #000;
+}
+
+div#categoryBtn>a>button:hover, div#arrayBtn>button, span.searchBtn>button:hover {
+    background-color: #ff7a85;
+    color: #fff;
+}
+
+div.page-header>h2 {
+	color: #ff7a85;
+	font-weight: bolder;
+}
+
+div.page-header>hr {
+	margin-top: 10px;
+	margin-bottom: 15px;
+}
+
+#dateList {
+	padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+#dateListContent {
+	padding-top: 12px;
+}
+
+table>thead>tr>th {
+	text-align: center;
+}
+
+table>tbody>tr>td {
+	text-align: center;
+	vertical-align: middle;
+}
+
+</style>
 
 <!-- 데이트게시판 메인 시작 -->
 <div class="container">
@@ -39,11 +107,11 @@ $(document).ready(function () {
 			<img src="/resources/img/main/slider01.png" alt="...">
 		</a>
 	</div>
-<div class="text-center">
-	<a href="/date/list?category=1"><button type="button" id="cafe" class="btn btn-default">카페</button></a>
-	<a href="/date/list?category=2"><button type="button" id="hotel" class="btn btn-default">호텔</button></a>
-	<a href="/date/list?category=3"><button type="button" id="training" class="btn btn-default">훈련소</button></a>
-	<a href="/date/list?category=4"><button type="button" id="trip" class="btn btn-default">여행지</button></a>
+<div id="categoryBtn" class="text-center">
+	<a href="/date/list?category=1"><button type="button" id="cafe" class="btn">카페</button></a>
+	<a href="/date/list?category=2"><button type="button" id="hotel" class="btn">호텔</button></a>
+	<a href="/date/list?category=3"><button type="button" id="training" class="btn">훈련소</button></a>
+	<a href="/date/list?category=4"><button type="button" id="trip" class="btn">여행지</button></a>
 </div>
 </div>
 <hr>
@@ -54,8 +122,8 @@ $(document).ready(function () {
 <div class="row">
 	<!-- 정렬방식 -->
 	<div class="col-sm-2">
-	<div class="btn-group">
-		<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+	<div id="arrayBtn" class="btn-group">
+		<button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
 		정렬방식 <span class="caret"></span>
 		</button>
 		<ul class="dropdown-menu" role="menu">
@@ -71,33 +139,46 @@ $(document).ready(function () {
 	<div class="col-sm-3 col-md-offset-7">
 		<div class="input-group">
 		<input type="text" id="inputSearch" class="form-control" name="keywoard" placeholder="찾을 장소를 입력하세요.">
-		<span class="input-group-btn">
-			<button id="btnSearch" class="btn btn-default" type="button"><i class="fi fi-br-search"></i></button>
+		<span class="input-group-btn searchBtn">
+			<button id="btnSearch" class="btn" type="button"><i class="fi fi-br-search"></i></button>
 		</span>
 		</div><!-- /input-group -->
 	</div><!-- 검색방식 END -->
 </div><!-- /.row -->
 
-<hr style="display: table; margin-bottom: 0px;">
-
-<div class="row">
+<!-- 컨텐트 -->
+<div id="dateListContent" class="container-fluid">
+<table class="table text-center table-condensed">
+<thead>
+	<tr>
+		<th style="width: 6%;">글번호</th>
+		<th style="width: 45%;">제목</th>
+		<th style="width: 10%;">작성자</th>
+		<th style="width: 6%;">조회수</th>
+		<th style="width: 6%;">좋아요</th>
+		<th style="width: 5%;">작성일</th>
+	</tr>
+</thead>
+<tbody>
 <c:forEach items="${list }" var="cafe">
-	<div class="col-sm-2 col-md-3">
-	<a href="./view?dateNo=${cafe.dateNo }">
-		<div class="thumbnail">
-<%-- 			<img alt="포스터" src="/resources/img/mc/<%=reviewList.get(i).getMcimg() %>" --%>
-<!-- 				onerror="this.src='/resources/img/mc/noImg.jpg'"> -->
-			<div class="caption">
-				<h3>${cafe.title }</h3>
-				<p>
-				</p>
-			</div>
-		</div>
-	</a>
-	</div>
+	<tr>
+		<td rowspan="2" style="vertical-align: middle;">${cafe.dateNo }</td>
+		<td class="text-left"><small><i class="fi fi-rs-marker"></i>${cafe.loc }</small></td>
+		<td rowspan="2" style="vertical-align: middle;">BUDDY</td>
+		<td rowspan="2" style="vertical-align: middle;">${cafe.hit }</td>
+		<td rowspan="2" style="vertical-align: middle;">${cafe.likeCount }</td>
+		<td rowspan="2" style="vertical-align: middle;"><fmt:formatDate value="${cafe.writeDate }" pattern="yy-MM-dd HH:mm:ss"/></td>
+	</tr>
+	<tr>
+		<td class="text-left" style="border-top: none;"><a href="/date/view?dateNo=${cafe.dateNo }">${cafe.title }(${cafe.commCount })</a></td>
+	</tr>
 </c:forEach>
-</div>
-</div>
+</tbody>
+</table>
+
+</div><!-- 컨텐트 END -->
+
+</div><!-- container END -->
 
 <!-- 페이징 -->
 <div class="text-center">

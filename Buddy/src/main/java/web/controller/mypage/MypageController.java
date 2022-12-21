@@ -33,13 +33,6 @@ public class MypageController {
 	@GetMapping("/mypage/order")
 	public void orderInfo() {}
 	
-	//관심 병원
-	@GetMapping("/mypage/like_hospital")
-	public void likeHospitalInfo() {
-		
-		
-	}
-	
 	//문의접수리스트
 	@GetMapping("/mypage/qna")
 	public void qnaInfo(
