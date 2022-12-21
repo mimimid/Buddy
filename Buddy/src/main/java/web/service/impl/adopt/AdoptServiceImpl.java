@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import web.dao.face.adopt.AdoptDao;
+import web.dto.AdoptCmt;
 import web.dto.AdoptFile;
 import web.dto.AdoptPro;
 import web.dto.AdoptResrchFile;
@@ -141,7 +142,7 @@ public class AdoptServiceImpl implements AdoptService {
 	}
 	
 	@Override
-	public AdoptPro adoptView(AdoptPro adoptPro) {
+	public Map<String, Object> adoptView(AdoptPro adoptPro) {
 		//조회수 증가
 		adoptDao.updateAdoptHit(adoptPro);
 		
@@ -206,6 +207,25 @@ public class AdoptServiceImpl implements AdoptService {
 		adoptDao.deleteAdoptPro(adoptPro);
 	}
 	
+	@Override
+	public List<Map<String, Object>> adoptRnumView(int rnum) {
+		return adoptDao.selectRnumView(rnum);
+	}
 	
+	@Override
+	public void cmtWrite(AdoptCmt adoptCmt) {
+		adoptDao.insertCmt(adoptCmt);
+		
+	}
+	
+	@Override
+	public List<AdoptCmt> adoptCmtView(AdoptPro adoptPro) {
+		return adoptDao.selectAdoptCmtView(adoptPro);
+	}
+	
+	@Override
+	public int getCmtCnt(AdoptPro adoptPro) {
+		return adoptDao.selectCmtCntAll(adoptPro);
+	}
 	
 }

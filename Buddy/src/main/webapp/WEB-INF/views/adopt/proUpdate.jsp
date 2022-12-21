@@ -79,7 +79,7 @@ $(document).ready(function() {
 		$("#frm").submit();
 	})
 	$("#btnCancel").click(function() {
-		location.href = "/adopt/proView?aniNo="+${adoptPro.aniNo}
+		location.href = "/adopt/proView?aniNo="+${pro.ANI_NO}+"&rnum="+${param.rnum}
 	})
 })
 
@@ -141,7 +141,7 @@ function checkInputNum(){
 			입양프로필 수정</a>
 	</div>
 </div>
-<form id="frm" action="/adopt/proUpdate?aniNo=${adoptPro.aniNo}" method="post" enctype="multipart/form-data" onsubmit ="return event_click()" >
+<form id="frm" action="/adopt/proUpdate?aniNo=${pro.ANI_NO}&rnum=${param.rnum}" method="post" enctype="multipart/form-data" onsubmit ="return event_click()" >
 <div class = "row">
 	<div class="col-md-4">
 		<div id="img_wrap" >
@@ -189,8 +189,8 @@ function checkInputNum(){
 		   </label>
 		   <div class="col-sm-10">
 			<select class="form-control" name="aniCate">
-			  <option value="임보 중" <c:if test="${adoptPro.aniCate eq '임보 중'}">selected</c:if> >임보 중</option>
-			  <option value="입양완료" <c:if test="${adoptPro.aniCate eq '입양완료'}">selected</c:if> >입양완료</option>
+			  <option value="임보 중" <c:if test="${pro.ANI_CATE eq '임보 중'}">selected</c:if> >임보 중</option>
+			  <option value="입양완료" <c:if test="${pro.ANI_CATE eq '입양완료'}">selected</c:if> >입양완료</option>
 			</select> 
 			</div>
  		</div>
@@ -199,7 +199,7 @@ function checkInputNum(){
 			<span class="glyphicon glyphicon-heart" aria-hidden="true"></span> 이름
 			</label>
 			<div class="col-sm-10">
-			<input type="text" id="aniName" name="aniName" class="form-control" value="${adoptPro.aniName }">
+			<input type="text" id="aniName" name="aniName" class="form-control" value="${pro.ANI_NAME }">
 			</div>
 		</div>
 		<div class="form-group">
@@ -207,7 +207,7 @@ function checkInputNum(){
 			<span class="glyphicon glyphicon-baby-formula icons" aria-hidden="true"></span> 나이
 			</label>
 			<div class="col-sm-10">
-			<input type="text" id="aniAge" name="aniAge" class="form-control" onkeyPress="javascript:checkInputNum();" value="${adoptPro.aniAge }">
+			<input type="text" id="aniAge" name="aniAge" class="form-control" onkeyPress="javascript:checkInputNum();" value="${pro.ANI_AGE }">
 			</div>
 		</div>
 		<div class="form-group" id="gender">
@@ -218,12 +218,12 @@ function checkInputNum(){
 		    <div class="col-sm-10">
 			<div class="radio">
 				<label>
-				<input type="radio" name="aniGender" id="aniGenderF" value="남자" <c:if test="${adoptPro.aniGender eq '남자'}">checked</c:if> > 남자
+				<input type="radio" name="aniGender" id="aniGenderF" value="남자" <c:if test="${pro.ANI_GENDER eq '남자'}">checked</c:if> > 남자
 				</label>
 			</div>
 			<div class="radio" style="margin-left: 20px;">
 				<label>
-				<input type="radio" name="aniGender" id="aniGenderM" value="여자" <c:if test="${adoptPro.aniGender eq '여자'}">checked</c:if> > 여자
+				<input type="radio" name="aniGender" id="aniGenderM" value="여자" <c:if test="${pro.ANI_GENDER eq '여자'}">checked</c:if> > 여자
 				</label>
 			</div>
 			</div>
@@ -237,12 +237,12 @@ function checkInputNum(){
 		    <div class="col-sm-10">
 			<div class="radio">
 				<label>
-				<input type="radio" name="aniNeutral" id="aniNeutralY" value="한" <c:if test="${adoptPro.aniNeutral eq '한'}">checked</c:if> > 네
+				<input type="radio" name="aniNeutral" id="aniNeutralY" value="한" <c:if test="${pro.ANI_NEUTRAL eq '한'}">checked</c:if> > 네
 				</label>
 			</div>
 			<div class="radio" style="margin-left: 20px;">
 				<label>
-				<input type="radio" name="aniNeutral" id="aniNeutralN" value="하지 않은" <c:if test="${adoptPro.aniNeutral eq '하지 않은'}">checked</c:if> > 아니요
+				<input type="radio" name="aniNeutral" id="aniNeutralN" value="하지 않은" <c:if test="${pro.ANI_NEUTRAL eq '하지 않은'}">checked</c:if> > 아니요
 				</label>
 			</div>
 			</div>
@@ -253,7 +253,7 @@ function checkInputNum(){
 			<span class="glyphicon glyphicon-apple icons" aria-hidden="true"></span> 몸무게
 			</label>
 			 <div class="col-sm-10">
-			<input type="text" id="aniWeight" name="aniWeight" class="form-control" onkeyPress="javascript:checkInputNum();" value="${adoptPro.aniWeight }">
+			<input type="text" id="aniWeight" name="aniWeight" class="form-control" onkeyPress="javascript:checkInputNum();" value="${pro.ANI_WEIGHT }">
 			</div>
 		</div>
 		</div><!-- .form-horizontal -->
@@ -262,7 +262,7 @@ function checkInputNum(){
 
 <div class="form-group">
 	<label for="aniContent">하고 싶은 말</label>
-	<textarea rows="10" style="width: 100%;" id="aniContent" name="aniContent">${adoptPro.aniContent }</textarea>
+	<textarea rows="10" style="width: 100%;" id="aniContent" name="aniContent">${pro.ANI_CONTENT }</textarea>
 </div>
   <div class="form-group" id="image_preview">
    <label for="file">아이의 사진을 더 넣어보세요.

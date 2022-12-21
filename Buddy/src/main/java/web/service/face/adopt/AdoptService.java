@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import web.dto.AdoptCmt;
 import web.dto.AdoptFile;
 import web.dto.AdoptPro;
 import web.dto.AdoptResrchFile;
@@ -96,7 +97,7 @@ public interface AdoptService {
 	 * @param adoptPro - 상세 조회할 입양프로필 번호
 	 * @return 상세 입양프로필
 	 */
-	public AdoptPro adoptView(AdoptPro adoptPro);
+	public Map<String, Object> adoptView(AdoptPro adoptPro);
 
 	/**
 	 * 동물번호를 이용해 업로드된 이미지를 조회한다
@@ -120,5 +121,38 @@ public interface AdoptService {
 	 * @param adoptPro
 	 */
 	public void adoptDelete(AdoptPro adoptPro);
+
+	/**
+	 * 입양프로필 이전, 이후 목록 조회
+	 * 
+	 * @param rnum - 선택한 입양프로필의 행번호
+	 * @return
+	 */
+	public List<Map<String, Object>> adoptRnumView(int rnum);
+
+	/**
+	 * 프로필의 댓글내용을 저장한다
+	 * 
+	 * @param adoptCmt - 댓글 정보 객체
+	 */
+	public void cmtWrite(AdoptCmt adoptCmt);
+
+	/**
+	 * 댓글 리스트 조회
+	 * 
+	 * @param adoptPro - 입양프로필 번호
+	 * @return
+	 */
+	public List<AdoptCmt> adoptCmtView(AdoptPro adoptPro);
+
+	/**
+	 * 댓글 페이징
+	 * 
+	 * @param adoptPro - 입양프로필 번호
+	 * @return 해당 프로필 총 댓글 수
+	 */
+	public int getCmtCnt(AdoptPro adoptPro);
+
+	
 
 }

@@ -18,13 +18,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import web.dto.AdoptCmt;
 import web.dto.AdoptFile;
 import web.dto.AdoptPro;
-import web.dto.AdoptResearch;
-import web.dto.AdoptResrchFile;
 import web.dto.AdoptWish;
-import web.dto.Report;
-import web.dto.ReptFile;
 import web.service.face.adopt.AdoptService;
 import web.util.Paging;
 
@@ -133,8 +130,9 @@ public class AdoptController {
 	}
 	
 	@RequestMapping("/proView")
-	public String AdoptProview(AdoptPro adoptPro, Model model) {
+	public String AdoptProview(AdoptPro adoptPro, int rnum, Model model) {
 		logger.debug("{}", adoptPro);
+		logger.debug("{}", rnum);
 		
 		//잘못된 게시글 번호 처리
 		if( adoptPro.getAniNo() < 0 ) {
@@ -142,21 +140,36 @@ public class AdoptController {
 		}
 		
 		//게시글 조회
-		adoptPro = adoptService.adoptView(adoptPro);
-		logger.debug("조회된 게시글 {}", adoptPro);
+		 Map<String, Object> pro = adoptService.adoptView(adoptPro);
+		logger.debug("조회된 게시글 {}", pro);
 		
 		//모델값 전달
-		model.addAttribute("adoptPro", adoptPro);
+		model.addAttribute("pro", pro);
 		
 		
 		//첨부파일 모델값 전달
 		List<AdoptFile> adoptFile = adoptService.getAdoptFile(adoptPro);
 		model.addAttribute("adoptFile", adoptFile);
 		
+		//이전이후게시글 모델값 전달
+		List<Map<String, Object>> num = adoptService.adoptRnumView(rnum);
+		model.addAttribute("num", num);
+		
+		//댓글 수
+		int cmtcnt = adoptService.getCmtCnt(adoptPro );
+		model.addAttribute("cmtcnt", cmtcnt);
+		
+		//댓글 리스트 모델값 전달
+		List<AdoptCmt> adoptCmt = adoptService.adoptCmtView(adoptPro);
+		model.addAttribute("adoptCmt", adoptCmt);
+		
+		
+		
+		
 		return "adopt/proView";
 	}
 	
-	@RequestMapping("/proUpdate")
+	@GetMapping("/proUpdate")
 	public String proUpdate(AdoptPro adoptPro, Model model) {
 		logger.debug("{}", adoptPro);
 		
@@ -164,10 +177,10 @@ public class AdoptController {
 			return "redirect:/adopt/pro";
 		}
 		
-		adoptPro = adoptService.adoptView(adoptPro);
-		logger.debug("조회된 게시글 {}", adoptPro);
+		Map<String, Object> pro = adoptService.adoptView(adoptPro);
+		logger.debug("조회된 게시글 {}", pro);
 		
-		model.addAttribute("adoptPro", adoptPro);
+		model.addAttribute("pro", pro);
 		
 		
 		//첨부파일 모델값 전달
@@ -180,13 +193,13 @@ public class AdoptController {
 	}
 	
 	@PostMapping("/proUpdate")
-	public String proUpdateProcess(AdoptPro adoptPro, List<MultipartFile> fileList) {
+	public String proUpdateProcess(AdoptPro adoptPro, List<MultipartFile> fileList, int rnum) {
 		logger.debug("{}", adoptPro);
 		for(MultipartFile f : fileList) logger.debug("파일리스트{}", f);
 		
 		adoptService.proUpdate(adoptPro, fileList);
 		
-		return "redirect:/adopt/proView?aniNo=" + adoptPro.getAniNo();
+		return "redirect:/adopt/proView?aniNo=" + adoptPro.getAniNo() + "&rnum=" + rnum;
 	}
 	
 	@RequestMapping("/proDelete")
@@ -198,7 +211,7 @@ public class AdoptController {
 	}
 	
 	@RequestMapping("/proViewWish")
-	public String AdoptPro_ajax(AdoptPro adoptPro, HttpSession session, Model model) {
+	public String AdoptPro_ajax(AdoptPro adoptPro, HttpSession session,int rnum, Model model) {
 		AdoptWish adoptWish = new AdoptWish();
 		
 		adoptWish.setUserno( (int)session.getAttribute("userno"));
@@ -209,17 +222,40 @@ public class AdoptController {
 		
 		int wish = adoptService.proWish(adoptWish);
 		
-		return "redirect:/adopt/proView?aniNo="+ adoptPro.getAniNo();
+		return "redirect:/adopt/proView?aniNo="+ adoptPro.getAniNo() + "&rnum=" + rnum;
 	}
 	
-	
+	@RequestMapping("/cmt")
+	public String AdoptCmtWrite(AdoptCmt adoptCmt, HttpSession session, int rnum, Model model) {
+		
+		adoptCmt.setUserno((int)session.getAttribute("userno"));
+		
+		logger.debug("{}", adoptCmt);
+		
+		adoptService.cmtWrite(adoptCmt);
+		
+		return "redirect:/adopt/proView?aniNo="+ adoptCmt.getAniNo() + "&rnum="+ rnum;
+		
+	}
 
 	
-
+	@RequestMapping("cmtDelete")
+	public String AdoptCmtDelete(AdoptCmt adoptCmt, int rnum) {
+		
+		return "redirect:/adopt/proView?aniNo="+ adoptCmt.getAniNo() + "&rnum="+ rnum;
+	}
 	
+	@RequestMapping("cmtUpdate")
+	public String AdoptCmtUpdate(AdoptCmt adoptCmt, int rnum) {
+		
+		return "redirect:/adopt/proView?aniNo="+ adoptCmt.getAniNo() + "&rnum="+ rnum;
+	}
 	
-	
-	
+	@RequestMapping("cmtRe")
+	public String AdoptcmtRe(AdoptCmt adoptCmt, int rnum) {
+		
+		return "redirect:/adopt/proView?aniNo="+ adoptCmt.getAniNo() + "&rnum="+ rnum;
+	}
 	
 
 }
