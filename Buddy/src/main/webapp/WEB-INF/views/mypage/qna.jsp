@@ -344,13 +344,13 @@ function userDelete() {
 					<td>
 					<c:choose>
 						<c:when test="${qna.qnaCkNo eq 1 }">
-							대기
+							<p style="color: red; font-weight: bold;">대기</p>
 						</c:when>
 						<c:when test="${qna.qnaCkNo eq 2 }">
-							접수
+							<p style="color: blue; font-weight: bold;">답변완료</p>
 						</c:when>
 						<c:otherwise>
-							보류
+							<p style="color: revert;; font-weight: bold;">보류</p>
 						</c:otherwise>
 					</c:choose>
 					</td>
@@ -366,13 +366,13 @@ function userDelete() {
 								<small>
 									<c:choose>
 										<c:when test="${qna.qnaCkNo eq 1 }">
-											대기
+											<span style="color: red; font-weight: bold;">대기</span>
 										</c:when>
 										<c:when test="${qna.qnaCkNo eq 2 }">
-											접수
+											<span style="color: blue; font-weight: bold;">답변완료</span>
 										</c:when>
 										<c:otherwise>
-											보류
+											<span style="color: revert;; font-weight: bold;">보류</span>
 										</c:otherwise>
 									</c:choose>
 								</small>

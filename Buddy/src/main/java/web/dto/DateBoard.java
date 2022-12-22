@@ -5,7 +5,7 @@ import java.util.Date;
 public class DateBoard {
 
 	private int dateNo;
-	private int adminno;
+	private int userno;
 	private int dateCate;			//조인 카테고리 넘버
 	private String dateCateName;	//조인 카테고리이름
 	private String title;
@@ -18,11 +18,11 @@ public class DateBoard {
 
 	public DateBoard() {}
 
-	public DateBoard(int dateNo, int adminno, int dateCate, String dateCateName, String title, String content,
+	public DateBoard(int dateNo, int userno, int dateCate, String dateCateName, String title, String content,
 			String loc, String hit, Date writeDate, int commCount, int likeCount) {
 		super();
 		this.dateNo = dateNo;
-		this.adminno = adminno;
+		this.userno = userno;
 		this.dateCate = dateCate;
 		this.dateCateName = dateCateName;
 		this.title = title;
@@ -36,7 +36,7 @@ public class DateBoard {
 
 	@Override
 	public String toString() {
-		return "DateBoard [dateNo=" + dateNo + ", adminno=" + adminno + ", dateCate=" + dateCate + ", dateCateName="
+		return "DateBoard [dateNo=" + dateNo + ", userno=" + userno + ", dateCate=" + dateCate + ", dateCateName="
 				+ dateCateName + ", title=" + title + ", content=" + content + ", loc=" + loc + ", hit=" + hit
 				+ ", writeDate=" + writeDate + ", commCount=" + commCount + ", likeCount=" + likeCount + "]";
 	}
@@ -49,12 +49,12 @@ public class DateBoard {
 		this.dateNo = dateNo;
 	}
 
-	public int getAdminno() {
-		return adminno;
+	public int getUserno() {
+		return userno;
 	}
 
-	public void setAdminno(int adminno) {
-		this.adminno = adminno;
+	public void setUserno(int userno) {
+		this.userno = userno;
 	}
 
 	public int getDateCate() {
