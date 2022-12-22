@@ -228,4 +228,24 @@ public class AdoptServiceImpl implements AdoptService {
 		return adoptDao.selectCmtCntAll(adoptPro);
 	}
 	
+	@Override
+	public void cmtDelete(AdoptCmt adoptCmt) {
+		adoptDao.deleteCmt(adoptCmt);
+		
+	}
+	
+	@Override
+	public void cmtUpdate(AdoptCmt adoptCmt) {
+		adoptDao.updateCmt(adoptCmt);
+		
+	}
+	
+	@Override
+	public void cmtReWrite(AdoptCmt adoptCmt) {
+
+		adoptDao.updateSort(adoptCmt);
+		
+		adoptDao.insertReCmt(adoptCmt);
+		
+	}
 }

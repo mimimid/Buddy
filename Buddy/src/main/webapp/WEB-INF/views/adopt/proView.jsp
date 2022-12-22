@@ -69,26 +69,10 @@ $(document).ready(function() {
 		location.href = "/adopt/proDelete?aniNo="+${pro.ANI_NO}
 	})
 	
-	$("#cmtContentUpdate").click(function() { 
-			
-		if($("#cmtContent").is(":disabled")){
-			$('#cmtContent').attr("disabled", false); 
-		}
-		else{
-		$('#cmtContent').attr("disabled", true); 
-		}
-	})
-	$("#recmtView").click(function() {
-		if ($(".recmtWrap>form").css("display") == "none") { 
-	        $(".recmtWrap>form").show(); //display :none 일떄
-	    } else {
-	        $(".recmtWrap>form").hide();  //display :block 일떄
-	    }
-	})
-	
 })
 
 </script>
+
 <style>
 #img_wrap{
 	display:inline-block;
@@ -291,7 +275,7 @@ p{
     height: 600px;
 }
 .recmt{
-	width: 450px;
+	width: 550px;
     height: 35px;
     margin: 10px 0px;
 }
@@ -299,6 +283,20 @@ p{
 	border-style:none;
 	background:none;
 	margin-left:10px;
+	width: 100%;
+    height: 50px;
+}
+.reWrap{
+	display: none;
+}
+.member{
+	font-size: 17px;
+    font-weight: bold;
+}
+.glyphicon-arrow-right{
+	color:#FF7A85;
+	font-size: 20px;
+	margin-right:5px;
 }
 </style>
 <div class="ballon"></div>
@@ -429,26 +427,35 @@ ${pro.ANI_CONTENT}
 <c:forEach items="${adoptCmt }" var="cmt" >
 <div class="cmt_wrap">
 	<div style="margin:15px 0px;">
-	<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-	<span>집사<c:if test="${cmt.userno - 1 != 0 }">${cmt.userno - 1 }</c:if></span>
-	<span class="pull-right"><fmt:formatDate value="${cmt.procmtDate }" pattern="yy-MM-dd"/></span>
-		<form action="/adopt/cmtUpdate?procmtNo=${cmt.procmtNo }" method="post">
-			<input type="text" value="${cmt.procmtContent }" class="cmtContent" disabled>
+		<c:if test="${cmt.procmtSorts ne 0 }">
+			<c:forEach var="i" begin="1" end="${cmt.procmtDepth}">
+				<span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
+			</c:forEach>
+		</c:if>
+		<span class="member">
+			<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+			<span>집사<c:if test="${cmt.userno - 1 != 0 }">${cmt.userno - 1 }</c:if></span>
+		</span>
+		
+		<form action="/adopt/cmtUpdate?procmtNo=${cmt.procmtNo }&rnum=${param.rnum}&aniNo=${pro.ANI_NO }" method="post" style="width:550px;display:inline-block;">
+			<input type="text" value="${cmt.procmtContent }" name="procmtContent" class="cmtContent" id="cmtContent${cmt.procmtNo }"<c:if test="${cmt.userno != userno }">disabled</c:if>>
 		<button class="btn" style="background-color:antiquewhite;display:none;"<c:if test="${empty userno }"> disabled="disabled"</c:if>>작성</button>
 		</form>
+		
+		<span class="pull-right"><fmt:formatDate value="${cmt.procmtDate }" pattern="yy-MM-dd"/></span>
 	</div>
 	
 	<div>
-		<button class="btn" id="recmtView">댓글</button>
+		<button type="button" class="btn" id="recmtView" onclick="recmtUp(${cmt.procmtNo });return false;">댓글</button>
 		<c:if test="${cmt.userno == userno }">
 		<div class="pull-right">
-			<button id="cmtContentUpdate" class="btn btnUp">수정</button>
-			<a href="/adopt/cmtDelete?procmtNo=${cmt.procmtNo }&rnum=${param.rnum}"><button class="btn btnDel">삭제</button></a>
+			<button type="button" id="cmtContentUpdate" class="btn btnUp" onclick="cmtContentUp(${cmt.procmtNo });return false;" >수정</button>
+			<a href="/adopt/cmtDelete?procmtNo=${cmt.procmtNo }&rnum=${param.rnum}&aniNo=${pro.ANI_NO }"><button class="btn btnDel">삭제</button></a>
 		</div>
 		</c:if>
-		<div class="recmtWrap" >
-		<form style="display:none;" action="/adopt/cmtUpdate?procmtNo=${cmt.procmtNo }&rnum=${param.rnum}" method="post">
-			<input class="recmt"<c:if test="${empty userno }"> placeholder="로그인이 필요합니다" disabled</c:if>>
+		<div id="recmtWrap${cmt.procmtNo }" class="reWrap">
+		<form action="/adopt/cmtRe?procmtGroup=${cmt.procmtGroup }&rnum=${param.rnum}&aniNo=${pro.ANI_NO }&procmtSorts=${cmt.procmtSorts }&procmtDepth=${cmt.procmtDepth}" method="post">
+			<input name="procmtContent" class="recmt"<c:if test="${empty userno }"> placeholder="로그인이 필요합니다" disabled</c:if>>
 		<button class="btn" style="background-color: antiquewhite;"<c:if test="${empty userno }"> disabled="disabled"</c:if>>작성</button>
 		</form>
 		</div>
@@ -456,6 +463,26 @@ ${pro.ANI_CONTENT}
 </div>
 </c:forEach>
 
+<script>
+function cmtContentUp(f){
+	console.log(f);
+	var ff = '#cmtContent' + f ;
+	console.log(ff);
+	
+	$(ff).css("border-style", "solid"); 
+}
+		
+function recmtUp(f){
+	var ff = '#recmtWrap' + f ;
+	console.log(ff);
+	
+	if ($(ff).css("display") == "none") { 
+        $(ff).show(); //display :none 일떄
+    } else {
+        $(ff).hide();  //display :block 일떄
+    }
+}
+</script>
 
 <div id="page">
 <c:forEach items="${num }" var="row" >

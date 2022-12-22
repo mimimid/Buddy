@@ -177,5 +177,34 @@ public interface AdoptDao {
 	 */
 	public int selectCmtCntAll(AdoptPro adoptPro);
 
+	/**
+	 * 댓글 삭제
+	 * 
+	 * @param adoptCmt - 댓글 번호
+	 */
+	public void deleteCmt(AdoptCmt adoptCmt);
+
+	/**
+	 * 댓글 수정
+	 * 
+	 * @param adoptCmt - 댓글 수정
+	 */
+	public void updateCmt(AdoptCmt adoptCmt);
+
+	/**
+	 * 답글 삽입 전 sort + 1
+	 * 
+	 * @param adoptCmt - 답글 내용 및 원글 정보
+	 */
+	public void updateSort(AdoptCmt adoptCmt);
+
+	/**
+	 * 답글 삽입
+	 * 
+	 * @param adoptCmt - 답글 내용 및 원글 정보
+	 */
+	public void insertReCmt(AdoptCmt adoptCmt);
+
+
 
 }

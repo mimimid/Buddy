@@ -186,6 +186,30 @@
 		WHERE ani_no = #{aniNo}
 	</select>
 	
+	<delete id="deleteCmt" parameterType="AdoptCmt">
+		DELETE adopt_cmt
+		WHERE procmt_no = #{procmtNo}
+	</delete>
 	
+	<update id="updateCmt" parameterType="AdoptCmt">
+		UPDATE adopt_cmt
+		SET procmt_content = #{procmtContent}
+		WHERE procmt_no = #{procmtNo}
+	</update>
+	
+	
+	<update id="updateSort" parameterType="AdoptCmt">
+		UPDATE adopt_cmt SET procmt_sorts = procmt_sorts + 1 
+	  	WHERE procmt_group =  #{procmtGroup}  AND procmt_sorts > #{procmtSorts}
+	</update>
+	
+	<insert id="insertReCmt" parameterType="AdoptCmt">
+		INSERT INTO adopt_cmt (procmt_no, userno, ani_no, procmt_content
+			, procmt_group, procmt_sorts, procmt_depth)
+		VALUES (adopt_cmt_seq.nextval, #{userno}, #{aniNo}, #{procmtContent}
+			 ,#{procmtGroup}, #{procmtSorts} + 1, #{procmtDepth} + 1)
+			  
+			 
+	</insert>
 	
 </mapper>

@@ -242,17 +242,27 @@ public class AdoptController {
 	@RequestMapping("cmtDelete")
 	public String AdoptCmtDelete(AdoptCmt adoptCmt, int rnum) {
 		
+		adoptService.cmtDelete(adoptCmt);
+		
 		return "redirect:/adopt/proView?aniNo="+ adoptCmt.getAniNo() + "&rnum="+ rnum;
 	}
 	
 	@RequestMapping("cmtUpdate")
 	public String AdoptCmtUpdate(AdoptCmt adoptCmt, int rnum) {
 		
+		logger.debug("댓글수정{}", adoptCmt);
+		adoptService.cmtUpdate(adoptCmt);
+		
 		return "redirect:/adopt/proView?aniNo="+ adoptCmt.getAniNo() + "&rnum="+ rnum;
 	}
 	
 	@RequestMapping("cmtRe")
-	public String AdoptcmtRe(AdoptCmt adoptCmt, int rnum) {
+	public String AdoptcmtRe(AdoptCmt adoptCmt, int rnum,HttpSession session) {
+		adoptCmt.setUserno((int)session.getAttribute("userno"));
+		
+		logger.debug("답글{}", adoptCmt);
+		
+		adoptService.cmtReWrite(adoptCmt);
 		
 		return "redirect:/adopt/proView?aniNo="+ adoptCmt.getAniNo() + "&rnum="+ rnum;
 	}

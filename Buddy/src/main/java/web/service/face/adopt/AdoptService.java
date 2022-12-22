@@ -146,12 +146,33 @@ public interface AdoptService {
 	public List<AdoptCmt> adoptCmtView(AdoptPro adoptPro);
 
 	/**
-	 * 댓글 페이징
+	 * 댓글 카운트
 	 * 
 	 * @param adoptPro - 입양프로필 번호
 	 * @return 해당 프로필 총 댓글 수
 	 */
 	public int getCmtCnt(AdoptPro adoptPro);
+
+	/**
+	 * 댓글 삭제 
+	 * 
+	 * @param adoptCmt - 댓글번호
+	 */
+	public void cmtDelete(AdoptCmt adoptCmt);
+
+	/**
+	 * 댓글 수정
+	 * 
+	 * @param adoptCmt - 댓글 번호
+	 */
+	public void cmtUpdate(AdoptCmt adoptCmt);
+
+	/**
+	 * 답글 달기
+	 * 
+	 * @param adoptCmt - 부모 댓글 번호
+	 */
+	public void cmtReWrite(AdoptCmt adoptCmt);
 
 	
 
