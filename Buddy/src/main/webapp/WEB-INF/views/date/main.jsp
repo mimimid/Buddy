@@ -17,7 +17,10 @@
 
 <script type="text/javascript">
 $(document).ready(function () {
-
+	$("#btnWrite").click(function() {
+		console.log("글쓰기클릭")
+		location.href="/date/write";
+	})
 	
 })
 
@@ -44,7 +47,7 @@ div#categoryBtn>a>button {
     color: #000;
 }
 
-div#categoryBtn>a>button:hover {
+div#categoryBtn>a>button:hover, #btnWrite {
     background-color: #ff7a85;
     color: #fff;
 }
@@ -142,7 +145,14 @@ div.page-header>hr {
 </div>
 </div><!-- OPEN NEWS! END -->
 
+<c:if test="${id eq 'id1' }">
+<button id="btnWrite" class="btn pull-right">글쓰기</button>
+</c:if>
+<div class="clearfix"></div>
+
 </div><!-- 리스트목록 END -->
+
+
 
 </div><!-- 메인 END -->
 

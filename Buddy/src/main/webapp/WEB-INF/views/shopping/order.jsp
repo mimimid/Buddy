@@ -112,6 +112,12 @@ $(document).ready(function(){
             
         }
     });
+    
+	//취소버튼
+	$("#btnCancel").click(function() {
+		console.log("취소")
+		history.go(-1)
+	})
 });
 </script>
 
@@ -173,7 +179,7 @@ h4{
 	padding-left: 15px;
 	font-size: 18px;
 }
-<<<<<<< HEAD
+
 
 #delivery{
 	font-size: 16px;
@@ -184,10 +190,12 @@ h4{
 	background-color: #FF7A85;
 	color: white;
 }
+#btnCancel{
+	background-color: #FF7A85;
+	color: white;
+}
 
 
-=======
->>>>>>> branch 'main' of https://github.com/mimimid/Buddy
 </style>
 
 <div class="container">
@@ -253,9 +261,10 @@ h4{
 		<input id="selfInput" type="hidden" placeholder="배송메모를 입력해주세요." class="form-control">
 	</div>
 </div><br><br>
-
-
-<button style="width: 400px; margin: 0 auto;" type="button" id="kakao">결제하기<img src="/resources/img/shopping/kakaopay.png"></button>
+<div style="text-align: center;">
+<button type="button" id="kakao"><img src="/resources/img/shopping/kakaopay.png"></button>
+<button id="btnCancel" class="btn">취소</button>
+</div>
 </div>
 
 

@@ -40,7 +40,7 @@
 	</sql>
 	
 	<sql id="selectDate">
-		SELECT date_no, adminno, D.date_cate, C.date_cate_name, title, content, loc, hit, write_date, comm_count, like_count
+		SELECT date_no, userno, D.date_cate, C.date_cate_name, title, content, loc, hit, write_date, comm_count, like_count
 		FROM date_board D
 		INNER JOIN date_cate C
 		ON D.date_cate = C.date_cate_no
@@ -98,6 +98,16 @@
 	<insert id="insertReport" parameterType="DateReport">
 		INSERT INTO date_report ( d_report_no, userno, date_no, date_report_content )
 		VALUES ( date_report_seq.nextval, #{userno}, #{dateNo}, #{dateReportContent} )
+	</insert>
+	
+	<insert id="insertBoard" parameterType="DateBoard">
+		INSERT INTO date_board ( date_no, userno, date_cate, title, content, loc )
+		VALUES ( date_seq.nextval, #{userno}, #{dateCate}, #{title}, #{content}, #{loc} )
+	</insert>
+	
+	<insert id="insertFile" parameterType="DateFile">
+		INSERT INTO boardfile ( file_no, date_no, origin_name, stored_name)
+		VALUES ( date_seq.nextval, #{dateNo }, #{originName }, #{storedName } )
 	</insert>
 	
 </mapper>

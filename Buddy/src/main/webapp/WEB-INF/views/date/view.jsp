@@ -54,12 +54,17 @@ $(document).ready(function () {
 		if( ${empty sessionScope.login } ) {
 			alert("로그인 후 댓글을 달아주세요.");
 		} else {
-			//댓글등록ajax
-			fn_comment();
-				
-			alert("댓글이 등록되었습니다.");
 			
-			location.reload();
+			if( $("#cmContent").val() === "" ) {
+				alert("댓글을 입력해주세요.")
+			} else {
+				//댓글등록ajax
+				fn_comment();
+					
+				alert("댓글이 등록되었습니다.");
+				
+				location.reload();
+			}
 				
 		}
 	})
