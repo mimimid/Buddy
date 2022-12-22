@@ -3,6 +3,7 @@ package web.service.face.date;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import web.dto.DateBoard;
 import web.dto.DateComment;
@@ -79,6 +80,14 @@ public interface DateService {
 	 * @param report - 게시글번호, 유저번호, 신고내용
 	 */
 	public void report(DateReport report);
+
+	/**
+	 * 게시글 정보, 첨부파일을 함께 처리한다
+	 * 
+	 * @param board - 게시글 정보 객체
+	 * @param file - 첨부파일 정보 객체
+	 */
+	public void write(DateBoard board, MultipartFile file);
 
 
 

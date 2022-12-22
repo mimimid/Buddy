@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import web.dto.DateBoard;
 import web.dto.DateReport;
@@ -138,5 +139,29 @@ public class DateController {
 		return "redirect:/date/view?dateNo="+dateNo;
 		
 	}
+	
+	//데이트글쓰기
+	@GetMapping("/date/write")
+	public void write() {}
+
+	//데이트글쓰기
+	@PostMapping("/date/write")
+	public String writeProc(HttpSession session, DateBoard board, MultipartFile file) {
+		logger.debug("{}", board);
+		logger.debug("{}", file);
+		
+		//작성자추가
+		int userno = (int) session.getAttribute("userno");
+		board.setUserno(userno);
+		logger.debug("{}", board);
+		
+		//게시글, 첨부파일 처리
+		dateService.write(board, file);
+		
+		return "redirect:/date/main";
+		
+		
+	}
+	
 	
 }
