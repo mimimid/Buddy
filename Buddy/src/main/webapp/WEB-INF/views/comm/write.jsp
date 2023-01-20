@@ -16,7 +16,13 @@ $(document).ready(function() {
 		//스마트에디터에 작성된 내용을 #content에 반영
 		updateContents();
 		
-		$("form").submit();
+		if ( $("#title").val() == "" ) {
+			alert("제목을 입력해주세요!")
+		
+		} else {
+			$("form").submit();
+		}
+		
 	})
 	
 	$("#btnCancel").click(function() {
@@ -53,6 +59,7 @@ button:focus, button:active {
 <form action="./write" method="post" enctype="multipart/form-data">
 
 <input type="hidden" name="userno" value="${userno }">
+<input type="hidden" name="commWriterNick" value="${nick }">
 
 <div class="form-group">
 	<label for="cateAnimal">동물</label>
@@ -70,11 +77,6 @@ button:focus, button:active {
 	    <option value="info">정보</option>
 	    <option value="etc">기타</option>
 	</select>
-</div>
-
-<div class="form-group">
-	<label for="writer">작성자</label>
-	<input type="text" id="writer" value="${nick }" class="form-control" readonly="readonly">
 </div>
 
 <div class="form-group">

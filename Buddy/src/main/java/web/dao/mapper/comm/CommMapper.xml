@@ -7,6 +7,36 @@
   
 <mapper namespace="web.dao.face.comm.CommDao">
 	
+	<select id="selectRList" resultType="CommBoard">
+		SELECT * FROM (
+			SELECT rownum rnum, B.* FROM (
+				SELECT
+					comm_no, cate_animal, cate_content, comm_title
+					, comm_content, comm_writer_nick, comm_writedate, comm_update
+					, comm_hit, comm_like_cnt, comm_cmt_cnt, userno
+				FROM comm_board
+				ORDER BY comm_writedate DESC
+			) B
+		) BOARD
+		WHERE rnum BETWEEN 1 AND 5
+	</select>
+	
+	<select id="selectPList" resultType="CommBoard">
+		SELECT * FROM (
+			SELECT rownum rnum, B.* FROM (
+				SELECT
+					comm_no, cate_animal, cate_content, comm_title
+					, comm_content, comm_writer_nick, comm_writedate, comm_update
+					, comm_hit, comm_like_cnt, comm_cmt_cnt, userno
+				FROM comm_board
+				ORDER BY comm_like_cnt DESC
+			) B
+		) BOARD
+		WHERE rnum BETWEEN 1 AND 5
+	</select>
+	
+	
+	
 	<select id="selectCntAll" resultType="int" parameterType="hashmap">
 		SELECT count(*) FROM comm_board
 		<where>
@@ -128,6 +158,11 @@
 		WHERE comm_no = #{commNo }
 	</update>
 	
+	<delete id="deleteCommFile" parameterType="CommBoard">
+		DELETE comm_file
+		WHERE comm_no = #{commNo }
+	</delete>
+	
 	<delete id="deleteAllReport" parameterType="CommBoard">
 		DELETE comm_report
 		WHERE comm_no = #{commNo }
@@ -137,8 +172,6 @@
 		DELETE comm_board
 		WHERE comm_no = #{commNo }
 	</delete>
-	
-	
 	
 	
 	
@@ -176,6 +209,15 @@
 	
 	
 	
+	<insert id="report" parameterType="CommReport">
+		<selectKey order="BEFORE" resultType="int" keyProperty="commReportNo">
+			SELECT comm_report_seq.nextval FROM dual
+		</selectKey>
+		
+		INSERT INTO comm_report ( comm_report_no, comm_no, userno, comm_report_content )
+		VALUES ( #{commReportNo }, #{commNo }, #{userno }, #{commReportContent } )
+	</insert>
+	
 	
 	
 	<select id="selectAllCmt" parameterType="int" resultType="CommCmt">
@@ -188,11 +230,14 @@
 		ORDER BY comm_cmt_bundle, comm_cmt_no
 	</select>
 	
+	
+	
+	
+	
+	
+	
+	
 	<insert id="insertCmt" parameterType="CommCmt">
-		<selectKey order="BEFORE" resultType="int" keyProperty="commCmtNo">
-			SELECT comm_cmt_seq.nextval FROM dual
-		</selectKey>
-		
 		INSERT INTO comm_cmt (
 			comm_cmt_no, comm_cmt_content, comm_cmt_writer_nick
 			, comm_cmt_bundle, comm_cmt_sort, comm_cmt_depth
@@ -200,10 +245,11 @@
 		)
 		VALUES (
 			#{commCmtNo }, #{commCmtContent }, #{commCmtWriterNick }
-			, comm_cmt_bundle_seq.nextval, #{commCmtSort }, #{commCmtDepth }
-			, #{commCmtDelete }, #{commNo }, #{userno }	
+			, #{commCmtNo }, 0, 0
+			, 0, #{commNo }, #{userno }	
 		)
 	</insert>
+	
 	
 	<insert id="insertReCmt" parameterType="CommCmt">
 		<selectKey order="BEFORE" resultType="int" keyProperty="commCmtNo">
@@ -250,14 +296,6 @@
 	
 	
 	
-	<insert id="report" parameterType="CommReport">
-		<selectKey order="BEFORE" resultType="int" keyProperty="commReportNo">
-			SELECT comm_report_seq.nextval FROM dual
-		</selectKey>
-		
-		INSERT INTO comm_report ( comm_report_no, comm_no, userno, comm_report_content )
-		VALUES ( #{commReportNo }, #{commNo }, #{userno }, #{commReportContent } )
-	</insert>
 	
 	
 	
@@ -265,33 +303,8 @@
 	
 	
 	
-	<select id="selectRList" resultType="CommBoard">
-		SELECT * FROM (
-			SELECT rownum rnum, B.* FROM (
-				SELECT
-					comm_no, cate_animal, cate_content, comm_title
-					, comm_content, comm_writer_nick, comm_writedate, comm_update
-					, comm_hit, comm_like_cnt, comm_cmt_cnt, userno
-				FROM comm_board
-				ORDER BY comm_writedate DESC
-			) B
-		) BOARD
-		WHERE rnum BETWEEN 1 AND 5
-	</select>
 	
-	<select id="selectPList" resultType="CommBoard">
-		SELECT * FROM (
-			SELECT rownum rnum, B.* FROM (
-				SELECT
-					comm_no, cate_animal, cate_content, comm_title
-					, comm_content, comm_writer_nick, comm_writedate, comm_update
-					, comm_hit, comm_like_cnt, comm_cmt_cnt, userno
-				FROM comm_board
-				ORDER BY comm_like_cnt DESC
-			) B
-		) BOARD
-		WHERE rnum BETWEEN 1 AND 5
-	</select>
+	
 	
 	
 

@@ -32,6 +32,20 @@ public class CommServiceImpl implements CommService {
 	
 	@Autowired ServletContext context;
 	
+	//----- 메인페이지 - 최신글, 인기글 ---------------------------------------------------------
+	
+	@Override
+	public List<CommBoard> rlist() {
+		return commDao.selectRList();
+	}
+	
+	
+	@Override
+	public List<CommBoard> plist() {
+		return commDao.selectPList();
+	}
+	
+	
 	//----- 게시판 ---------------------------------------------------------
 	
 	@Override
@@ -259,6 +273,14 @@ public class CommServiceImpl implements CommService {
 	}
 	
 	
+	//----- 신고 ---------------------------------------------------------
+	
+	@Override
+	public void report(CommReport commReport) {
+		commDao.report(commReport);
+	}
+	
+	
 	//----- 댓글 ---------------------------------------------------------
 	
 	@Override
@@ -319,12 +341,6 @@ public class CommServiceImpl implements CommService {
 	}
 	
 	
-	@Override
-	public void report(CommReport commReport) {
-		
-		commDao.report(commReport);
-		
-	}
 	
 	
 	
@@ -332,16 +348,8 @@ public class CommServiceImpl implements CommService {
 	
 	
 	
-	@Override
-	public List<CommBoard> rlist() {
-		return commDao.selectRList();
-	}
 	
 	
-	@Override
-	public List<CommBoard> plist() {
-		return commDao.selectPList();
-	}
 	
 	
 	

@@ -12,7 +12,25 @@ import web.dto.CommReport;
 import web.util.Paging;
 
 public interface CommService {
+	
+	
+	//----- 메인 페이지 - 최신글, 인기글 ---------------------------------------------------------
+	
+	/**
+	 * 커뮤니티 게시판의 최신글 목록을 조회한다
+	 * 
+	 * @return - 조회된 최신 게시글 목록
+	 */
+	public List<CommBoard> rlist();
 
+	/**
+	 * 커뮤니티 게시판의 인기글 목록을 조회한다
+	 * 
+	 * @return - 조회된 인기 게시글 목록
+	 */
+	public List<CommBoard> plist();
+	
+	
 	//----- 게시판 ---------------------------------------------------------
 	
 	/**
@@ -125,7 +143,26 @@ public interface CommService {
 	public void likeDown(CommLike like);
 	
 	
+	//----- 신고 ---------------------------------------------------------
+	
+	/**
+	 * 게시글 신고
+	 * 
+	 * @param commReport - 작성자 정보
+	 */
+	public void report(CommReport commReport);
+	
+	
 	//----- 댓글 ---------------------------------------------------------
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	/**
 	 * 게시글 번호를 이용하여 댓글 목록 조회
@@ -149,16 +186,8 @@ public interface CommService {
 	 */
 	public void cmtDelete(CommCmt commCmt);
 
-	/**
-	 * 게시글 신고
-	 * 
-	 * @param commReport - 작성자 정보
-	 */
-	public void report(CommReport commReport);
-
-	public List<CommBoard> rlist();
-
-	public List<CommBoard> plist();
+	
+	
 
 	
 

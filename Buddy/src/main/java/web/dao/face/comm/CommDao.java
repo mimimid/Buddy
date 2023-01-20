@@ -11,6 +11,25 @@ import web.dto.CommReport;
 
 public interface CommDao {
 
+	//----- 메인페이지 - 최신글, 인기글 ---------------------------------------------------------
+	
+	/**
+	 * 커뮤니티 게시판의 최신글 목록을 조회한다
+	 * 
+	 * @return - 조회된 최신 게시글 목록
+	 */
+	public List<CommBoard> selectRList();
+
+	/**
+	 * 커뮤니티 게시판의 인기글 목록을 조회한다
+	 * 
+	 * @return - 조회된 인기 게시글 목록
+	 */
+	public List<CommBoard> selectPList();
+	
+	
+	//----- 게시판 ---------------------------------------------------------
+	
 	/**
 	 * 전체 게시글 수를 조회한다
 	 * 
@@ -150,6 +169,16 @@ public interface CommDao {
 	public void likeCntDown(CommBoard board);
 	
 	
+	//----- 신고 ---------------------------------------------------------
+	
+	/**
+	 * 신고 작성
+	 * 
+	 * @param commReport - 신고 정보 객체
+	 */
+	public void report(CommReport commReport);
+
+	
 	//----- 댓글 ---------------------------------------------------------
 	
 	/**
@@ -194,17 +223,26 @@ public interface CommDao {
 
 	public void cmtDown(CommBoard commBoard);
 
+	
 	/**
-	 * 신고 작성
+	 * 댓글 sort, depth 찾기
 	 * 
-	 * @param commReport - 신고 정보 객체
+	 * @param commCmt
+	 * @return
 	 */
-	public void report(CommReport commReport);
+	public CommCmt cmtFind(CommCmt commCmt);
+
+	/**
+	 * 가장 큰 sort값을 가진 댓글 정보 가져오기
+	 * 
+	 * @param cmtFind
+	 * @return
+	 */
+	public CommCmt selectSortMax(CommCmt cmtFind);
 
 	
-	public List<CommBoard> selectRList();
-
-	public List<CommBoard> selectPList();
+	
+	
 
 	
 

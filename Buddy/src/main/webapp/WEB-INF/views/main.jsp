@@ -11,7 +11,7 @@ table {
 	table-layout: fixed;
 }
 
-td, tr {
+td {
 	height: 50px;
 	
 	line-height: 50px !important;

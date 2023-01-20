@@ -22,10 +22,12 @@ public class MainController {
 	@RequestMapping("/")
 	public String main(Model model) {
 		
+		// 최신글 목록 5개 조회
 		List<CommBoard> rlist = commService.rlist();
 		for( CommBoard r : rlist )	logger.debug("{}", r);
 		model.addAttribute("rlist", rlist);
 		
+		// 인기글 목록 5개 조회
 		List<CommBoard> plist = commService.plist();
 		for( CommBoard p : plist )	logger.debug("{}", p);
 		model.addAttribute("plist", plist);

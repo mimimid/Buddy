@@ -13,6 +13,14 @@ $(document).ready(function() {
 		location.href = "/comm/list"
 	})
 	
+	$("#btnPrev").click(function() {
+		location.href = "/comm/view?commNo=${viewBoard.commNo-1 }"
+	})
+	
+	$("#btnNext").click(function() {
+		location.href = "/comm/view?commNo=${viewBoard.commNo+1 }"
+	})
+	
 	$("#btnUpdate").click(function() {
 		location.href = "/comm/update?commNo=${viewBoard.commNo }"
 	})
@@ -86,6 +94,7 @@ $(document).ready(function() {
 })
 </script>
 
+
 <!-- 좋아요 -->
 <script type="text/javascript">
 $(document).ready(function() {
@@ -130,9 +139,6 @@ $(document).ready(function() {
 						$("#likeCntFirst").css("display", "none");
 						$("#likeCnt").html(res)
 						
-// 						likecnt();
-						
-						
 						console.log(likeval)
 						
 					}
@@ -158,9 +164,6 @@ $(document).ready(function() {
 						$("#likeCntFirst").css("display", "none");
 						$("#likeCnt").html(res)
 						
-// 						likecnt();
-						
-						
 						console.log(likeval)
 						
 					}
@@ -178,18 +181,51 @@ $(document).ready(function() {
 })
 </script>
 
-<!-- 신고하기 -->
+
 <script type="text/javascript">
-$(document).ready(function(){
+$(document).ready(function() {
 	
-	$("#btnReport").click(function() {
+	/* 모달창띄우기 */
+	$("#btnReport").click(function(e){
+		e.preventDefault()
+		$("#reportModal").modal("show")
+	})
+
+	$("#modalY").click(function(){
+		console.log("신고클릭")
 		
-		window.open("./report?commNo=${viewBoard.commNo }","신고하기","width=800, height=600")
+		var commNo = $("#commNo").val()
+		var commReportContent = $("#commReportContent").val()
+		
+		console.log(commNo, commReportContent);
+		
+		$.ajax({
+			type: "post"
+			, url: "/comm/report"
+			, data: { 
+				"commNo" : commNo,
+				"commReportContent" : commReportContent }
+			, dataType: "html"
+			, success: function(result) {
+				console.log("AJAX 성공")
+				alert("신고가 완료되었습니다.")
+				$('#reportModal').modal("hide");
+				location.href = "/comm/list";
+				
+			}
+			, error: function() {
+				console.log("AJAX 실패")
+				alert("신고 접수에 실패하였습니다.")
+			}
+		})
 		
 	})
-		
 })
 </script>
+
+
+
+
 
 <!-- 댓글 -->
 <script type="text/javascript">
@@ -256,11 +292,6 @@ span {
 
 /* --------------------------------------- */
 
-#preview {
-	height: 100px;
-	width: 100px;
-}
-
 button:focus, button:active { 	
     outline:none !important;
     box-shadow:none !important;
@@ -286,15 +317,58 @@ a.btn-heart:hover {
 	display: inline-block;
 }
 
-.view-content {
-	min-height: 200px;
+.view-body {
+	display: flex;
+}
+
+.view-content, .view-preview {
+	display: inline-block;
+	
+	width: 50%;
+	height: 400px;
+}
+
+.view-preview {
+	display: inline-block;
+	
+	width: 50%;
+	height: 400px;
+	
+	line-height: 400px;
+	
+	text-align: center;
+}
+
+#preview {
+	height: 300px;
+	width: 300px;
 }
 
 #likeCntFirst, #likeCnt {
 	display: inline-block;
 }
 
-#btnList {
+
+/* --------------------------------------- */
+.btn-group {
+	display: flex;
+	
+	text-align: center;
+}
+
+.btn-left, .btn-right {
+	display: inline-block;
+	
+	width: 10%;
+}
+
+.btn-center {
+	display: inline-block;
+	
+	width: 80%;
+}
+
+#btnList, #btnPrev, #btnNext {
 	background-color: #969696;
 	color: #fff;
 }
@@ -308,6 +382,38 @@ a.btn-heart:hover {
 	background-color: #FF7A85;
 	color: #fff;
 }
+
+
+
+
+
+
+/* --------회원수정 모달 CSS -------- */
+
+#report-content {
+	width: 370px;
+}
+
+#wrap_report {
+	width: 100%;
+}
+
+#bgSize {
+	width: 369px;
+}
+
+#modalY {
+	background-color: #f0f0f0;
+	color: #000;
+}
+
+#btnNo {
+    background-color: #ff7a85;
+    color: #fff;
+}
+
+
+
 </style>
 
 <div class="container">
@@ -340,20 +446,21 @@ a.btn-heart:hover {
 	<div class="view-hit">
 		<span><fmt:formatDate value="${viewBoard.commWritedate }" pattern="yyyy-MM-dd" /></span>
 		<span class="material-icons-outlined">visibility</span>&nbsp;&nbsp;${viewBoard.commHit }
-		<button id="btnReport" class="btn btn-report">신고</button>
-		<input type="hidden" id="userno" name="userno" value="${userno }">
+		<a id="btnReport" href="javascript:;" class="text-gray-dark _fade_link">신고</a>
 	</div>
 	
 	<hr>
 	
-	<div class="view-content">
-		<span>${viewBoard.commContent }</span>
-	</div>
-	
-	<div class="view-preview">
-		<c:if test="${not empty commFile.commFileStoredname }">
-			<img id="preview" alt="preview" src="<%=request.getContextPath() %>/upload/${commFile.commFileStoredname }">
-		</c:if>
+	<div class="view-body">
+		<div class="view-content">
+			<span>${viewBoard.commContent }</span>
+		</div>
+		
+		<div class="view-preview">
+			<c:if test="${not empty commFile.commFileStoredname }">
+				<img id="preview" alt="preview" src="<%=request.getContextPath() %>/upload/${commFile.commFileStoredname }">
+			</c:if>
+		</div>
 	</div>
 	
 	<div class="view-like">
@@ -367,7 +474,7 @@ a.btn-heart:hover {
 	</div>
 
 	<hr>
-
+	
 	<div id="listReply"></div>
 	
 	<form action="./cmtwrite" method="post">
@@ -380,13 +487,25 @@ a.btn-heart:hover {
 	
 	<br>
 	
-	<div class="text-center">
-		<button id="btnList" class="btn btn-list">목록</button>
+	<div class="btn-group">
+	
+		<div class="btn-left">
+			<button id="btnPrev" class="btn btn-list">이전글</button>
+		</div>
+	
+		<div class="btn-center">
+			<button id="btnList" class="btn btn-list">목록</button>
+			
+			<c:if test="${userno eq viewBoard.userno }">
+				<button id="btnUpdate" class="btn btn-write">수정</button>
+				<button id="btnDelete" class="btn btn-delete">삭제</button>
+			</c:if>
+		</div>
 		
-		<c:if test="${userno eq viewBoard.userno }">
-			<button id="btnUpdate" class="btn btn-write">수정</button>
-			<button id="btnDelete" class="btn btn-delete">삭제</button>
-		</c:if>
+		<div class="btn-right">
+			<button id="btnNext" class="btn btn-list">다음글</button>
+		</div>
+		
 	</div>
 
 </div>
@@ -395,7 +514,31 @@ a.btn-heart:hover {
 
 
 
-
+<div class="modal fade" id="reportModal" tabindex="-1">
+	<div id="bgSize" class="modal-dialog" role="document">
+		<div id="report-content" class="modal-content">
+			<div class="modal-header">
+				<h3 class="modal-title text-center" id="exampleModalLabel">게시글 신고</h3>
+			</div>
+				<div id="reportModelContant" class="modal-body">
+				<div id="wrap_report" class="container">
+				
+					<input type="hidden" name="commNo" value="${commBoard.commNo }">
+					
+					<div class="form-group">
+						<label for="commReportContent">신고 내용</label>
+						<textarea rows="10" style="width: 100%;" id="commReportContent" name="commReportContent"></textarea>
+					</div>
+				
+				</div>
+				</div>
+			<div class="modal-footer">
+				<a class="btn" id="modalY" href="javascript:">신고</a>
+				<button id="btnNo" class="btn" type="button" data-dismiss="modal">취소</button>
+			</div>
+		</div>
+	</div>
+</div>
 
 
 

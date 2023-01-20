@@ -116,52 +116,34 @@ $(document).ready(function() {
 
 
 <style type="text/css">
-span {
-	display: table-cell;
-	vertical-align: middle;
-}
-
 button:focus, button:active { 	
     outline:none !important;
     box-shadow:none !important;
 }
 
 /* --------------------------------------- */
-
 .cate-animal  {
 	text-align: center;
 	padding: 10px;
 }
-
 .cate-content {
 	text-align: center;
 	padding-bottom: 50px;
 }
-
 .btn-animal, .btn-category {
 	background-color: #fff;
 	width: 80px;
 }
-
 /* --------------------------------------- */
-
 #category {
 	line-height: 34px;
 }
-
 #btnSearch {
 	background-color:#8EC0E4; 
 	color: #fff;
 }
-
 /* --------------------------------------- */
-
-table {
-	table-layout: fixed;
-}
-
 /* --------------------------------------- */
-
 #btnWrite {
 	background-color: #8EC0E4;
 	color: #fff;
@@ -222,35 +204,57 @@ table {
 	</div>
 
 	<div class="clearfix" style="padding-bottom: 10px;"></div>
-
-
-
-<!-- css 정리 필요 -->
-
-
-<table class="table">
-<c:forEach items="${list }" var="commBoard">
-	<tr>
-		<td rowspan="2">
-			<c:choose>
-				<c:when test="${commBoard.cateContent eq 'daily' }">#일상</c:when>
-				<c:when test="${commBoard.cateContent eq 'info' }">#정보</c:when>
-				<c:when test="${commBoard.cateContent eq 'ask' }">#질문</c:when>
-				<c:when test="${commBoard.cateContent eq 'etc' }">#기타</c:when>
-			</c:choose>
-		</td>
-		<td colspan="8"><a href="/comm/view?commNo=${commBoard.commNo }">${commBoard.commTitle }</a></td>
-		<td><span class="material-icons-outlined">chat_bubble_outline</span>&nbsp;&nbsp;${commBoard.commCmtCnt }</td>
-	</tr>
+	
+	
+	
+	<div class="commlist">
+		<div class="row">
+			<c:forEach items="${list }" var="commBoard">
+			
+			<div class="clearfix" style="padding: 10px;"></div>
+			
+			<div class="col-md-2">
+				<small>
+					<c:choose>
+						<c:when test="${commBoard.cateContent eq 'daily' }">#일상</c:when>
+						<c:when test="${commBoard.cateContent eq 'info' }">#정보</c:when>
+						<c:when test="${commBoard.cateContent eq 'ask' }">#질문</c:when>
+						<c:when test="${commBoard.cateContent eq 'etc' }">#기타</c:when>
+					</c:choose>
+				</small>
+			</div>
+								
+			<div class="col-md-8">
+				<a href="/comm/view?commNo=${commBoard.commNo }">${commBoard.commTitle }</a>
+			</div>
+				
+			<div class="col-md-2">
+				<span class="glyphicon glyphicon-eye-open" aria-hidden="true"> ${commBoard.commHit }</span>
+			</div>
+			
+			<div class="clearfix" style="padding: 10px;"></div>
+			
+			
+			<div class="col-md-2 col-md-offset-2">
+				<span>${commBoard.commWriterNick }</span>
+			</div>
+			<div class="col-md-2">
+				<span><fmt:formatDate value="${commBoard.commWritedate }" pattern="yyyy-MM-dd"/></span>
+			</div>
 		
-	<tr>
-		<td>${commBoard.commWriterNick }</td>
-		<td><fmt:formatDate value="${commBoard.commWritedate }" pattern="yyyy-MM-dd"/></td>
-		<td colspan="6"><span class="material-icons-outlined">favorite</span>&nbsp;&nbsp;${commBoard.commLikeCnt }</td>
-		<td><span class="material-icons-outlined">visibility</span>&nbsp;&nbsp;${commBoard.commHit }</td>
-	</tr>
-</c:forEach>
-</table>
+			<div class="col-md-4">
+				<span class="glyphicon glyphicon-heart" aria-hidden="true"> ${commBoard.commLikeCnt }</span>
+			</div>
+			
+			<div class="col-md-2">
+				<span class="glyphicon glyphicon-comment" aria-hidden="true"> ${commBoard.commCmtCnt }</span>
+			</div>
+			
+			<div class="clearfix" style="border-bottom: 1px solid #ccc; padding: 10px;"></div>
+			
+			</c:forEach>
+		</div>
+	</div>
 
 <button id="btnWrite" class="btn btn-write pull-right">글쓰기</button>
 

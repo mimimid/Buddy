@@ -110,7 +110,7 @@ public class CommController {
 		// 게시글, 첨부파일 처리
 		commService.write(commBoard, file);
 		
-		return "redirect:/comm/list";
+		return "redirect:/comm/view?commNo=" + commBoard.getCommNo();
 	}
 	
 	@RequestMapping("/download")
@@ -200,8 +200,23 @@ public class CommController {
 	}
 	
 	
-	//----- 댓글 ---------------------------------------------------------
+	//----- 신고 ---------------------------------------------------------
 	
+	@PostMapping("/report")
+	public String reportProcess(CommReport commReport, HttpSession session) {
+		logger.debug("{}", commReport);
+		
+		commReport.setUserno((int) session.getAttribute("userno"));
+		
+		// 게시글, 첨부파일 처리
+		commService.report(commReport);
+		
+		return "redirect:/comm/list";
+	}
+	
+	
+	//----- 댓글 ---------------------------------------------------------
+		
 	@GetMapping("/cmtlist")
 	public void cmtList(int commNo, Model model) {
 		
@@ -219,7 +234,7 @@ public class CommController {
 		
 		commService.cmtWrite(commCmt);
 		
-		return "redirect:/comm/view?commNo=" + commCmt.getCommNo();
+		return "redirect:/comm/cmtList?commNo=" + commCmt.getCommNo();
 	}
 	
 	@GetMapping("/cmtdelete")
@@ -236,25 +251,15 @@ public class CommController {
 	}
 	
 	
-	//----- 신고 ---------------------------------------------------------
 	
-	@GetMapping("/report")
-	public String report(CommBoard commBoard, Model model) {
-		logger.debug("{}", commBoard);
-		
-		model.addAttribute("commBoard", commBoard);
-		
-		return "/comm/report";
-	}
 	
-	@PostMapping("/report")
-	public String reportProcess(CommReport commReport) {
-		logger.debug("{}", commReport);
-		
-		// 게시글, 첨부파일 처리
-		commService.report(commReport);
-		
-		return "/comm/reportSuccess";
-	}
+	
+	
+	
+	
+	
+	
+	
+	
 	
 }

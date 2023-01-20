@@ -16,7 +16,13 @@ $(document).ready(function() {
 		//스마트에디터에 작성된 내용을 #content에 반영
 		updateContents();
 		
-		$("form").submit();
+		if ( $("#title").val() == "" ) {
+			alert("제목을 입력해주세요!")
+		
+		} else {
+			$("form").submit();
+		}
+		
 	})
 	
 	$("#btnCancel").click(function() {
@@ -54,6 +60,21 @@ $(document).ready(function() {
 </script>
 
 <style type="text/css">
+button:focus, button:active { 	
+    outline:none !important;
+    box-shadow:none !important;
+}
+
+#btnUpdate {
+	background-color: #8EC0E4;
+	color: #fff;
+}
+
+#btnCancel {
+	background-color: #FF7A85;
+	color: #fff;
+}
+
 #originFile, #newFile {
 	display: none;
 }
@@ -66,11 +87,6 @@ $(document).ready(function() {
 	font-weight: bold;
 	color: red;
 	cursor: pointer;
-}
-
-button:focus, button:active { 	
-    outline:none !important;
-    box-shadow:none !important;
 }
 </style>
 
@@ -96,11 +112,6 @@ button:focus, button:active {
 	    <option value="info">정보</option>
 	    <option value="etc">기타</option>
 	</select>
-</div>
-
-<div class="form-group">
-	<label for="writer">작성자</label>
-	<input type="text" id="writer" value="${nick }" class="form-control" readonly="readonly">
 </div>
 
 <div class="form-group">
@@ -134,8 +145,8 @@ button:focus, button:active {
 </form>
 
 <div class="text-center">
-	<button class="btn btn-primary" id="btnUpdate">수정</button>
-	<button class="btn btn-danger" id="btnCancel">취소</button>
+	<button class="btn btn-update" id="btnUpdate">수정</button>
+	<button class="btn btn-delete" id="btnCancel">취소</button>
 </div>
 
 <!-- 스마트 에디터 스킨 적용 -->
