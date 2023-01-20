@@ -107,9 +107,6 @@ $(document).ready(function() {
 			<a id="order" href="/mypage/order" class="text-gray-dark _fade_link">주문 <span class="hidden-xs">조회</span></a>
 		</li>
 		<li class="on">
-			<a id="like_buddy" href="/mypage/like_buddy" class="text-gray-dark _fade_link">좋아요한 병원</a>
-		</li>
-		<li class="on">
 			<a id="qna" href="/mypage/qna" class="text-gray-dark _fade_link">1:1 문의</a>
 		</li>
 		<li class="on">
@@ -175,7 +172,27 @@ function userUpdate() {
 	var usernick = $("#usernick").val()
 	var phone = $("#phone").val()
 	
-	console.log(username, usernick, phone);
+	//빈칸체크
+	//이름
+	if( username === "" ) {
+		alert("이름을 입력해주세요.")
+		$("#username").focus()
+		return false
+	}
+	
+	//닉네임
+	if( usernick === "" ) {
+		alert("닉네임을 입력해주세요.")
+		$("#usernick").focus()
+		return false
+	}
+	
+	//핸드폰
+	if( phone === "" ) {
+		alert("연락처를 입력해주세요.")
+		$("#phone").focus()
+		return false
+	}
 	
 	$.ajax({
 		type: "post"
@@ -197,8 +214,8 @@ function userUpdate() {
 			alert("회원 수정이 실패 되었습니다.")
 		}
 	})
-	
 }
+
 </script>
 
 <!-- 회원탈퇴모달 -->
@@ -266,10 +283,6 @@ function userDelete() {
 </div>
 <div id="user_media" class="media-body">
 <h3 id="user_name" class="media-heading">${name }님 안녕하세요.</h3>
-<div>
-<span>봉사 : </span>
-<span>후원 : </span>
-</div>
 </div>
 </div><!-- 회원창 END -->
 

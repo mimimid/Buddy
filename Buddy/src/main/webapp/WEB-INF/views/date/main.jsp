@@ -6,31 +6,68 @@
 
 <c:import url="../layout/header.jsp" />
 
-<!-- 슬라이더 slick -->
-<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
-<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
-
 <!-- CSS -->
 <link rel="stylesheet" href="/resources/css/dateList.css">
 
 <!-- 아이콘 CSS -->
 <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-bold-rounded/css/uicons-bold-rounded.css'>
-
-<!-- <link rel="stylesheet" type="text/css" href="/resources/css/slick/slick.css"/> -->
-<!-- <link rel="stylesheet" type="text/css" href="/resources/css/slick/slick-theme.css"/> -->
+<link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+<link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-solid-rounded/css/uicons-solid-rounded.css'>
+<link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-regular-straight/css/uicons-regular-straight.css'>
 
 <script type="text/javascript">
 $(document).ready(function () {
-	$('.slick').slick({
-		  infinite: true,
-		  slidesToShow: 5,
-		  slidesToScroll: 5,
-		  prevArrow: "<i class='fi fi-br-angle-left'></i>",
-		  nextArrow: "<i class='fi fi-br-angle-right'></i>"
-		});
+	$("#btnWrite").click(function() {
+		console.log("글쓰기클릭")
+		location.href="/date/write";
+	})
 	
 })
+
+function dateView(dateNo) {
+	console.log(dateNo,"클릭")
+	location.href="/date/view?dateNo="+dateNo
+}
+
 </script>
+
+<style type="text/css">
+#list_content {
+    padding: 5px;
+    border-radius: 0.4em;
+    border: 2px solid #ccc;
+}
+
+div.container-fluid>div:hover {
+	cursor: pointer;
+}
+
+div#categoryBtn>a>button {
+    background-color: #f0f0f0;
+    color: #000;
+}
+
+div#categoryBtn>a>button:hover, #btnWrite {
+    background-color: #ff7a85;
+    color: #fff;
+}
+
+div.page-header>h2 {
+	color: #ff7a85;
+	font-weight: bolder;
+}
+
+div.page-header>hr {
+	margin-top: 10px;
+	margin-bottom: 15px;
+}
+
+#dateList {
+	padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+</style>
 
 <!-- 데이트게시판 메인 시작 -->
 <div class="container">
@@ -41,153 +78,81 @@ $(document).ready(function () {
 			<img src="https://cdn.imweb.me/thumbnail/20220422/0be5230e57bb5.png" alt="...">
 		</a>
 	</div>
-<div class="text-center btn-category">
-	<a href="/date/list?category=1"><button type="button" id="cafe" class="btn btn-default">카페</button></a>
-	<a href="/date/list?category=2"><button type="button" id="hotel" class="btn btn-default">호텔</button></a>
-	<a href="/date/list?category=3"><button type="button" id="training" class="btn btn-default">훈련소</button></a>
-	<a href="/date/list?category=4"><button type="button" id="trip" class="btn btn-default">여행지</button></a>
+<div id="categoryBtn" class="text-center btn-category">
+	<a href="/date/list?category=1"><button type="button" id="cafe" class="btn">카페</button></a>
+	<a href="/date/list?category=2"><button type="button" id="hotel" class="btn">호텔</button></a>
+	<a href="/date/list?category=3"><button type="button" id="training" class="btn">훈련소</button></a>
+	<a href="/date/list?category=4"><button type="button" id="trip" class="btn">여행지</button></a>
 </div>
 </div>
 
-<div class="page-header">
+<!-- 리스트 목록 -->
+<div id="dateList" class="container-fluid">
+
+<div class="page-header col-sm-6">
 	<h2>HOT NEWS!</h2>
 	<hr>
 <div class="row">
+<div class="container-fluid">
 <c:forEach items="${hitList }" var="dateBoardHit" begin="0" end="4">
-	<div class="col-sm-5 col-md-2">
-	<a href="./view?dateNo=${dateBoardHit.dateNo }">
-		<div class="thumbnail">
-<%-- 			<img alt="포스터" src="/resources/img/mc/<%=reviewList.get(i).getMcimg() %>" --%>
-<!-- 				onerror="this.src='/resources/img/mc/noImg.jpg'"> -->
-			<div class="caption">
-				<h4>${dateBoardHit.title }</h4>
-				<p>
-				<fmt:formatDate value="${dateBoardHit.writeDate }" pattern="yy-MM-dd"/>
-				</p>
+	<div id="list_content" class="media" onclick="dateView(${dateBoardHit.dateNo})">
+		<div class="media-left media-middle">
+			<img class="media-object img-circle" src="/resources/img/date/userImg.png" alt="userImg" style="width: 45px; height: 45px;">
+		</div>
+		<div id="user_media" class="media-body">
+			<h4 id="user_name" class="media-heading">${dateBoardHit.title } <small><i class="fi fi-rs-marker"></i>${dateBoardHit.loc }</small></h4>
+			<div>
+				<div>Buddy</div>
+				<div>
+					<span><fmt:formatDate value="${dateBoardHit.writeDate }" pattern="yy-MM-dd"/></span>｜
+					<span><i class="fi fi-rr-eye"></i>&nbsp;${dateBoardHit.hit }</span>｜
+					<span><i class="fi fi-sr-heart"></i>&nbsp;${dateBoardHit.likeCount }</span>｜
+					<span><i class="fi fi-rr-comment-alt-middle"></i>&nbsp;${dateBoardHit.commCount }</span>
+				</div>
 			</div>
 		</div>
-	</a>
 	</div>
 </c:forEach>
+</div>
 </div>
 </div><!-- HOT NEWS! END -->
 
-<div class="page-header">
+<div class="page-header col-sm-6">
 	<h2>OPEN NEWS!</h2>
 	<hr>
 <div class="row">
+<div class="container-fluid">
 <c:forEach items="${list }" var="dateBoard" begin="0" end="4">
-	<div class="col-sm-5 col-md-2">
-	<a href="./view?dateNo=${dateBoard.dateNo }">
-		<div class="thumbnail">
-<%-- 			<img alt="포스터" src="/resources/img/mc/<%=reviewList.get(i).getMcimg() %>" --%>
-<!-- 				onerror="this.src='/resources/img/mc/noImg.jpg'"> -->
-			<div class="caption">
-				<h4>${dateBoard.title }</h4>
-				<p>
-				<fmt:formatDate value="${dateBoard.writeDate }" pattern="yy-MM-dd"/>
-				</p>
+	<div id="list_content" class="media" onclick="dateView(${dateBoard.dateNo})">
+		<div class="media-left media-middle">
+			<img class="media-object img-circle" src="/resources/img/date/userImg.png" alt="userImg" style="width: 45px; height: 45px;">
+		</div>
+		<div id="user_media" class="media-body">
+			<h4 id="user_name" class="media-heading">${dateBoard.title } <small><i class="fi fi-rs-marker"></i>${dateBoard.loc }</small></h4>
+			<div>
+				<div>Buddy</div>
+				<div>
+					<span><fmt:formatDate value="${dateBoard.writeDate }" pattern="yy-MM-dd"/></span>｜
+					<span><i class="fi fi-rr-eye"></i>&nbsp;${dateBoard.hit }</span>｜
+					<span><i class="fi fi-sr-heart"></i>&nbsp;${dateBoard.likeCount }</span>｜
+					<span><i class="fi fi-rr-comment-alt-middle"></i>&nbsp;${dateBoard.commCount }</span>
+				</div>
 			</div>
 		</div>
-	</a>
 	</div>
 </c:forEach>
+</div>
 </div>
 </div><!-- OPEN NEWS! END -->
 
-<div class="page-header">
-	<h2>카페 데이트 <a href="/date/list?category=1"><small>더보기</small></a></h2>
-	<hr>
-<div class="row slick">
-<c:forEach items="${list }" var="dateBoard">
-<c:if test="${dateBoard.dateCate eq '1' }">
-	<div class="col-sm-5 col-md-2">
-	<a href="./view?dateNo=${dateBoard.dateNo }">
-		<div class="thumbnail">
-			<div class="caption">
-				<h4>${dateBoard.title }</h4>
-				<p>
-				<fmt:formatDate value="${dateBoard.writeDate }" pattern="yy-MM-dd"/>
-				</p>
-			</div>
-		</div>
-	</a>
-	</div>
+<c:if test="${id eq 'id1' }">
+<button id="btnWrite" class="btn pull-right">글쓰기</button>
 </c:if>
-</c:forEach>
-</div>
-<!-- <button class="slick-prev" id="prev"><i class="fi fi-br-angle-left"></i></button> -->
-<!-- <button class="slick-next" id="next"><i class="fi fi-br-angle-right"></i></button> -->
-</div><!-- 카페데이트 END -->
+<div class="clearfix"></div>
 
-<div class="page-header">
-	<h2>호텔 데이트 <a href="/date/list?category=2"><small>더보기</small></a></h2>
-	<hr>
-<div class="row slick">
-<c:forEach items="${list }" var="dateBoard">
-<c:if test="${dateBoard.dateCate eq '2' }">
-	<div class="col-sm-5 col-md-2">
-	<a href="./view?dateNo=${dateBoard.dateNo }">
-		<div class="thumbnail">
-			<div class="caption">
-				<h4>${dateBoard.title }</h4>
-				<p>
-				<fmt:formatDate value="${dateBoard.writeDate }" pattern="yy-MM-dd"/>
-				</p>
-			</div>
-		</div>
-	</a>
-	</div>
-</c:if>
-</c:forEach>
-</div>
-</div><!-- 호텔데이트 END -->
+</div><!-- 리스트목록 END -->
 
-<div class="page-header">
-	<h2>훈련소 데이트 <a href="/date/list?category=3"><small>더보기</small></a></h2>
-	<hr>
-<div class="row slick">
-<c:forEach items="${list }" var="dateBoard">
-<c:if test="${dateBoard.dateCate eq '3' }">
-	<div class="col-sm-5 col-md-2">
-	<a href="./view?dateNo=${dateBoard.dateNo }">
-		<div class="thumbnail">
-			<div class="caption">
-				<h4>${dateBoard.title }</h4>
-				<p>
-				<fmt:formatDate value="${dateBoard.writeDate }" pattern="yy-MM-dd"/>
-				</p>
-			</div>
-		</div>
-	</a>
-	</div>
-</c:if>
-</c:forEach>
-</div>
-</div><!-- 훈련소데이트 END -->
 
-<div class="page-header">
-	<h2>여행지 데이트 <a href="/date/list?category=4"><small>더보기</small></a></h2>
-	<hr>
-<div class="row slick">
-<c:forEach items="${list }" var="dateBoard">
-<c:if test="${dateBoard.dateCate eq '4' }">
-	<div class="col-sm-5 col-md-2">
-	<a href="./view?dateNo=${dateBoard.dateNo }">
-		<div class="thumbnail">
-			<div class="caption">
-				<h4>${dateBoard.title }</h4>
-				<p>
-				<fmt:formatDate value="${dateBoard.writeDate }" pattern="yy-MM-dd"/>
-				</p>
-			</div>
-		</div>
-	</a>
-	</div>
-</c:if>
-</c:forEach>
-</div>
-</div><!-- 호텔데이트 END -->
 
 </div><!-- 메인 END -->
 

@@ -15,5 +15,29 @@
 		SET username = #{username}, usernick = #{usernick}, phone = #{phone}
 		WHERE userno = #{userno}
 	</update>
-
+	
+	<select id="selectCntAll" resultType="int" parameterType="int">
+		SELECT count(*) FROM qna_board
+		WHERE userno = #{userno}
+	</select>
+	
+	<select id="selectListByUserno" resultType="QnaBoard" parameterType="hashmap">
+		SELECT * FROM (
+		    SELECT rownum rnum, B.* FROM (
+		        SELECT qna_no, userno, Q.qna_cate_no, C.qna_cate_name, qna_title, qna_content, Q.qna_ck_no, qna_write_date
+		        FROM qna_board Q
+		        INNER JOIN qna_cate C
+		        ON C.qna_cate_no = Q.qna_cate_no
+		        WHERE userno = #{userno}
+		        ORDER BY qna_no DESC
+		    ) B
+		) BOARD
+		WHERE rnum BETWEEN #{paging.startNo } AND #{paging.endNo }
+	</select>
+	
+	<insert id="insertBoard" parameterType="QnaBoard">
+		INSERT INTO qna_board ( qna_no, userno, qna_cate_no, qna_title, qna_content )
+		VALUES ( qna_board_seq.nextval, #{userno}, #{qnaCateNo}, #{qnaTitle}, #{qnaContent} )
+	</insert>
+	
 </mapper>

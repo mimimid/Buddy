@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 
 <%@	taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:import url="../layout/header.jsp" />
 
 <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
@@ -11,11 +11,11 @@
 <script type="text/javascript">
 	function shareTwitter() {
     var sendText = "Buddy";
-    var sendUrl = "localhost:8888/adopt/proView?aniNo="+${adoptPro.aniNo}; // 전달할 URL
+    var sendUrl = "localhost:8888/adopt/proView?aniNo="+${pro.ANI_NO}; // 전달할 URL
     window.open("https://twitter.com/intent/tweet?text=" + sendText + "&url=" + sendUrl);
 	}
 	function shareFacebook() {
-	    var sendUrl = "localhost:8888/adopt/proView?aniNo="+${adoptPro.aniNo}; // 전달할 URL
+	    var sendUrl = "localhost:8888/adopt/proView?aniNo="+${pro.ANI_NO}; // 전달할 URL
 	    window.open("http://www.facebook.com/sharer/sharer.php?u=" + sendUrl);
 	}
 	function shareKakao() {
@@ -30,17 +30,17 @@
 		    content: {
 		      title: "Buddy", // 보여질 제목
 		      description: "Buddy 회계보고", // 보여질 설명
-		      imageUrl: "localhost:8888/adopt/proView?aniNo="+${adoptPro.aniNo}, // 콘텐츠 URL
+		      imageUrl: "localhost:8888/adopt/proView?aniNo="+${pro.ANI_NO}, // 콘텐츠 URL
 		      link: {
-		         mobileWebUrl: "localhost:8888/adopt/proView?aniNo="+${adoptPro.aniNo},
-		         webUrl: "localhost:8888/adopt/proView?aniNo="+${adoptPro.aniNo}
+		         mobileWebUrl: "localhost:8888/adopt/proView?aniNo="+${pro.ANI_NO},
+		         webUrl: "localhost:8888/adopt/proView?aniNo="+${pro.ANI_NO}
 		      }
 		    }
 		  });
 		}
 	function CopyUrlToClipboard(){
 		var obShareUrl = document.getElementById("ShareUrl");
-		obShareUrl.value = "localhost:8888/adopt/proView?aniNo="+${adoptPro.aniNo};
+		obShareUrl.value = "localhost:8888/adopt/proView?aniNo="+${pro.ANI_NO};
 		obShareUrl.select();
 		document.execCommand("copy"); 
 		obShareUrl.blur(); 
@@ -61,40 +61,18 @@ $(document).ready(function() {
 			alert("아이를 기억하려면 로그인이 필요해요.");
 			return false;
 		}
-		
-		$.ajax({
-		      url: '/adopt/proViewWish',
-		      type: 'POST',
-		      data: { 'aniNo': ${adoptPro.aniNo} },
-		      success: function () {
-		          if (wish == 1) {
-		              $("#star").attr("class", "glyphicon glyphicon-star");
-		              alert("1넘어옴");
-		          } else {
-		              $("#star").attr("class", "glyphicon glyphicon-star-empty");
-		              alert("0넘어옴");
-		          }
-		      }
-		
-		  	})
-		if( ${not empty userno and adoptWish.userno == 1} ) {
-			$("#star").attr("class", "glyphicon glyphicon-star");
-	    }
-	    else if( ${wish == 0} ){
-	    	 $("#star").attr("class", "glyphicon glyphicon-star-empty"); 
-	    }
 	})
 		$("#adoptUpdate").click(function() {
-		location.href = "/adopt/proUpdate?aniNo="+${adoptPro.aniNo}
+		location.href = "/adopt/proUpdate?aniNo="+${pro.ANI_NO} + "&rnum=" +${param.rnum}
 	})
 		$("#adoptDelete").click(function() {
-		location.href = "/adopt/proDelete?aniNo="+${adoptPro.aniNo}
+		location.href = "/adopt/proDelete?aniNo="+${pro.ANI_NO}
 	})
-	
 	
 })
 
 </script>
+
 <style>
 #img_wrap{
 	display:inline-block;
@@ -281,7 +259,7 @@ p{
 }
 #cmtUp{
 	width: 100%;
-    height: 75px;
+    height: 80px;
     margin-bottom: 5px;
 }
 .data{
@@ -296,6 +274,30 @@ p{
     margin: 30px auto;
     height: 600px;
 }
+.recmt{
+	width: 550px;
+    height: 35px;
+    margin: 10px 0px;
+}
+.cmtContent{
+	border-style:none;
+	background:none;
+	margin-left:10px;
+	width: 100%;
+    height: 50px;
+}
+.reWrap{
+	display: none;
+}
+.member{
+	font-size: 17px;
+    font-weight: bold;
+}
+.glyphicon-arrow-right{
+	color:#FF7A85;
+	font-size: 20px;
+	margin-right:5px;
+}
 </style>
 <div class="ballon"></div>
 <div class="container">
@@ -307,46 +309,51 @@ p{
 	<span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
 	<a href="/adopt/pro" style="text-decoration: none; color: black;">입양</a>
 	<span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
-	<a href="localhost:8888/adopt/proView?aniNo="+${adoptPro.aniNo} style="text-decoration: none; color: black;">
-			${adoptPro.aniName }</a>
+	<a href="localhost:8888/adopt/proView?aniNo="+${pro.ANI_NO} style="text-decoration: none; color: black;">
+			${pro.ANI_NAME}</a>
 	
 	
-	<div class="pull-right">
-		<c:if test="${userno == 1 }">
-				<div class="pull-right">
-				<button id="adoptUpdate" class="btn btnUp">수정</button>
-				<button id="adoptDelete" class="btn btnDel">삭제</button>
-				</div><br>
-		</c:if>
-	</div>
+<div class="pull-right">
+<c:if test="${userno == 1 }">
+		<div class="pull-right">
+		<button id="adoptUpdate" class="btn btnUp">수정</button>
+		<button id="adoptDelete" class="btn btnDel">삭제</button>
+		</div><br>
+</c:if>
+</div>
 	</div>
 </div><br>
+
 
 <div class = "row">
 	<div class="col-md-4">
 		<div id="img_wrap">
-			<input type="text" id="state" value="${adoptPro.aniCate}" readonly="readonly">
+			<input type="text" id="state" value="${pro.ANI_CATE}" readonly="readonly"
+			<c:if test="${pro.ANI_CATE eq '입양완료'}"> style="background-color: darkgray;" </c:if>>
 			<img src="/adopt/adoptDown?anifileNo=${adoptFile[0].anifileNo}" alt="입양프로필" class="img_style" onerror="this.src='/resources/img/sample_adopt/noImg.jpg'">
 		</div>
 	</div>
 	<div class="col-md-8" style="padding: 10px 0px 0px 60px;">
 		<p style="font-size: 24px;">안녕하세요?</p>
-		<p style="font-size: 24px;">저는 <span class="data" style="color=#FF7A85">${adoptPro.aniName}</span>입니다.</p>
-		<p><span class="glyphicon glyphicon-baby-formula icons" aria-hidden="true"></span>저는 약 <span class="data">${adoptPro.aniAge}</span>살이에요.</p>
-		<p><span class="glyphicon glyphicon-sunglasses icons" aria-hidden="true"></span>중성화 <span class="data">${adoptPro.aniNeutral} ${adoptPro.aniGender}</span>아이에요.</p>
-		<p><span class="glyphicon glyphicon-apple icons" aria-hidden="true"></span>몸무게는 약 <span class="data">${adoptPro.aniWeight}</span>kg이에요.</p>
+		<p style="font-size: 24px;">저는 <span class="data" style="color=#FF7A85">${pro.ANI_NAME}</span>입니다.</p>
+		<p><span class="glyphicon glyphicon-baby-formula icons" aria-hidden="true"></span>저는 약 <span class="data">${pro.ANI_AGE}</span>살이에요.</p>
+		<p><span class="glyphicon glyphicon-sunglasses icons" aria-hidden="true"></span>중성화 <span class="data">${pro.ANI_NEUTRAL} ${pro.ANI_GENDER}</span>아이에요.</p>
+		<p><span class="glyphicon glyphicon-apple icons" aria-hidden="true"></span>몸무게는 약 <span class="data">${pro.ANI_WEIGHT}</span>kg이에요.</p>
 		
 		<!-- 찜 -->
 		<div class="btn_wrap">
-		<a href="/adopt/proViewWish?aniNo=${adoptPro.aniNo}" >
-		<button class="btnStar"> 
-			<span id = "star" class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
-		<c:if test="${wish == 1}">
+		<a <c:if test="${pro.ANI_CATE ne '입양완료'}"> href="/adopt/proViewWish?aniNo=${pro.ANI_NO}&rnum=${param.rnum }"</c:if>>
+		<button class="btnStar"<c:if test="${pro.ANI_CATE eq '입양완료'}"> style="border-color: darkgray;color: darkgray;background-color:white;"</c:if>>
+		<c:if test="${empty pro.USERNO}">
+			<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
+		</c:if>
+		<c:if test="${not empty pro.USERNO}">
 			<span class="glyphicon glyphicon-star" aria-hidden="true"></span>
 		</c:if>
-		</button>
-		</a>
-		<button class="btnAdopt" >입양하기</button>
+		</button></a>
+		<button class="btnAdopt" 
+		<c:if test="${pro.ANI_CATE eq '입양완료'}"> disabled="disabled" style="background-color: darkgray;color:white;border-color:darkgray;"</c:if>>
+		입양하기</button>
 		</div>
 		
 		<!-- 말풍선 -->
@@ -372,7 +379,7 @@ p{
 				<a id="btnTwitter" class="link-icon twitter" href="javascript:shareTwitter();">트위터</a>
 		      </div>
 		      <div class="modal-footer">
-		      <input type="text" style="width: 188px;" id="ShareUrl" value="localhost:8888/adopt/proView?aniNo="+${adoptPro.aniNo}>
+		      <input type="text" style="width: 188px;" id="ShareUrl" value="localhost:8888/adopt/proView?aniNo="+${pro.ANI_NO}>
 		      <span class="btn-type1"><button onclick="javascript:CopyUrlToClipboard();">URL 복사</button></span>
 		      </div>
 		    </div>
@@ -384,7 +391,7 @@ p{
 </div><!--.row end -->
 <div class="container">
 <div id="content_wrap" style="font-size: 17px;">
-${adoptPro.aniContent}
+${pro.ANI_CONTENT}
 <c:forEach items="${adoptFile }" var="file" begin="1">
     <div class="fileWrap">
  	   <img class="img_style" src="/adopt/adoptDown?anifileNo=${file.anifileNo}"  alt="본문이미지" >
@@ -394,67 +401,110 @@ ${adoptPro.aniContent}
 </div>
 <div class="cntIcon" style="display: inline-block;">
 	<span class="glyphicon glyphicon-comment" aria-hidden="true">
-	<span id="cntCount" class="texts">3</span>
+	<span id="cntCount" class="texts">${cmtcnt }</span>
 	</span>
 </div>
 <div class="cntIcon" style="display: inline-block;">
 	<span class="glyphicon glyphicon-eye-open" aria-hidden="true">
-	<span id="cntCount" class="texts">${adoptPro.aniHit}</span>
+	<span id="cntCount" class="texts">${pro.ANI_HIT}</span>
 	</span>
 </div>
 <hr class="line">
 
-<form action="" method="post"></form>
+<form action="/adopt/cmt?aniNo=${pro.ANI_NO }&rnum=${param.rnum }" method="post">
 <div>
 	<button class="btn catego">인기순</button>
 	<button class="btn catego">최신순</button>
 </div>
 
 <div class="cmt">
-	<input type="text" id="cmtUp" name="" <c:if test=""> placeholder="로그인이 필요합니다"</c:if>>
-	<input type="file" id="" name="" style="display:inline;">
-	<button class="btn pull-right">작성</button>
+	<input type="text" id="cmtUp" name="procmtContent" <c:if test="${empty userno }"> placeholder="로그인이 필요합니다" disabled="disabled"</c:if>>
+	<button class="btn pull-right" style="background-color: antiquewhite;"<c:if test="${empty userno }"> disabled="disabled"</c:if>>작성</button>
 </div>
 </form>
 <hr class="line" style="margin: 40px 0px;">
 
+<c:forEach items="${adoptCmt }" var="cmt" >
 <div class="cmt_wrap">
-	<img alt="유저프로필" src="">
-	<span>아이디</span>
-	<span class="pull-right">작성일</span>
-	<div>댓내용</div>
-	<img alt="댓글첨부파일" src="">
-	
-	<button class="cntIcon pull-right">
-	<span class="glyphicon glyphicon-heart-empty" aria-hidden="true">
-	<span class="texts">좋</span>
-	</span>
-	<span class="glyphicon glyphicon-heart" aria-hidden="true">
-	<span class="texts">좋</span>
-	</span>
-	</button>
+	<div style="margin:15px 0px;">
+		<c:if test="${cmt.procmtSorts ne 0 }">
+			<c:forEach var="i" begin="1" end="${cmt.procmtDepth}">
+				<span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
+			</c:forEach>
+		</c:if>
+		<span class="member">
+			<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+			<span>집사<c:if test="${cmt.userno - 1 != 0 }">${cmt.userno - 1 }</c:if></span>
+		</span>
+		
+		<form action="/adopt/cmtUpdate?procmtNo=${cmt.procmtNo }&rnum=${param.rnum}&aniNo=${pro.ANI_NO }" method="post" style="width:550px;display:inline-block;">
+			<input type="text" value="${cmt.procmtContent }" name="procmtContent" class="cmtContent" id="cmtContent${cmt.procmtNo }"<c:if test="${cmt.userno != userno }">disabled</c:if>>
+		<button class="btn" style="background-color:antiquewhite;display:none;"<c:if test="${empty userno }"> disabled="disabled"</c:if>>작성</button>
+		</form>
+		
+		<span class="pull-right"><fmt:formatDate value="${cmt.procmtDate }" pattern="yy-MM-dd"/></span>
+	</div>
 	
 	<div>
-		<button class="btn">댓글</button>
-		
+		<button type="button" class="btn" id="recmtView" onclick="recmtUp(${cmt.procmtNo });return false;">댓글</button>
+		<c:if test="${cmt.userno == userno }">
 		<div class="pull-right">
-			<button class="btn btnUp">수정</button>
-			<button class="btn btnDel">삭제</button>
+			<button type="button" id="cmtContentUpdate" class="btn btnUp" onclick="cmtContentUp(${cmt.procmtNo });return false;" >수정</button>
+			<a href="/adopt/cmtDelete?procmtNo=${cmt.procmtNo }&rnum=${param.rnum}&aniNo=${pro.ANI_NO }"><button class="btn btnDel">삭제</button></a>
+		</div>
+		</c:if>
+		<div id="recmtWrap${cmt.procmtNo }" class="reWrap">
+		<form action="/adopt/cmtRe?procmtGroup=${cmt.procmtGroup }&rnum=${param.rnum}&aniNo=${pro.ANI_NO }&procmtSorts=${cmt.procmtSorts }&procmtDepth=${cmt.procmtDepth}" method="post">
+			<input name="procmtContent" class="recmt"<c:if test="${empty userno }"> placeholder="로그인이 필요합니다" disabled</c:if>>
+		<button class="btn" style="background-color: antiquewhite;"<c:if test="${empty userno }"> disabled="disabled"</c:if>>작성</button>
+		</form>
 		</div>
 	</div>
 </div>
+</c:forEach>
+
+<script>
+function cmtContentUp(f){
+	console.log(f);
+	var ff = '#cmtContent' + f ;
+	console.log(ff);
+	
+	$(ff).css("border-style", "solid"); 
+}
+		
+function recmtUp(f){
+	var ff = '#recmtWrap' + f ;
+	console.log(ff);
+	
+	if ($(ff).css("display") == "none") { 
+        $(ff).show(); //display :none 일떄
+    } else {
+        $(ff).hide();  //display :block 일떄
+    }
+}
+</script>
 
 <div id="page">
-<hr class="line" style="margin-top: 50px;">
-	<a><span class="glyphicon glyphicon-triangle-top" aria-hidden="true">
-	<span class="texts">이전프로필</span>
-	</span></a>
-<hr class="line">
-	<a><span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true">
-	<span class="texts">이후프로필</span>
-	</span></a>
-<hr class="line">
+<c:forEach items="${num }" var="row" >
+<c:choose>
+	<c:when test="${row.RNUM < param.rnum }">
+		<hr class="line" style="margin-top: 50px;">
+			<a href="/adopt/proView?aniNo=${row.ANI_NO }&rnum=${row.RNUM}"><span class="glyphicon glyphicon-triangle-top" aria-hidden="true">
+			<span class="texts">[${row.ANI_CATE }] ${row.ANI_NAME }</span>
+			</span></a>
+	</c:when>
+	<c:when test="${row.RNUM > param.rnum }">
+		<hr class="line">
+			<a href="/adopt/proView?aniNo=${row.ANI_NO }&rnum=${row.RNUM}"><span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true">
+			<span class="texts">[${row.ANI_CATE }] ${row.ANI_NAME }</span>
+			</span></a>
+		<hr class="line">
+	</c:when>
+</c:choose>
+</c:forEach>
 </div>
+
+
 
 <div class="text-center" style="margin: 40px 0px;">
 	<button id="back" class="btn btn-default" >목록</button>

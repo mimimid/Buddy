@@ -2,12 +2,20 @@
     pageEncoding="UTF-8"%>
 
 <%@	taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <c:import url="../layout/header.jsp" />
 
+<!-- 웹글꼴 -->
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+<!-- 아이콘 CSS -->
+<link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-bold-rounded/css/uicons-bold-rounded.css'>
+
 <script type="text/javascript">
 $(document).ready(function() {
-	
+	$("#btnWrite").click(function() {
+		location.href = "/mypage/qnaWrite"
+	})
 })
 </script>
 
@@ -54,7 +62,7 @@ $(document).ready(function() {
 	background: #ff7a85
 }
 
-#menu_contant {
+.qna_zero {
 	color: #878787;
 }
 
@@ -99,6 +107,20 @@ $(document).ready(function() {
     color: #fff;
 }
 
+/* ---------문의게시판 CSS --------- */
+table>thead>tr>th {
+	text-align: center;
+}
+
+#qnaList {
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+#btnWrite {
+    background-color: #ff7a85;
+    color: #fff;	
+}
 </style>
 
 <div class="container">
@@ -110,9 +132,6 @@ $(document).ready(function() {
 	<ul class="nav nav-pills nav-stacked">
 		<li class="on">
 			<a id="order" href="/mypage/order" class="text-gray-dark _fade_link">주문 <span class="hidden-xs">조회</span></a>
-		</li>
-		<li class="on">
-			<a id="like_buddy" href="/mypage/like_buddy" class="text-gray-dark _fade_link">찜한 아이</a>
 		</li>
 		<li class="on">
 			<a id="qna" href="/mypage/qna" class="text-gray-dark _fade_link">1:1 문의</a>
@@ -180,28 +199,34 @@ function userUpdate() {
 	var usernick = $("#usernick").val()
 	var phone = $("#phone").val()
 	
-	console.log(username, usernick, phone);
+	if( username == "" || usernick == "" || phone == "" ) {
+		alert("이름, 닉네임, 전화번호를 정확히 기재해주세요.")
 	
-	$.ajax({
-		type: "post"
-		, url: "${path}/mypage/userUpdate"
-		, data: { 
-			"username" : username,
-			"usernick" : usernick,
-			"phone" : phone }
-		, dataType: "html"
-		, success: function(result) {
-			console.log("AJAX 성공")
-			alert("회원 수정이 되었습니다. 다시 로그인해 주세요.")
-			$('#userUpdateModal').modal("hide");
-			location.href = "/user/login";
-			
-		}
-		, error: function() {
-			console.log("AJAX 실패")
-			alert("회원 수정이 실패 되었습니다.")
-		}
-	})
+		console.log(username, usernick, phone);
+	
+	} else {
+		
+		$.ajax({
+			type: "post"
+			, url: "${path}/mypage/userUpdate"
+			, data: { 
+				"username" : username,
+				"usernick" : usernick,
+				"phone" : phone }
+			, dataType: "html"
+			, success: function(result) {
+				console.log("AJAX 성공")
+				alert("회원 수정이 되었습니다. 다시 로그인해 주세요.")
+				$('#userUpdateModal').modal("hide");
+				location.href = "/user/login";
+				
+			}
+			, error: function() {
+				console.log("AJAX 실패")
+				alert("회원 수정이 실패 되었습니다.")
+			}
+		})
+	}
 	
 }
 </script>
@@ -271,10 +296,6 @@ function userDelete() {
 </div>
 <div id="user_media" class="media-body">
 <h3 id="user_name" class="media-heading">${name }님 안녕하세요.</h3>
-<div>
-<span>봉사 : </span>
-<span>후원 : </span>
-</div>
 </div>
 </div><!-- 회원창 END -->
 
@@ -287,15 +308,167 @@ function userDelete() {
 <!-- 메뉴 이름 -->
 <div id="menu_name">
 	<div class="page-header">
-		<h3>주문 조회 <span id="badgeIcon" class="badge bg-secondary">0</span></h3>
+		<h3>1:1 문의게시판 <span id="badgeIcon" class="badge bg-secondary">${listCnt }</span></h3>
 	</div>
 </div>
 
-<!-- 메뉴 ajax -->
-<div class="text-center">
-<span id="menu_contant">주문 내역이 없습니다.</span>
+<!-- 문의게시판 목록 -->
+<div id="qnaList" class="text-center">
+<div id="qna_zero">
+
 </div>
 
+<span id="menu_contant" class="qna_zero">
+	<c:choose>
+		<c:when test="${listCnt eq 0 }">
+			등록된 문의가 없습니다.
+		</c:when>
+		<c:otherwise>
+			<table class="table table-hover text-center">
+			<thead>
+				<tr>
+					<th>글번호</th>
+					<th>제목</th>
+					<th>카테고리</th>
+					<th>작성일</th>
+					<th>문의현황</th>
+				</tr>
+			</thead>
+			<tbody>
+			<c:forEach items="${list }" var="qna">
+				<tr>
+					<td>${qna.qnaNo }</td>
+					<td><a id="test_${qna.qnaNo }" href="javascript:" onmouseover="qnaNoModel(${qna.qnaNo})">${qna.qnaTitle }</a></td>
+					<td>${qna.qnaCateName }</td>
+					<td><fmt:formatDate value="${qna.qnaWriteDate }" pattern="yy-MM-dd HH:mm:ss"/></td>
+					<td>
+					<c:choose>
+						<c:when test="${qna.qnaCkNo eq 1 }">
+							<p style="color: red; font-weight: bold;">대기</p>
+						</c:when>
+						<c:when test="${qna.qnaCkNo eq 2 }">
+							<p style="color: blue; font-weight: bold;">답변완료</p>
+						</c:when>
+						<c:otherwise>
+							<p style="color: revert;; font-weight: bold;">보류</p>
+						</c:otherwise>
+					</c:choose>
+					</td>
+				</tr>
+				
+			<!-- 문의내용모달 -->
+			<div class="modal fade" id="qnaModal_${qna.qnaNo }" tabindex="-1">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h3 class="modal-title text-center" id="exampleModalLabel">문의 내용</h3>
+							<h4>${qna.qnaTitle }
+								<small>
+									<c:choose>
+										<c:when test="${qna.qnaCkNo eq 1 }">
+											<span style="color: red; font-weight: bold;">대기</span>
+										</c:when>
+										<c:when test="${qna.qnaCkNo eq 2 }">
+											<span style="color: blue; font-weight: bold;">답변완료</span>
+										</c:when>
+										<c:otherwise>
+											<span style="color: revert;; font-weight: bold;">보류</span>
+										</c:otherwise>
+									</c:choose>
+								</small>
+							</h4>
+						</div>
+						<div id="deleteModelContant" class="modal-body">
+						<p>${qna.qnaContent }</p>
+						</div>
+						<div class="modal-footer">
+							<button id="btnNo" class="btn" type="button" data-dismiss="modal">닫기</button>
+						</div>
+					</div>
+				</div>
+			</div>
+				
+			</c:forEach>
+			</tbody>
+			</table>
+		</c:otherwise>
+	</c:choose>
+</span>
+
+
+
+<!-- 문의내용함수 -->
+<script type="text/javascript">
+/* 모달창띄우기 */
+$('#qnaBtn').click(function(e){
+	e.preventDefault();
+	$('#qnaModal_'+qnaNo).modal("show");
+});
+
+//번호에 맞는 모달창띄우기
+function qnaNoModel(qnaNo) {
+	console.log(qnaNo)
+	
+	$("#test_"+qnaNo).click(function(e) {
+		e.preventDefault();
+		$('#qnaModal_'+qnaNo).modal("show");
+	})
+	
+}
+</script>
+
+<button id="btnWrite" class="btn pull-right">글쓰기</button>
+
+</div><!-- 문의게시판 목록 END -->
+
+<!-- 페이징 -->
+<c:if test="${listCnt ne 0 }">
+<div class="text-center">
+	<ul class="pagination pagination-sm">
+
+	<%-- 이전 페이징 리스트로 이동 --%>
+	<c:choose>
+	<c:when test="${paging.startPage ne 1 }">
+		<li><a href="/mypage/qna?curPage=${paging.startPage - paging.pageCount }"><i class="fi fi-br-angle-double-left"></i></a></li>
+	</c:when>
+	<c:when test="${paging.startPage eq 1 }">
+		<li class="disabled"><a><i class="fi fi-br-angle-double-left"></i></a></li>
+	</c:when>
+	</c:choose>
+	
+	<%-- 이전 페이지로 가기 --%>
+	<c:if test="${paging.curPage > 1 }">
+		<li><a href="/mypage/qna?curPage=${paging.curPage - 1 }"><i class="fi fi-br-angle-left"></i></a></li>
+	</c:if>
+	
+	<%-- 페이징 리스트 --%>
+	<c:forEach begin="${paging.startPage }" end="${paging.endPage }" var="i">
+	<c:if test="${paging.curPage eq i }">
+		<li class="active juaFont"><a href="/mypage/qna?curPage=${i }">${i }</a></li>
+	</c:if>
+	<c:if test="${paging.curPage ne i }">
+		<li class="juaFont"><a href="/mypage/qna?curPage=${i }">${i }</a></li>
+	</c:if>
+	</c:forEach>
+	
+	<%-- 다음 페이지로 가기 --%>
+	<c:if test="${paging.curPage < paging.totalPage }">
+		<li><a href="/mypage/qna?curPage=${paging.curPage + 1 }"><i class="fi fi-br-angle-right"></i></a></li>
+	</c:if>
+	
+	<%-- 다음 페이징 리스트로 이동 --%>
+	<c:choose>
+	<c:when test="${paging.endPage ne paging.totalPage }">
+		<li><a href="/mypage/qna?curPage=${paging.startPage + paging.pageCount }"><i class="fi fi-br-angle-double-right"></i></a></li>
+	</c:when>
+	<c:when test="${paging.endPage eq paging.totalPage }">
+		<li class="disabled"><a><i class="fi fi-br-angle-double-right"></i></a></li>
+	</c:when>
+	</c:choose>
+
+	</ul>
+</div>
+</c:if>
 </div><!-- 마이페이지 내용 END -->
 
 

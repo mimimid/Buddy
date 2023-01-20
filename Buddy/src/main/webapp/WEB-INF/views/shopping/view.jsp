@@ -182,7 +182,7 @@ $(document).ready(function(){
 	<tr>
 		<td colspan="2" style="text-align: center; ">
 			<button type="button" class="btn" id="btnOrder" >주문하기</button>
-			<button type="button" class="btn" id="addcart">장바구니</button>
+<!-- 			<button type="button" class="btn" id="addcart">장바구니</button> -->
 			<c:if test="${userno eq 1 }">
 			<a href="./delete?productno=${product.productno }"><button type="button" class="btn" id="deleteBtn">상품삭제</button></a>
 			</c:if>

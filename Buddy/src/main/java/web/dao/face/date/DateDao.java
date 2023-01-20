@@ -5,6 +5,7 @@ import java.util.List;
 
 import web.dto.DateBoard;
 import web.dto.DateComment;
+import web.dto.DateFile;
 import web.dto.DateReport;
 import web.util.Paging;
 
@@ -78,6 +79,20 @@ public interface DateDao {
 	 * @param report - 게시글번호, 유저번호, 신고내용
 	 */
 	public void insertReport(DateReport report);
+
+	/**
+	 * 게시글 정보를 삽입한다
+	 * 
+	 * @param board - 삽입할 게시글 정보
+	 */
+	public void insertBoard(DateBoard board);
+
+	/**
+	 * 첨부파일 정보를 삽입한다
+	 * 
+	 * @param dateFile
+	 */
+	public void insertFile(DateFile dateFile);
 
 
 
